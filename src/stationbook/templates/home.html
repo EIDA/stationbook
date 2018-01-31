@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="https://openlayers.org/en/v4.6.4/css/ol.css" type="text/css">
+    <style>
+      .map {
+        height: 500px;
+        width: 100%;
+      }
+    </style>
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Stations</li>
+{% endblock %}
+
+{% block content %}
+
+<div id="map" class="map"></div>
+
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Station name</th>
+        <th>Station description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for site, location in stations.items %}
+        <tr>
+          <td>
+            </a>{{ site }}</a>
+          </td>
+          <td>
+            {% for key, value in location.items %}
+              <small class="text-muted d-block">{{ key }} : {{ value }}</small>
+            {% endfor %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+
+{% block javascript %}
+  <script src="https://openlayers.org/en/v4.6.4/build/ol.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var map = new ol.Map({
+      target: 'map',
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM()
+        })
+      ],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([5.178029, 52.101568]),
+        zoom: 16
+      })
+    });
+  </script>
+{% endblock %}
