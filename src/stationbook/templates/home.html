@@ -1,15 +1,21 @@
-{% extends 'base.html' %} {% load static %} {% block stylesheet %}
-<link rel="stylesheet" href="https://openlayers.org/en/v4.6.4/css/ol.css" type="text/css">
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/ol.js' %}" type="text/css">
 <style>
   .map {
     height: 500px;
     width: 100%;
   }
 </style>
-{% endblock %} {% block breadcrumb %}
-<li class="breadcrumb-item active">Stations</li>
-{% endblock %} {% block content %}
+{% endblock %}
 
+{% block breadcrumb %}
+<li class="breadcrumb-item active">Stations</li>
+{% endblock %}
+
+{% block content %}
 <div id="map" class="map">
   <div id="popup"></div>
 </div>
