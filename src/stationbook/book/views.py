@@ -11,10 +11,15 @@ class StationListView(ListView):
     model = Station
     context_object_name = 'stations'
     template_name = 'home.html'
+    paginate_by = 20
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        stat_list = StationList('nl')
-        stat_collection = stat_list.get_station_collection()
-        context['stations'] = stat_collection
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     stat_list = StationList('*')
+    #     stat_collection = stat_list.get_station_collection()
+    #     context['stations'] = stat_collection
+    #     return context
+
+    def get_queryset(self):
+        queryset = Station.objects.all()
+        return queryset

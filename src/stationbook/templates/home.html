@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block stylesheet %}
-<link rel="stylesheet" href="{% static 'css/ol.js' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'css/ol.css' %}" type="text/css">
 <style>
   .map {
     height: 500px;
@@ -26,42 +26,39 @@
 <table class="table">
   <thead class="thead-inverse">
     <tr>
-      <th>Station name</th>
-      <th>Station description</th>
+      <th>Station code</th>
+      <th>Station owner</th>
     </tr>
   </thead>
   <tbody>
-    {% for site, location in stations.items %}
+    {% for station in stations %}
     <tr>
       <td>
-        </a>{{ site }}</a>
+        </a>{{ station.code }}</a>
+        <small class="text-muted d-block">
+          Latitude: {{ station.station_location.latitude }},
+          Longitude: {{ station.station_location.longitude }}
+        </small>
       </td>
       <td>
-        {% for key, value in location.items %}
-        <small class="text-muted d-block">{{ key }} : {{ value }}</small>
-        {% endfor %}
+        </a>{{ station.station_owner.name }}</a>
       </td>
     </tr>
 
     <script type="text/javascript">
       // Use "safe" template tag to prevent location string encoding
-      var site_location = "{{ location|safe }}";
-      var site_name = "{{ site|safe }}";
-      console.log(site_name);
+      var latitude = parseFloat("{{ station.station_location.latitude }}");
+      var longitude = parseFloat("{{ station.station_location.longitude }}");
+      var siteCode = "{{ station.code }}"
 
-      // Location value is a string, so we need
-      // to extract data from Python-like dictionary
-      var site_location_split = site_location.split(',');
-      var latitude = parseFloat(
-        site_location_split[0].split(':')[1].replace("'", ''));
-      var longitude = parseFloat(
-        site_location_split[1].split(':')[1].replace("'", ''));
+      console.log(latitude)
+      console.log(longitude)
 
       // Check if values are valid and add a marker to the map
       if (!isNaN(latitude) && !isNaN(longitude)) {
         var point = new ol.Feature({
           geometry: new ol.geom.Point(ol.proj.fromLonLat([longitude, latitude])),
-          name: site_name
+          name: `Site code: ${siteCode}, latitude: ${latitude}, longitude: ${longitude}`
         });
 
         point.setStyle(new ol.style.Style({
@@ -69,12 +66,13 @@
             anchor: [0.5, 46],
             anchorXUnits: 'fraction',
             anchorYUnits: 'pixels',
-            src: '../static/img/marker-green.png',
+            src: '../static/img/markers/marker-blue.png',
           }))
         }));
         vectorSource.addFeature(point);
       }
-    </script> {% endfor %}
+    </script>
+    {% endfor %}
   </tbody>
 </table>
 {% endblock %}
