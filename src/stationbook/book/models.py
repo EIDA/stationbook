@@ -43,11 +43,11 @@ class Owner(models.Model):
 
 class Station(models.Model):
     station_network = models.ForeignKey(
-        Network, on_delete=models.CASCADE, default=None)
+        Network, related_name='stations', on_delete=models.CASCADE, default=None)
     station_location = models.ForeignKey(
-        Location, on_delete=models.CASCADE, default=None)
+        Location, related_name='stations', on_delete=models.CASCADE, default=None)
     station_owner = models.ForeignKey(
-        Owner, on_delete=models.CASCADE, default=None)
+        Owner, related_name='stations', on_delete=models.CASCADE, default=None)
     code = models.CharField(max_length=STRING_LENGTH_SHORT, unique=True)
     name = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
     affiliation = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)

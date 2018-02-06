@@ -10,5 +10,27 @@
 {% endblock %}
 
 {% block content %}
-
+<table class="table">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Station code</th>
+            <th>Station owner</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for network in networks %}
+          <tr>
+            <td>
+              <a href ="{% url 'network_details' network.pk %}">{{ station.code }}</a>
+              <small class="text-muted d-block">
+                nda
+              </small>
+            </td>
+            <td>
+              </a>{{ network.code }}</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 {% endblock %}

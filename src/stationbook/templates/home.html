@@ -34,7 +34,7 @@
     {% for station in stations %}
     <tr>
       <td>
-        <a href ="{% url 'station_details' station.pk %}">{{ station.code }}</a>
+        <a href ="{% url 'station_details' station.station_network.pk station.pk %}">{{ station.code }}</a>
         <small class="text-muted d-block">
           Latitude: {{ station.station_location.latitude }},
           Longitude: {{ station.station_location.longitude }}

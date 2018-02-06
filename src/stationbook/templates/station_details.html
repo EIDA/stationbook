@@ -6,14 +6,20 @@
 
 {% block breadcrumb %}
 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-<li class="breadcrumb-item"><a href="{% url 'stations' %}">Stations</a></li>
+<li class="breadcrumb-item"><a href="{% url 'network_details' station.station_network.pk %}">{{ station.station_network.name }}</a></li>
 <li class="breadcrumb-item active">{{ station.code }}</li>
 {% endblock %}
 
 {% block content %}
-    <p><b>Station Network:</b> {{ station.station_network.name }}</p>
-    <p><b>Station Code:</b> {{ station.code }}</p>
-    <p><b>Station Name:</b> {{ station.name }}</p>
-    <p><b>Station Location:</b> {{ station.station_location.name }}</p>
-    <p><b>Station Owner:</b> {{ station.station_owner.name }}</p>
+<p><b>Station Network:</b> {{ station.station_network.name }}</p>
+<p><b>Station Code:</b> {{ station.code }}</p>
+<p><b>Station Name:</b> {{ station.name }}</p>
+<p><b>Station Location:</b> {{ station.station_location.name }}</p>
+<p><b>Station Owner:</b> {{ station.station_owner.name }}</p>
+
+<div class="mt-3">
+    <a href="{% url 'station_edit' station.station_network.pk station.pk %}"
+    class="btn btn-primary btn-sm"
+    role="button">Edit</a>
+</div>
 {% endblock %}

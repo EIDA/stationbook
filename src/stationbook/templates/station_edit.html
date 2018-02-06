@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'network_details' station.station_network.pk %}">{{ station.station_network.name }}</a></li>
+<li class="breadcrumb-item"><a href="{% url 'station_details' station.station_network.pk station.pk %}">{{ station.code }}</a></li>
+<li class="breadcrumb-item active">Edit</li>
+{% endblock %}
+
+{% block content %}
+<form method="post" class="mb-4" novalidate>
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit" class="btn btn-success">Save changes</button>
+    <a href="{% url 'station_details' station.station_network.pk station.pk %}" class="btn btn-outline-secondary" role="button">Cancel</a>
+</form>
+{% endblock %}
