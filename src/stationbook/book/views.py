@@ -82,7 +82,7 @@ class StationUpdateView(UpdateView):
     def form_valid(self, form):
         station = form.save(commit=False)
         station.save()
-        return redirect('station_details', network_pk=station.station_network.pk, station_pk=station.pk)
+        return redirect('station_details', network_pk=station.fdsnStation_fdsnNetwork.pk, station_pk=station.pk)
 
 def custom_404(request):
     return render_to_response('404.html')
