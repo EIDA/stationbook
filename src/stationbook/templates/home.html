@@ -60,6 +60,7 @@
       var latitude = parseFloat("{{ station.latitude }}");
       var longitude = parseFloat("{{ station.longitude }}");
       var siteCode = "{{ station.code }}"
+      var markerPath = "{% static 'img/markers/marker-blue.png' %}"
 
       // Check if values are valid and add a marker to the map
       if (!isNaN(latitude) && !isNaN(longitude)) {
@@ -73,7 +74,7 @@
             anchor: [0.5, 46],
             anchorXUnits: 'fraction',
             anchorYUnits: 'pixels',
-            src: '../static/img/markers/marker-blue.png',
+            src: markerPath,
           }))
         }));
         vectorSource.addFeature(point);

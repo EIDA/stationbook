@@ -2,6 +2,13 @@
 {% load static %}
 
 {% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/ol.css' %}" type="text/css">
+<style>
+  .map {
+    height: 400px;
+    width: 100%;
+  }
+</style>
 {% endblock %}
 
 {% block breadcrumb %}
@@ -11,13 +18,84 @@
 {% endblock %}
 
 {% block content %}
-<p><b>Station Network:</b> {{ station.fdsnStation_fdsnNetwork.code }}</p>
-<p><b>Station Code:</b> {{ station.code }}</p>
-<p><b>Station Name:</b> {{ station.site_name }}</p>
-
-<div class="mt-3">
-    <a href="{% url 'station_edit' station.fdsnStation_fdsnNetwork.pk station.pk %}"
-    class="btn btn-primary btn-sm"
-    role="button">Edit</a>
+<div id="map" class="map">
+    <div id="popup"></div>
 </div>
+<p>
+    <h1>FDSN Data:</h1>
+</p>
+<div class="table-responsive">
+<table class="table">
+    <thead class="thead-inverse">
+        <tr>
+            <th>Info</th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Elevation</th>
+            <th>Restricted</th>
+            <th>Start</th>
+            <th>Created</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ station.fdsnStation_fdsnNetwork.code }}</td>
+            <td>{{ station.code }}</td>
+            <td>{{ station.site_name }}</td>
+            <td>{{ station.latitude }}</td>
+            <td>{{ station.longitude }}</td>
+            <td>{{ station.elevation }}</td>
+            <td>{{ station.restricted_status }}</td>
+            <td>{{ station.start_date }}</td>
+            <td>{{ station.creation_date }}</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<p>
+    <h1>Extended Data:</h1>
+</p>
+<p>Station additional data.</p>
+<p>
+    <div class="mt-3">
+        <a href="{% url 'station_edit' station.fdsnStation_fdsnNetwork.pk station.pk %}"
+        class="btn btn-primary btn-sm"
+        role="button">Edit extended data</a>
+    </div>
+</p>
+
+<script src="{% static 'js/ol.js' %}"></script>
+<script src="{% static 'js/home_openlayers.js' %}"></script>
+
+<script type="text/javascript">
+    // Use "safe" template tag to prevent location string encoding
+    var latitude = parseFloat("{{ station.latitude }}");
+    var longitude = parseFloat("{{ station.longitude }}");
+    var siteCode = "{{ station.code }}"
+    var markerPath = "{% static 'img/markers/marker-blue.png' %}"
+
+    map.getView().setCenter(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857'));
+    map.getView().setZoom(10);
+
+    // Check if values are valid and add a marker to the map
+    if (!isNaN(latitude) && !isNaN(longitude)) {
+        var point = new ol.Feature({
+            geometry: new ol.geom.Point(ol.proj.fromLonLat([longitude, latitude])),
+            name: `Site code: ${siteCode}, latitude: ${latitude}, longitude: ${longitude}`
+        });
+
+        point.setStyle(new ol.style.Style({
+            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+                anchor: [0.5, 46],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'pixels',
+                src: markerPath,
+            }))
+        }));
+        vectorSource.addFeature(point);
+    }
+</script>
 {% endblock %}

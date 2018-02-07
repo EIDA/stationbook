@@ -26,13 +26,7 @@
         {% if user.is_authenticated %}
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'networks' %}">Networks</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'stations' %}">Stations</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'locations' %}">Locations</a>
+            <a class="nav-link" href="{% url 'search' %}">Search</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

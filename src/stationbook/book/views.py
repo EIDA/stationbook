@@ -5,7 +5,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.views.generic import UpdateView, ListView
+from django.views.generic import UpdateView, ListView, DetailView
 from fdsn.fdsnStation.fdsnStation import NetworkStationGraph
 
 from .models import Location, Owner, Network, Station, FdsnNetwork, FdsnStation
@@ -23,38 +23,10 @@ class HomeListView(ListView):
         queryset = FdsnStation.objects.all()
         return queryset
 
-class LocationsListView(ListView):
-    model = Location
-    context_object_name = 'locations'
-    template_name = 'locations.html'
-
-    def get_queryset(self):
-        queryset = Location.objects.all()
-        return queryset
-
-class OwnersListView(ListView):
-    model = Owner
-    context_object_name = 'owners'
-    template_name = 'owners.html'
-
-    def get_queryset(self):
-        queryset = Owner.objects.all()
-        return queryset
-
-class NetworksListView(ListView):
-    model = Network
-    context_object_name = 'networks'
-    template_name = 'networks.html'
-
-    def get_queryset(self):
-        queryset = Network.objects.order_by('name').all()
-        return queryset
-
-# Stations list view is used as a home screen for the Station Book
-class StationsListView(ListView):
-    model = Station
-    context_object_name = 'stations'
-    template_name = 'stations.html'
+class SearchListView(ListView):
+    model = FdsnStation
+    context_object_name = 'search'
+    template_name = 'search.html'
 
 @method_decorator(login_required, name='dispatch')
 class LocationDetailsListView(ListView):

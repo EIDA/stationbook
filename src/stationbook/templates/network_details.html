@@ -11,12 +11,19 @@
 
 {% block content %}
 <h1>Network details</h1>
-<p><b>Network Name:</b> {{ network.code }}</p>
+<p><b>Network Code:</b> {{ network.code }}</p>
 <p><b>Network Description:</b> {{ network.description }}</p>
 <p><b>Network Start Date:</b> {{ network.start_date }}</p>
 <p><b>Network Restricted Status:</b> {{ network.restricted_status }}</p>
 <h1>List of stations</h1>
 <table class="table">
+    <thead class="thead-inverse">
+        <tr>
+            <th>Station code</th>
+            <th>Site name</th>
+            <th>Start date</th>
+        </tr>
+    </thead>
     <tbody>
         {% for station in network.fdsn_stations.all %}
         <tr>
@@ -25,6 +32,12 @@
                 <small class="text-muted d-block">
                     Latitude: {{ station.latitude }}, Longitude: {{ station.longitude }}
                 </small>
+            </td>
+            <td>
+                {{ station.site_name }}
+            </td>
+            <td>
+                {{ station.start_date }}
             </td>
         </tr>
         {% endfor %}

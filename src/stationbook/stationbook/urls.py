@@ -11,10 +11,7 @@ from book import views as book_view
 
 urlpatterns = [
     path('', book_view.HomeListView.as_view(), name='home'),
-    path('stations/', book_view.StationsListView.as_view(), name='stations'),
-    path('locations/', book_view.LocationsListView.as_view(), name='locations'),
-    path('owners/', book_view.OwnersListView.as_view(), name='owners'),
-    path('networks/', book_view.NetworksListView.as_view(), name='networks'),
+    path('search/', book_view.SearchListView.as_view(), name='search'),
     re_path(r'^location/(?P<location_pk>\d+)/$',
     book_view.LocationDetailsListView.as_view(), name='location_details'),
     re_path(r'^owner/(?P<owner_pk>\d+)/$',
