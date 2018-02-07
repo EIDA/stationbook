@@ -1,5 +1,5 @@
 {% if is_paginated %}
-  <nav aria-label="Topics pagination" class="mb-4">
+  <nav aria-label="Pagination" class="mb-4">
     <ul class="pagination">
       {% if page_obj.number > 1 %}
         <li class="page-item">
@@ -29,7 +29,7 @@
               <span class="sr-only">(current)</span>
             </span>
           </li>
-        {% elif page_num > page_obj.number|add:'-3' and page_num < page_obj.number|add:'3' %}
+        {% elif page_num > page_obj.number|add:'-5' and page_num < page_obj.number|add:'5' %}
           <li class="page-item">
             <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
           </li>

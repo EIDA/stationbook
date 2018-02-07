@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{% static 'css/ol.css' %}" type="text/css">
 <style>
   .map {
-    height: 500px;
+    height: 300px;
     width: 100%;
   }
 </style>
@@ -26,33 +26,40 @@
 <table class="table">
   <thead class="thead-inverse">
     <tr>
+      <th>Network</th>
       <th>Station code</th>
-      <th>Station owner</th>
+      <th>Site name</th>
+      <th>Start date</th>
     </tr>
   </thead>
   <tbody>
     {% for station in stations %}
     <tr>
       <td>
-        <a href ="{% url 'station_details' station.station_network.pk station.pk %}">{{ station.code }}</a>
+        {{ station.fdsnStation_fdsnNetwork.code }}
         <small class="text-muted d-block">
-          Latitude: {{ station.station_location.latitude }},
-          Longitude: {{ station.station_location.longitude }}
+          {{ station.fdsnStation_fdsnNetwork.description }}
         </small>
       </td>
       <td>
-        </a>{{ station.station_owner.name }}</a>
+        <a href ="{% url 'station_details' station.fdsnStation_fdsnNetwork.pk station.pk %}">{{ station.code }}</a>
+        <small class="text-muted d-block">
+          Latitude: {{ station.latitude }},
+          Longitude: {{ station.longitude }}
+        </small>
+      </td>
+      <td>
+          {{ station.site_name }}
+      </td>
+      <td>
+          {{ station.start_date }}
       </td>
     </tr>
-
     <script type="text/javascript">
       // Use "safe" template tag to prevent location string encoding
-      var latitude = parseFloat("{{ station.station_location.latitude }}");
-      var longitude = parseFloat("{{ station.station_location.longitude }}");
+      var latitude = parseFloat("{{ station.latitude }}");
+      var longitude = parseFloat("{{ station.longitude }}");
       var siteCode = "{{ station.code }}"
-
-      console.log(latitude)
-      console.log(longitude)
 
       // Check if values are valid and add a marker to the map
       if (!isNaN(latitude) && !isNaN(longitude)) {
@@ -75,4 +82,6 @@
     {% endfor %}
   </tbody>
 </table>
+
+{% include 'includes/pagination.html' %}
 {% endblock %}

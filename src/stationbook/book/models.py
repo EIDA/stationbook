@@ -68,3 +68,27 @@ class Station(models.Model):
     installed_recently.admin_order_field = 'start'
     installed_recently.boolean = True
     installed_recently.short_description = 'Installed recently?'
+
+class FdsnNetwork(models.Model):
+    code = models.CharField(max_length=STRING_LENGTH_SHORT, unique=True)
+    description = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
+    start_date = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
+    restricted_status = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
+
+    def __str__(self):
+        return self.code
+
+class FdsnStation(models.Model):
+    fdsnStation_fdsnNetwork = models.ForeignKey(
+        FdsnNetwork, related_name='fdsn_stations', on_delete=models.CASCADE, default=None)
+    code = models.CharField(max_length=STRING_LENGTH_SHORT)
+    site_name = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True)
+    elevation = models.DecimalField(max_digits=10, decimal_places=6, blank=True)
+    restricted_status = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
+    start_date = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
+    creation_date = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
+
+    def __str__(self):
+        return self.code

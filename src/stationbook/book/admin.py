@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.utils import timezone
 
 # Register your models here.
-from .models import Network, Location, Owner, Station
+from .models import Network, Location, Owner, Station, FdsnNetwork, FdsnStation
 
 class StationInline(admin.TabularInline):
     model = Station
@@ -48,7 +48,32 @@ class StationAdmin(admin.ModelAdmin):
     list_filter = ['station_network__name', 'station_location__name',
     'station_owner__name', 'active',]
 
+class FdsnStationInline(admin.StackedInline):
+    model = FdsnStation
+    extra = 1
+
+class FdsnNetworkAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Change station details', {'fields': [
+            'code', 'description', 'start_date', 'restricted_status',]}),
+    ]
+    inlines = [FdsnStationInline]
+    list_display = ('code', 'description', 'start_date', 'restricted_status', )
+    list_filter = ['description', 'code', ]
+
+class FdsnStationAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Change station details', {'fields': [
+            'code', 'site_name', 'latitude', 'longitude', 'elevation',
+            'restricted_status', 'start_date', 'creation_date', ]}),
+    ]
+    list_display = ('code', 'site_name', 'latitude', 'longitude', 'elevation',
+    'restricted_status', 'start_date', 'creation_date', )
+    list_filter = ['fdsnStation_fdsnNetwork__code', ]
+
 admin.site.register(Network, NetworkAdmin)
 admin.site.register(Location, LocationAdmin)
 admin.site.register(Owner, OwnerAdmin)
 admin.site.register(Station, StationAdmin)
+admin.site.register(FdsnNetwork, FdsnNetworkAdmin)
+admin.site.register(FdsnStation, FdsnStationAdmin)

@@ -6,8 +6,8 @@
 
 {% block breadcrumb %}
 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-<li class="breadcrumb-item"><a href="{% url 'network_details' station.station_network.pk %}">{{ station.station_network.name }}</a></li>
-<li class="breadcrumb-item"><a href="{% url 'station_details' station.station_network.pk station.pk %}">{{ station.code }}</a></li>
+<li class="breadcrumb-item"><a href="{% url 'network_details' station.fdsnStation_fdsnNetwork.pk %}">{{ station.fdsnStation_fdsnNetwork.code }}</a></li>
+<li class="breadcrumb-item"><a href="{% url 'station_details' station.fdsnStation_fdsnNetwork.pk station.pk %}">{{ station.code }}</a></li>
 <li class="breadcrumb-item active">Edit</li>
 {% endblock %}
 
@@ -16,6 +16,6 @@
     {% csrf_token %}
     {% include 'includes/form.html' %}
     <button type="submit" class="btn btn-success">Save changes</button>
-    <a href="{% url 'station_details' station.station_network.pk station.pk %}" class="btn btn-outline-secondary" role="button">Cancel</a>
+    <a href="{% url 'station_details' station.fdsnStation_fdsnNetwork.pk station.pk %}" class="btn btn-outline-secondary" role="button">Cancel</a>
 </form>
 {% endblock %}

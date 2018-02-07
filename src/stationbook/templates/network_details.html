@@ -6,22 +6,24 @@
 
 {% block breadcrumb %}
 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-<li class="breadcrumb-item active">{{ network.name }}</li>
+<li class="breadcrumb-item active">{{ network.code }}</li>
 {% endblock %}
 
 {% block content %}
 <h1>Network details</h1>
-<p><b>Network Name:</b> {{ network.name }}</p>
+<p><b>Network Name:</b> {{ network.code }}</p>
 <p><b>Network Description:</b> {{ network.description }}</p>
+<p><b>Network Start Date:</b> {{ network.start_date }}</p>
+<p><b>Network Restricted Status:</b> {{ network.restricted_status }}</p>
 <h1>List of stations</h1>
 <table class="table">
     <tbody>
-        {% for station in network.stations.all %}
+        {% for station in network.fdsn_stations.all %}
         <tr>
             <td>
-                <a href="{% url 'station_details' station.station_network.pk station.pk %}">{{ station.code }}</a>
+                <a href="{% url 'station_details' station.fdsnStation_fdsnNetwork.pk station.pk %}">{{ station.code }}</a>
                 <small class="text-muted d-block">
-                    Latitude: {{ station.station_location.latitude }}, Longitude: {{ station.station_location.longitude }}
+                    Latitude: {{ station.latitude }}, Longitude: {{ station.longitude }}
                 </small>
             </td>
         </tr>
