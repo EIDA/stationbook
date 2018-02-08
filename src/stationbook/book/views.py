@@ -25,6 +25,7 @@ class HomeListView(ListView):
         queryset = FdsnStation.objects.all()
         return queryset
 
+
 class SearchListView(ListView):
     model = FdsnStation
     context_object_name = 'data'
@@ -34,7 +35,7 @@ class SearchListView(ListView):
         queryset = FdsnNetwork.objects.all()
         return queryset
 
-@method_decorator(login_required, name='dispatch')
+
 class NetworkDetailsListView(ListView):
     model = FdsnNetwork
     context_object_name = 'network'
@@ -47,7 +48,7 @@ class NetworkDetailsListView(ListView):
             raise Http404("Network does not exist!")
         return queryset
 
-@method_decorator(login_required, name='dispatch')
+
 class StationDetailsListView(ListView):
     model = FdsnStation
     context_object_name = 'station'
@@ -59,6 +60,7 @@ class StationDetailsListView(ListView):
         except FdsnStation.DoesNotExist:
             raise Http404("Station does not exist!")
         return queryset
+
 
 @method_decorator(login_required, name='dispatch')
 class ExtBasicDataUpdateView(UpdateView):
@@ -75,6 +77,7 @@ class ExtBasicDataUpdateView(UpdateView):
         data = form.save(commit=False)
         data.save()
         return redirect('station_details', network_code=data.station.fdsnStation_fdsnNetwork.code, station_code=data.station.code)
+
 
 @method_decorator(login_required, name='dispatch')
 class ExtOwnerDataUpdateView(UpdateView):
@@ -93,6 +96,7 @@ class ExtOwnerDataUpdateView(UpdateView):
         data.save()
         return redirect('station_details', network_code=data.station.fdsnStation_fdsnNetwork.code, station_code=data.station.code)
 
+
 @method_decorator(login_required, name='dispatch')
 class ExtMorphologyDataUpdateView(UpdateView):
     model = ExtMorphologyData
@@ -108,6 +112,7 @@ class ExtMorphologyDataUpdateView(UpdateView):
         data = form.save(commit=False)
         data.save()
         return redirect('station_details', network_code=data.station.fdsnStation_fdsnNetwork.code, station_code=data.station.code)
+
 
 @method_decorator(login_required, name='dispatch')
 class ExtHousingDataUpdateView(UpdateView):
@@ -125,22 +130,6 @@ class ExtHousingDataUpdateView(UpdateView):
         data.save()
         return redirect('station_details', network_code=data.station.fdsnStation_fdsnNetwork.code, station_code=data.station.code)
 
-@method_decorator(login_required, name='dispatch')
-class StationUpdateView(UpdateView):
-    model = FdsnStation
-    fields = ('site_name', )
-    template_name = 'station_edit.html'
-    pk_url_kwarg = 'station_pk'
-    context_object_name = 'station'
-
-    def get_object(self):
-        obj = get_object_or_404(self.model, code=self.kwargs['station_code'])
-        return obj
-
-    def form_valid(self, form):
-        station = form.save(commit=False)
-        station.save()
-        return redirect('station_details', network_code=station.fdsnStation_fdsnNetwork.code, station_code=station.code)
 
 def custom_404(request):
     return render_to_response('404.html')
@@ -151,7 +140,7 @@ def custom_500(request):
 def refresh_fdsn(request):
     try:
         FdsnNetwork.objects.all().delete()
-        data = NetworkStationGraph('*')
+        data = NetworkStationGraph('sl')
         graph = data.get_network_station_graph()
         for network in graph.networks:
             net = FdsnNetwork()
