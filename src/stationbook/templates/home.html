@@ -36,13 +36,13 @@
     {% for station in stations %}
     <tr>
       <td>
-        {{ station.fdsnStation_fdsnNetwork.code }}
+        <a href="{% url 'network_details' station.fdsnStation_fdsnNetwork.code %}">{{ station.fdsnStation_fdsnNetwork.code }}</a>
         <small class="text-muted d-block">
           {{ station.fdsnStation_fdsnNetwork.description }}
         </small>
       </td>
       <td>
-        <a href ="{% url 'station_details' station.fdsnStation_fdsnNetwork.pk station.pk %}">{{ station.code }}</a>
+        <a href ="{% url 'station_details' station.fdsnStation_fdsnNetwork.code station.code %}">{{ station.code }}</a>
         <small class="text-muted d-block">
           Latitude: {{ station.latitude }},
           Longitude: {{ station.longitude }}
@@ -83,6 +83,13 @@
     {% endfor %}
   </tbody>
 </table>
+
+<script type="text/javascript">
+var latitude = parseFloat("{{ stations.0.latitude }}");
+var longitude = parseFloat("{{ stations.0.longitude }}");
+map.getView().setCenter(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857'));
+map.getView().setZoom(8);
+</script>
 
 {% include 'includes/pagination.html' %}
 {% endblock %}

@@ -2,13 +2,21 @@
 {% load static %}
 
 {% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'css/simplemde.min.css' %}">
+{% endblock %}
+
+{% block javascript %}
+  <script src="{% static 'js/simplemde.min.js' %}"></script>
+  <script>
+    var simplemde = new SimpleMDE();
+  </script>
 {% endblock %}
 
 {% block breadcrumb %}
 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-<li class="breadcrumb-item"><a href="{% url 'network_details' station.fdsnStation_fdsnNetwork.pk %}">{{ station.fdsnStation_fdsnNetwork.code }}</a></li>
-<li class="breadcrumb-item"><a href="{% url 'station_details' station.fdsnStation_fdsnNetwork.pk station.pk %}">{{ station.code }}</a></li>
-<li class="breadcrumb-item active">Edit</li>
+<li class="breadcrumb-item"><a href="{% url 'network_details' data.station.fdsnStation_fdsnNetwork.code %}">{{ data.station.fdsnStation_fdsnNetwork.code }}</a></li>
+<li class="breadcrumb-item"><a href="{% url 'station_details' data.station.fdsnStation_fdsnNetwork.code data.station.code %}">{{ data.station.code }}</a></li>
+<li class="breadcrumb-item active">Edit Basic Data</li>
 {% endblock %}
 
 {% block content %}
@@ -16,6 +24,6 @@
     {% csrf_token %}
     {% include 'includes/form.html' %}
     <button type="submit" class="btn btn-success">Save changes</button>
-    <a href="{% url 'station_details' station.fdsnStation_fdsnNetwork.pk station.pk %}" class="btn btn-outline-secondary" role="button">Cancel</a>
+    <a href="{% url 'station_details' data.station.fdsnStation_fdsnNetwork.code data.station.code %}" class="btn btn-outline-secondary" role="button">Cancel</a>
 </form>
 {% endblock %}

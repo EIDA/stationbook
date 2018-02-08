@@ -2,93 +2,101 @@
 from __future__ import unicode_literals
 
 import datetime
-from django.db import models
+from django.db import models, transaction
 from django.utils import timezone
 
+from django.utils.html import mark_safe
+from markdown import markdown
+
 STRING_LENGTH_SHORT = 256
-STRING_LENGTH_LONG = 1024
+STRING_LENGTH_MEDIUM = 1024
+STRING_LENGTH_LONG = 16384
 
-class Network(models.Model):
-    name = models.CharField(max_length=STRING_LENGTH_SHORT, unique=True)
-    description = models.CharField(max_length=STRING_LENGTH_SHORT)
-
-    def __str__(self):
-        return self.name
-
-class Location(models.Model):
-    name = models.CharField(max_length=STRING_LENGTH_LONG)
-    street = models.CharField(max_length=STRING_LENGTH_LONG, blank=True)
-    street_nr = models.CharField(max_length=STRING_LENGTH_LONG, blank=True)
-    zip_code = models.CharField(max_length=STRING_LENGTH_LONG, blank=True)
-    city = models.CharField(max_length=STRING_LENGTH_LONG, blank=True)
-    country = models.CharField(max_length=STRING_LENGTH_LONG, blank=True)
-    latitude = models.DecimalField(max_digits=9, decimal_places=6)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6)
-    elevation = models.DecimalField(max_digits=9, decimal_places=6, default=0)
-
-    def __str__(self):
-        return self.name
-
-class Owner(models.Model):
-    owner_location = models.ForeignKey(
-        Location, on_delete=models.CASCADE, default=None)
-    name = models.CharField(max_length=STRING_LENGTH_LONG, blank=True)
-    department = models.CharField(max_length=STRING_LENGTH_LONG, blank=True)
-    agency = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
-    phone = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
-    email = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
-
-    def __str__(self):
-        return self.name
-
-class Station(models.Model):
-    station_network = models.ForeignKey(
-        Network, related_name='stations', on_delete=models.CASCADE, default=None)
-    station_location = models.ForeignKey(
-        Location, related_name='stations', on_delete=models.CASCADE, default=None)
-    station_owner = models.ForeignKey(
-        Owner, related_name='stations', on_delete=models.CASCADE, default=None)
-    code = models.CharField(max_length=STRING_LENGTH_SHORT, unique=True)
-    name = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
-    affiliation = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
-    description = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
-    shared = models.BooleanField()
-    restricted = models.BooleanField()
-    start = models.DateField()
+class ExtBasicData(models.Model):
+    description = models.TextField(max_length=STRING_LENGTH_LONG)
+    start = models.DateField(blank=True, null=True)
     end = models.DateField(blank=True, null=True)
-    active = models.BooleanField()
 
-    def __str__(self):
-        return self.name
+    def get_description_as_markdown(self):
+        return mark_safe(markdown(self.description, safe_mode='escape'))
 
-    def installed_recently(self):
-        today = datetime.date.today()
-        return (today - datetime.timedelta(days=356) <= self.start)
+class ExtOwnerData(models.Model):
+    name = models.CharField(max_length=STRING_LENGTH_SHORT, \
+    blank=True, default='n/a')
+    department = models.CharField(max_length=STRING_LENGTH_SHORT, \
+    blank=True, default='n/a')
+    agency = models.CharField(max_length=STRING_LENGTH_SHORT, \
+    blank=True, default='n/a')
+    street = models.CharField(max_length=STRING_LENGTH_SHORT, \
+    blank=True, default='n/a')
+    country = models.CharField(max_length=STRING_LENGTH_SHORT, \
+    blank=True, default='n/a')
+    phone = models.CharField(max_length=STRING_LENGTH_SHORT, \
+    blank=True, default='n/a')
+    email = models.CharField(max_length=STRING_LENGTH_SHORT, \
+    blank=True, default='n/a')
 
-    installed_recently.admin_order_field = 'start'
-    installed_recently.boolean = True
-    installed_recently.short_description = 'Installed recently?'
+
+class ExtMorphologyData(models.Model):
+    description = models.TextField(max_length=STRING_LENGTH_LONG)
+
+    def get_description_as_markdown(self):
+        return mark_safe(markdown(self.description, safe_mode='escape'))
+
+
+class ExtHousingData(models.Model):
+    description = models.TextField(max_length=STRING_LENGTH_LONG)
+
+    def get_description_as_markdown(self):
+        return mark_safe(markdown(self.description, safe_mode='escape'))
+
 
 class FdsnNetwork(models.Model):
-    code = models.CharField(max_length=STRING_LENGTH_SHORT, unique=True)
-    description = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
-    start_date = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
-    restricted_status = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
+    code = models.CharField(max_length=STRING_LENGTH_SHORT, unique=True, \
+    default='n/a')
+    description = models.CharField(max_length=STRING_LENGTH_SHORT, \
+    blank=True, default='n/a')
+    start_date = models.CharField(max_length=STRING_LENGTH_SHORT, \
+    blank=True, default='n/a')
+    restricted_status = models.CharField(max_length=STRING_LENGTH_SHORT, \
+    blank=True, default='n/a')
 
     def __str__(self):
         return self.code
+
 
 class FdsnStation(models.Model):
     fdsnStation_fdsnNetwork = models.ForeignKey(
         FdsnNetwork, related_name='fdsn_stations', on_delete=models.CASCADE, default=None)
-    code = models.CharField(max_length=STRING_LENGTH_SHORT)
+    code = models.CharField(max_length=STRING_LENGTH_SHORT, unique=True)
     site_name = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True)
-    elevation = models.DecimalField(max_digits=10, decimal_places=6, blank=True)
+    elevation = models.DecimalField(max_digits=8, decimal_places=2, blank=True)
     restricted_status = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
     start_date = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
     creation_date = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
+    # Ext data
+    ext_basic_data = models.OneToOneField(ExtBasicData, related_name='station', on_delete=models.CASCADE)
+    ext_owner_data = models.OneToOneField(ExtOwnerData, related_name='station', on_delete=models.CASCADE)
+    ext_morphology_data = models.OneToOneField(ExtMorphologyData, related_name='station', on_delete=models.CASCADE)
+    ext_housing_data = models.OneToOneField(ExtHousingData, related_name='station', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.code
+
+    # @transaction.atomic
+    # def save(self, *args, **kwargs):
+    #     super(FdsnStation, self).save(*args, **kwargs)
+    #     self.ext_basic_data.save()
+    #     self.ext_owner_data.save()
+    #     self.ext_morphology_data.save()
+    #     self.ext_housing_data.save()
+
+    # def installed_recently(self):
+    #     today = datetime.date.today()
+    #     return (today - datetime.timedelta(days=356) <= self.start)
+
+    # installed_recently.admin_order_field = 'start'
+    # installed_recently.boolean = True
+    # installed_recently.short_description = 'Installed recently?'

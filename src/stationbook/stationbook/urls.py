@@ -12,18 +12,20 @@ from book import views as book_view
 urlpatterns = [
     path('', book_view.HomeListView.as_view(), name='home'),
     path('search/', book_view.SearchListView.as_view(), name='search'),
-    re_path(r'^location/(?P<location_pk>\d+)/$',
-    book_view.LocationDetailsListView.as_view(), name='location_details'),
-    re_path(r'^owner/(?P<owner_pk>\d+)/$',
-    book_view.OwnerDetailsListView.as_view(), name='owner_details'),
-    re_path(r'^network/(?P<network_pk>\d+)/$',
+    re_path(r'^network/(?P<network_code>\w+)/$',
     book_view.NetworkDetailsListView.as_view(), name='network_details'),
     # re_path(r'^station/(?P<pk>\d+)/$',
     # book_view.StationDetailsListView.as_view(), name='station_details'),
-    re_path(r'^network/(?P<network_pk>\d+)/station/(?P<station_pk>\d+)/$',
+    re_path(r'^network/(?P<network_code>\w+)/station/(?P<station_code>\w+)/$',
     book_view.StationDetailsListView.as_view(), name='station_details'),
-    re_path(r'^network/(?P<network_pk>\d+)/station/(?P<station_pk>\d+)/edit$',
-    book_view.StationUpdateView.as_view(), name='station_edit'),
+    re_path(r'^network/(?P<network_code>\w+)/station/(?P<station_code>\w+)/edit_basic$',
+    book_view.ExtBasicDataUpdateView.as_view(), name='station_edit_basic'),
+    re_path(r'^network/(?P<network_code>\w+)/station/(?P<station_code>\w+)/edit_owner$',
+    book_view.ExtOwnerDataUpdateView.as_view(), name='station_edit_owner'),
+    re_path(r'^network/(?P<network_code>\w+)/station/(?P<station_code>\w+)/edit_morphology$',
+    book_view.ExtMorphologyDataUpdateView.as_view(), name='station_edit_morphology'),
+    re_path(r'^network/(?P<network_code>\w+)/station/(?P<station_code>\w+)/edit_housing$',
+    book_view.ExtHousingDataUpdateView.as_view(), name='station_edit_housing'),
     path('signup/', accounts_views.signup, name='signup'),
     path('login/', auth_views.LoginView
     .as_view(template_name='login.html'), name='login'),
@@ -55,6 +57,7 @@ urlpatterns = [
     path('settings/password/done/', auth_views.PasswordChangeDoneView
         .as_view(template_name='password_change_done.html'),
         name='password_change_done'),
+    path('refresh_fdsn/', book_view.refresh_fdsn, name='refresh_fdsn'),
 ]
 
 # Add custom handlers for the HTTP error codes

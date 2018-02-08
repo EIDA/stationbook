@@ -6,9 +6,12 @@ from django.shortcuts import get_object_or_404, redirect, render, render_to_resp
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import UpdateView, ListView, DetailView
-from fdsn.fdsnStation.fdsnStation import NetworkStationGraph
+from django.db import DatabaseError, transaction
 
-from .models import Location, Owner, Network, Station, FdsnNetwork, FdsnStation
+from datetime import date
+
+from fdsn.fdsnStation.fdsnStation import NetworkStationGraph
+from .models import FdsnNetwork, FdsnStation, ExtBasicData, ExtOwnerData, ExtMorphologyData, ExtHousingData
 from fdsn.fdsnStation.fdsnStation import NetworkStationGraph
 
 # Stations list view is used as a home screen for the Station Book
@@ -19,26 +22,17 @@ class HomeListView(ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        # refresh_fdsn()
         queryset = FdsnStation.objects.all()
         return queryset
 
 class SearchListView(ListView):
     model = FdsnStation
-    context_object_name = 'search'
+    context_object_name = 'data'
     template_name = 'search.html'
 
-@method_decorator(login_required, name='dispatch')
-class LocationDetailsListView(ListView):
-    model = Location
-    context_object_name = 'location'
-    template_name = 'location_details.html'
-
-@method_decorator(login_required, name='dispatch')
-class OwnerDetailsListView(ListView):
-    model = Owner
-    context_object_name = 'owner'
-    template_name = 'owner_details.html'
+    def get_queryset(self):
+        queryset = FdsnNetwork.objects.all()
+        return queryset
 
 @method_decorator(login_required, name='dispatch')
 class NetworkDetailsListView(ListView):
@@ -48,7 +42,7 @@ class NetworkDetailsListView(ListView):
 
     def get_queryset(self):
         try:
-            queryset = FdsnNetwork.objects.get(pk=self.kwargs.get('network_pk'))
+            queryset = FdsnNetwork.objects.get(code=self.kwargs.get('network_code'))
         except FdsnNetwork.DoesNotExist:
             raise Http404("Network does not exist!")
         return queryset
@@ -61,28 +55,92 @@ class StationDetailsListView(ListView):
 
     def get_queryset(self):
         try:
-            queryset = FdsnStation.objects.get(pk=self.kwargs.get('station_pk'))
+            queryset = FdsnStation.objects.get(code=self.kwargs.get('station_code'))
         except FdsnStation.DoesNotExist:
             raise Http404("Station does not exist!")
         return queryset
 
 @method_decorator(login_required, name='dispatch')
+class ExtBasicDataUpdateView(UpdateView):
+    model = ExtBasicData
+    fields = ('description', 'start', 'end', )
+    template_name = 'station_edit.html'
+    context_object_name = 'data'
+
+    def get_object(self):
+        obj = get_object_or_404(self.model, station__code=self.kwargs['station_code'])
+        return obj
+
+    def form_valid(self, form):
+        data = form.save(commit=False)
+        data.save()
+        return redirect('station_details', network_code=data.station.fdsnStation_fdsnNetwork.code, station_code=data.station.code)
+
+@method_decorator(login_required, name='dispatch')
+class ExtOwnerDataUpdateView(UpdateView):
+    model = ExtOwnerData
+    fields = ('name', 'department', 'agency', 'street', 'country', 'phone',
+    'email', )
+    template_name = 'station_edit.html'
+    context_object_name = 'data'
+
+    def get_object(self):
+        obj = get_object_or_404(self.model, station__code=self.kwargs['station_code'])
+        return obj
+
+    def form_valid(self, form):
+        data = form.save(commit=False)
+        data.save()
+        return redirect('station_details', network_code=data.station.fdsnStation_fdsnNetwork.code, station_code=data.station.code)
+
+@method_decorator(login_required, name='dispatch')
+class ExtMorphologyDataUpdateView(UpdateView):
+    model = ExtMorphologyData
+    fields = ('description', )
+    template_name = 'station_edit.html'
+    context_object_name = 'data'
+
+    def get_object(self):
+        obj = get_object_or_404(self.model, station__code=self.kwargs['station_code'])
+        return obj
+
+    def form_valid(self, form):
+        data = form.save(commit=False)
+        data.save()
+        return redirect('station_details', network_code=data.station.fdsnStation_fdsnNetwork.code, station_code=data.station.code)
+
+@method_decorator(login_required, name='dispatch')
+class ExtHousingDataUpdateView(UpdateView):
+    model = ExtHousingData
+    fields = ('description', )
+    template_name = 'station_edit.html'
+    context_object_name = 'data'
+
+    def get_object(self):
+        obj = get_object_or_404(self.model, station__code=self.kwargs['station_code'])
+        return obj
+
+    def form_valid(self, form):
+        data = form.save(commit=False)
+        data.save()
+        return redirect('station_details', network_code=data.station.fdsnStation_fdsnNetwork.code, station_code=data.station.code)
+
+@method_decorator(login_required, name='dispatch')
 class StationUpdateView(UpdateView):
     model = FdsnStation
-    fields = ('code', 'site_name', 'latitude', 'longitude', 'elevation',
-    'restricted_status', 'start_date', 'creation_date')
+    fields = ('site_name', )
     template_name = 'station_edit.html'
     pk_url_kwarg = 'station_pk'
     context_object_name = 'station'
 
-    # def get_queryset(self):
-    #     queryset = super().get_queryset()
-    #     return queryset.filter(created_by=self.request.user)
+    def get_object(self):
+        obj = get_object_or_404(self.model, code=self.kwargs['station_code'])
+        return obj
 
     def form_valid(self, form):
         station = form.save(commit=False)
         station.save()
-        return redirect('station_details', network_pk=station.fdsnStation_fdsnNetwork.pk, station_pk=station.pk)
+        return redirect('station_details', network_code=station.fdsnStation_fdsnNetwork.code, station_code=station.code)
 
 def custom_404(request):
     return render_to_response('404.html')
@@ -90,7 +148,7 @@ def custom_404(request):
 def custom_500(request):
     return render_to_response('500.html')
 
-def refresh_fdsn():
+def refresh_fdsn(request):
     try:
         FdsnNetwork.objects.all().delete()
         data = NetworkStationGraph('*')
@@ -102,7 +160,6 @@ def refresh_fdsn():
             net.description = network.description
             net.start_date = network.start_date
             net.restricted_status = network.restricted_status
-            print('Network:' + net.code)
             # If network is not known in the database, add it, otherwise get it
             #  from the database to prevent operating on a detached entity
             if not FdsnNetwork.objects.filter(code=net.code).exists():
@@ -110,8 +167,11 @@ def refresh_fdsn():
             else:
                 net = FdsnNetwork.objects.get(code=net.code)
             for station in network.stations:
+                # Create station entity
                 stat = FdsnStation()
+                # Assign station to network
                 stat.fdsnStation_fdsnNetwork = net
+                # Fill data obtained from the Web Service
                 stat.code = station.code
                 stat.latitude = station.latitude
                 stat.longitude = station.longitude
@@ -120,10 +180,24 @@ def refresh_fdsn():
                 stat.start_date = station.start_date
                 stat.creation_date = station.creation_date
                 stat.site_name = station.site_name
-                print('Station: ' + stat.code)
-                # In case station data appears twice in the same dataset,
-                # ignore it
-                if not FdsnStation.objects.filter(code=net.code).exists():
+                # In case station data appears twice in the same dataset, ignore it
+                if not FdsnStation.objects.filter(code=stat.code).exists():
+                    # Create and save new ext entities
+                    ext_data = ExtBasicData()
+                    ext_data.save()
+                    ext_owner = ExtOwnerData()
+                    ext_owner.save()
+                    ext_morphology = ExtMorphologyData()
+                    ext_morphology.save()
+                    ext_housing = ExtHousingData()
+                    ext_housing.save()
+                    # Assign ext entities to station and save it
+                    stat.ext_basic_data = ext_data
+                    stat.ext_owner_data = ext_owner
+                    stat.ext_morphology_data = ext_morphology
+                    stat.ext_housing_data = ext_housing
                     stat.save()
     except:
         raise
+    finally:
+        return redirect('home')
