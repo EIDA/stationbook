@@ -189,7 +189,7 @@ def custom_500(request):
 def refresh_fdsn(request):
     try:
         FdsnNetwork.objects.all().delete()
-        data = NetworkStationGraph('sl')
+        data = NetworkStationGraph('*')
         graph = data.get_network_station_graph()
         for network in graph.networks:
             net = FdsnNetwork()
