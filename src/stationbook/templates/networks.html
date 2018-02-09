@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+{% endblock %} 
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+    <a href="{% url 'home' %}">Home</a>
+</li>
+<li class="breadcrumb-item active">Networks</li>
+{% endblock %}
+
+{% block content %}
+<table class="table">
+    <thead class="thead-inverse">
+        <tr>
+            <th>Network</th>
+            <th>Start Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for network in data %}
+        <tr>
+            <td>
+                <a href="{% url 'network_details' network.code %}">{{ network.code }}</a>
+                <small class="text-muted d-block">
+                    {{ network.description }}
+                </small>
+            </td>
+            <td>
+                {{ network.start_date }}
+            </td>
+            <td>
+                {{ network.restricted_status }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

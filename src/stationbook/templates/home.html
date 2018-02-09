@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{% static 'css/ol.css' %}" type="text/css">
 <style>
   .map {
-    height: 300px;
+    height: 500px;
     width: 100%;
   }
 </style>
@@ -60,7 +60,7 @@
       var latitude = parseFloat("{{ station.latitude }}");
       var longitude = parseFloat("{{ station.longitude }}");
       var siteCode = "{{ station.code }}"
-      var markerPath = "{% static 'img/markers/marker-blue.png' %}"
+      var markerPath = "{% static 'img/markers/marker-red.png' %}"
 
       // Check if values are valid and add a marker to the map
       if (!isNaN(latitude) && !isNaN(longitude)) {
@@ -91,5 +91,4 @@ map.getView().setCenter(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'E
 map.getView().setZoom(8);
 </script>
 
-{% include 'includes/pagination.html' %}
 {% endblock %}

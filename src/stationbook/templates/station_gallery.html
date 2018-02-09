@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+{% endblock %} 
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item">Networks</li>
+<li class="breadcrumb-item">Network</li>
+<li class="breadcrumb-item">Station</li>
+<li class="breadcrumb-item active">Gallery</li>
+{% endblock %}
+
+{% block content %}
+Station gallery
+{% endblock %}
