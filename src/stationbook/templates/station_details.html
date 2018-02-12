@@ -24,7 +24,7 @@
 </div>
 
 <div class="btn-group mt-2 mb-2 float-right" role="group" aria-label="Button group with nested dropdown">
-    <button type="button" class="btn btn-primary">Station gallery</button>
+    <button type="button" class="btn btn-primary disabled">Station gallery</button>
 
     {% if user.is_authenticated %}
     <div class="btn-group" role="group">
@@ -41,7 +41,7 @@
     {% endif %}
 
     <div class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">Export</button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
             <a class="dropdown-item" href="#">Export to PDF</a>
