@@ -25,7 +25,10 @@ class FdsnStationAdmin(admin.ModelAdmin):
     ]
     list_display = ('code', 'site_name', 'latitude', 'longitude', 'elevation',
     'restricted_status', 'start_date', 'creation_date', )
-    list_filter = ['fdsnStation_fdsnNetwork__code',]
+    list_filter = [
+        'fdsnStation_fdsnNetwork__description',
+        'fdsnStation_fdsnNetwork__code',
+    ]
 
 class ExtBasicAdmin(admin.ModelAdmin):
     fieldsets = [
