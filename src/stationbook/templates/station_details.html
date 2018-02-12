@@ -24,23 +24,24 @@
 </div>
 
 <div class="btn-group mt-2 mb-2 float-right" role="group" aria-label="Button group with nested dropdown">
-    <button type="button" class="btn btn-light">Station gallery</button>
+    <button type="button" class="btn btn-primary">Station gallery</button>
 
     {% if user.is_authenticated %}
     <div class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">Edit station data</button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
             <a class="dropdown-item" href="{% url 'station_edit_basic' station.fdsnStation_fdsnNetwork.code station.code %}">Edit basic station data</a>
             <a class="dropdown-item" href="{% url 'station_edit_owner' station.fdsnStation_fdsnNetwork.code station.code %}">Edit owner station data</a>
             <a class="dropdown-item" href="{% url 'station_edit_morphology' station.fdsnStation_fdsnNetwork.code station.code %}">Edit morphology station data</a>
             <a class="dropdown-item" href="{% url 'station_edit_housing' station.fdsnStation_fdsnNetwork.code station.code %}">Edit housing station data</a>
+            <a class="dropdown-item" href="{% url 'station_edit_borehole' station.fdsnStation_fdsnNetwork.code station.code %}">Edit borehole station data</a>
         </div>
     </div>
     {% endif %}
 
     <div class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">Export</button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
             <a class="dropdown-item" href="#">Export to PDF</a>
@@ -51,8 +52,8 @@
 </div>
 
 <div class="table-responsive">
-<p><h3>FDSNWS-Station Data:</h3></p>
-<table class="table table-sm">
+<p><h1>FDSNWS-Station Data:</h1></p>
+<table class="table table">
     <thead class="thead-inverse">
         <tr>
             <th>Network</th>
@@ -86,8 +87,8 @@
 </div>
 
 <div class="table-responsive">
-<p><h3>Basic Data:</h3></p>
-<table class="table table-sm">
+<p><h1>Basic Data:</h1></p>
+<table class="table table">
     <thead class="thead-inverse">
         <tr>
             <th>Description</th>
@@ -99,7 +100,7 @@
         </tr>
     </tbody>
 </table>
-<table class="table table-sm">
+<table class="table table">
     <thead class="thead-inverse">
         <tr>
             <th>Start</th>
@@ -116,11 +117,12 @@
 </div>
 
 <div class="table-responsive">
-<p><h3>Owner Data:</h3></p>
-<table class="table table-sm">
+<p><h1>Owner Data:</h1></p>
+<table class="table table">
     <thead class="thead-inverse">
         <tr>
-            <th>Name</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
             <th>Department</th>
             <th>Agency</th>
             <th>Street</th>
@@ -131,7 +133,8 @@
     </thead>
     <tbody>
         <tr>
-            <td>{{ station.ext_owner_data.name }}</td>
+            <td>{{ station.ext_owner_data.name_first }}</td>
+            <td>{{ station.ext_owner_data.name_last }}</td>
             <td>{{ station.ext_owner_data.department }}</td>
             <td>{{ station.ext_owner_data.agency }}</td>
             <td>{{ station.ext_owner_data.street }}</td>
@@ -144,34 +147,101 @@
 </div>
 
 <div class="table-responsive">
-<p><h3>Morphology Data:</h3></p>
-<table class="table table-sm">
+<p><h1>Morphology Data:</h1></p>
+<table class="table">
     <thead class="thead-inverse">
         <tr>
             <th>Description</th>
+            <th>Geological Unit</th>
+            <th>Morphology Class</th>
+            <th>Ground Type EC8</th>
+            <th>Groundwater Depth [m]</th>
+            <th>Vs 30 [m/s]</th>
+            <th>f0 [Hz]</th>
+            <th>Amp(f0)</th>
+            <th>Basin Flag</th>
+            <th>Bedrock Depth [m]</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>{{ station.ext_morphology_data.get_description_as_markdown }}</td>
+            <td>{{ station.ext_morphology_data.geological_unit }}</td>
+            <td>{{ station.ext_morphology_data.morphology_class }}</td>
+            <td>{{ station.ext_morphology_data.ground_type_ec8 }}</td>
+            <td>{{ station.ext_morphology_data.groundwater_depth }}</td>
+            <td>{{ station.ext_morphology_data.vs_30 }}</td>
+            <td>{{ station.ext_morphology_data.f0 }}</td>
+            <td>{{ station.ext_morphology_data.amp_f0 }}</td>
+            <td>{{ station.ext_morphology_data.basin_flag }}</td>
+            <td>{{ station.ext_morphology_data.bedrock_depth }}</td>
         </tr>
     </tbody>
 </table>
 </div>
 
 <div class="table-responsive">
-<p><h3>Housing Data:</h3></p>
-<table class="table table-sm">
+<p><h1>Housing Data:</h1></p>
+<table class="table table">
     <thead class="thead-inverse">
         <tr>
             <th>Description</th>
+            <th>Housing Class</th>
+            <th>In Building?</th>
+            <th>Number of storeys</th>
+            <th>Distance to building</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>{{ station.ext_housing_data.get_description_as_markdown }}</td>
+            <td>{{ station.ext_housing_data.housing_class }}</td>
+            <td>{{ station.ext_housing_data.in_building }}</td>
+            <td>{{ station.ext_housing_data.numer_of_storeys }}</td>
+            <td>{{ station.ext_housing_data.distance_to_building }}</td>
         </tr>
     </tbody>
+</table>
+</div>
+
+<div class="table-responsive">
+<p><h1>Borehole Data:</h1></p>
+<table class="table table">
+    <thead class="thead-inverse">
+        <tr>
+            <th>Depth</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ station.ext_borehole_data.depth }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<p><h2>Borehole Layers: (<a href="#">Add</a>)</h2></p>
+<table class="table table">
+    <thead class="thead-inverse">
+        <tr>
+            <th>Description</th>
+            <th>Top depth</th>
+            <th>Bottom depth</th>
+            
+        </tr>
+    </thead>
+    {% for layer in station.ext_borehole_data.borehole_layers.all %}
+    <tbody>
+        <tr>
+            <td>{{ layer.description }}
+                {% if user.is_authenticated %}
+                (<a href="#">Remove</a>)
+                {% endif %}
+            </td>
+            <td>{{ layer.depth_top }}</td>
+            <td>{{ layer.depth_bottom }}</td>
+        </tr>
+    </tbody>
+    {% endfor %}
 </table>
 </div>
 

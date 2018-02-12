@@ -28,6 +28,8 @@ urlpatterns = [
         book_view.ExtMorphologyDataUpdateView.as_view(), name='station_edit_morphology'),
     re_path(r'^networks/(?P<network_code>\w+)/station/(?P<station_code>\w+)/edit_housing$',
         book_view.ExtHousingDataUpdateView.as_view(), name='station_edit_housing'),
+    re_path(r'^networks/(?P<network_code>\w+)/station/(?P<station_code>\w+)/edit_borehole$',
+        book_view.ExtBoreholeDataUpdateView.as_view(), name='station_edit_borehole'),
     path('signup/', accounts_views.signup, name='signup'),
     path('login/', auth_views.LoginView.as_view(
         template_name='login.html'), name='login'),
