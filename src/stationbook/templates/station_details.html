@@ -148,10 +148,21 @@
 
 <div class="table-responsive">
 <p><h1>Morphology Data:</h1></p>
-<table class="table">
+<table class="table table">
     <thead class="thead-inverse">
         <tr>
             <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ station.ext_morphology_data.get_description_as_markdown }}</td>
+        </tr>
+    </tbody>
+</table>
+<table class="table">
+    <thead class="thead-inverse">
+        <tr>
             <th>Geological Unit</th>
             <th>Morphology Class</th>
             <th>Ground Type EC8</th>
@@ -165,7 +176,6 @@
     </thead>
     <tbody>
         <tr>
-            <td>{{ station.ext_morphology_data.get_description_as_markdown }}</td>
             <td>{{ station.ext_morphology_data.geological_unit }}</td>
             <td>{{ station.ext_morphology_data.morphology_class }}</td>
             <td>{{ station.ext_morphology_data.ground_type_ec8 }}</td>
@@ -186,6 +196,17 @@
     <thead class="thead-inverse">
         <tr>
             <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ station.ext_housing_data.get_description_as_markdown }}</td>
+        </tr>
+    </tbody>
+</table>
+<table class="table table">
+    <thead class="thead-inverse">
+        <tr>
             <th>Housing Class</th>
             <th>In Building?</th>
             <th>Number of storeys</th>
@@ -194,7 +215,6 @@
     </thead>
     <tbody>
         <tr>
-            <td>{{ station.ext_housing_data.get_description_as_markdown }}</td>
             <td>{{ station.ext_housing_data.housing_class }}</td>
             <td>{{ station.ext_housing_data.in_building }}</td>
             <td>{{ station.ext_housing_data.numer_of_storeys }}</td>
