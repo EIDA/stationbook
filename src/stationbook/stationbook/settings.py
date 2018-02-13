@@ -164,8 +164,8 @@ LOGGING = {
         'file': {
             'class': 'logging.handlers.RotatingFileHandler',
             'formatter': 'simple',
-            'maxBytes': 1024**2,
-            'backupCount': 5,
+            'maxBytes': 1024*1024*5, # 5 Megabytes
+            'backupCount': 25,
             'filename': os.path.join(BASE_DIR, 'logs', 'station_book.log'),
             'filters': ['require_debug_true'],
         },
