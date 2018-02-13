@@ -9,7 +9,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
 from django.utils import timezone
 
-from .fdsn.fdsnStation import refresh_station_in_thread
+from .fdsn.station import refresh_station_in_thread
 from .models import FdsnNetwork, FdsnStation, \
 ExtBasicData, ExtOwnerData, ExtMorphologyData, \
 ExtHousingData, ExtAccessData, ExtBoreholeData, ExtBoreholeLayerData

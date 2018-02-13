@@ -1,11 +1,9 @@
 from requests import \
 ReadTimeout, ConnectTimeout, HTTPError, Timeout, ConnectionError
-from pprint import pprint
 from urllib.request import urlopen
 import xml.etree.ElementTree as ET
-import threading
 
-from django.db import DatabaseError, transaction
+from django.db import transaction
 
 from .background import BackgroundThread
 
