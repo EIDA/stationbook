@@ -40,7 +40,10 @@
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
               <a class="dropdown-item" href="{% url 'my_account' %}">My account</a>
               <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
+              {% if request.user.is_superuser %}
               <a class="dropdown-item" href="{% url 'admin:index' %}">Admin panel</a>
+              <a class="dropdown-item" href="{% url 'refresh_fdsn' %}">Force refresh FDSN</a>
+              {% endif %}
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
             </div>

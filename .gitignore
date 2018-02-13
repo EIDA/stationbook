@@ -2,3 +2,4 @@ env/
 .vscode/
 db.sqlite3
 *.pyc
+/src/stationbook/logs/

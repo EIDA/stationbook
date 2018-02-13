@@ -2,6 +2,7 @@ from django.views.generic import UpdateView
 from django.utils import timezone
 
 from .models import ExtAccessData
+from .logger import StationBookLogger
 
 class StationUpdateViewBase(UpdateView):
     def __init__(self, model, fields,
@@ -21,4 +22,5 @@ class StationUpdateViewBase(UpdateView):
             access.description = desc
             access.save()
         except:
-            raise
+            StationBookLogger(__name__).log_exception(
+                add_ext_access_data.__name__)

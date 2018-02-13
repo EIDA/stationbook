@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'widget_tweaks',
     
     'accounts',
-    'fdsn',
     'book',
 ]
 
@@ -139,3 +138,47 @@ LOGIN_REDIRECT_URL = 'home'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LOGIN_URL = 'login'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue'
+        }
+    },
+    'formatters': {
+        'simple': {
+            'format': '%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+            'datefmt': '%d-%m-%Y:%H:%M:%S'
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'file': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'formatter': 'simple',
+            'maxBytes': 1024**2,
+            'backupCount': 5,
+            'filename': os.path.join(BASE_DIR, 'logs', 'station_book.log'),
+            'filters': ['require_debug_true'],
+        },
+    },
+    'loggers': {
+        'book': {
+            'handlers': ['file',],
+            'propagate': True,
+            'level': "INFO",
+        },
+        '': {
+            'handlers': ['console'],
+            'level': "INFO",
+        },
+    },
+}
