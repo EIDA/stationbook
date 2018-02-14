@@ -35,7 +35,6 @@ class SearchListView(ListView):
     model = FdsnStation
     context_object_name = 'data'
     template_name = 'search.html'
-    paginate_by = 10
 
     def get_queryset(self):
         queryset = FdsnStation.objects.all()
