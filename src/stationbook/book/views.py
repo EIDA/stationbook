@@ -44,10 +44,18 @@ class SearchListView(ListView):
         if query:
             query_list = query.split()
             queryset = queryset.filter(
-                reduce(operator.and_, (Q(code__icontains=q) for q in query_list)) | 
-                reduce(operator.and_,(Q(site_name__icontains=q) for q in query_list)))
+                reduce(operator.and_, (
+                    Q(code__icontains=q) for q in query_list)) | 
+                reduce(operator.and_,(
+                    Q(site_name__icontains=q) for q in query_list)))
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_phrase'] = \
+        ((lambda x: x if len(x) > 0 else 'Empty')(
+            self.request.GET.get('search_text', '')))
+        return context
 
 class NetworksListView(ListView):
     model = FdsnNetwork
