@@ -89,7 +89,7 @@ class ProfileAdmin(admin.ModelAdmin):
         ('Change profile details', {'fields': [
             'about', 'location', 'birth_date',]}),
     ]
-    list_display = ('__str__', 'user', 'about', 'location', 'birthdate',)
+    list_display = ('__str__', 'user', 'about', 'location', 'birth_date',)
 
 admin.site.register(FdsnNetwork, FdsnNetworkAdmin)
 admin.site.register(FdsnStation, FdsnStationAdmin)
