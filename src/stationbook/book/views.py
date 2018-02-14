@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
 from django.utils import timezone
+from django.db import transaction
 from django.db.models import Q
 
 from .fdsn.station import refresh_station_in_thread
@@ -19,6 +20,7 @@ ExtBasicData, ExtOwnerData, ExtMorphologyData, \
 ExtHousingData, ExtAccessData, ExtBoreholeData, ExtBoreholeLayerData
 from .book_base_classes import StationUpdateViewBase
 from .logger import StationBookLogger
+from .forms import UserForm, ProfileForm
 
 # Stations list view is used as a home screen for the Station Book
 class HomeListView(ListView):
@@ -143,6 +145,7 @@ class ExtBasicDataUpdateView(StationUpdateViewBase):
         station__code=self.kwargs['station_code'])
         return obj
 
+    @transaction.atomic
     def form_valid(self, form):
         data = form.save(commit=False)
         data.save()
@@ -166,6 +169,7 @@ class ExtOwnerDataUpdateView(StationUpdateViewBase):
         station__code=self.kwargs['station_code'])
         return obj
 
+    @transaction.atomic
     def form_valid(self, form):
         data = form.save(commit=False)
         data.save()
@@ -189,6 +193,7 @@ class ExtMorphologyDataUpdateView(StationUpdateViewBase):
         station__code=self.kwargs['station_code'])
         return obj
 
+    @transaction.atomic
     def form_valid(self, form):
         data = form.save(commit=False)
         data.save()
@@ -211,6 +216,7 @@ class ExtHousingDataUpdateView(StationUpdateViewBase):
         station__code=self.kwargs['station_code'])
         return obj
 
+    @transaction.atomic
     def form_valid(self, form):
         data = form.save(commit=False)
         data.save()
@@ -232,6 +238,7 @@ class ExtBoreholeDataUpdateView(StationUpdateViewBase):
         station__code=self.kwargs['station_code'])
         return obj
 
+    @transaction.atomic
     def form_valid(self, form):
         data = form.save(commit=False)
         data.save()
@@ -252,3 +259,24 @@ def refresh_fdsn(request):
         'Refreshing FDSN by {0}'.format(request.user))
     refresh_station_in_thread()
     return redirect('home')
+
+@login_required
+@transaction.atomic
+def update_profile(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            redirect('my_account')
+        else:
+            render(request, 'my_account.html', {
+                'user_form': user_form, 'profile_form': profile_form
+                })
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+    return render(request, 'my_account.html', {
+        'user_form': user_form, 'profile_form': profile_form
+        })

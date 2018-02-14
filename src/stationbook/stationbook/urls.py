@@ -35,8 +35,7 @@ urlpatterns = [
         template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
-    re_path(r'^settings/account/$',
-        accounts_views.UserUpdateView.as_view(), name='my_account'),
+    re_path(r'^settings/account/$', book_view.update_profile, name='my_account'),
     path('reset/',
         auth_views.PasswordResetView.as_view(
             template_name='password_reset.html',

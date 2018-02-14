@@ -8,12 +8,30 @@ from django.db import models, transaction
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.utils.html import mark_safe
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from markdown import markdown
 
 STRING_LENGTH_SHORT = 256
 STRING_LENGTH_MEDIUM = 1024
 STRING_LENGTH_LONG = 16384
+
+class Profile(models.Model):
+    user = models.OneToOneField(
+        User, related_name='profile', on_delete=models.CASCADE)
+    about = models.TextField(max_length=STRING_LENGTH_MEDIUM, blank=True)
+    location = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
 
 class ExtDataBase(models.Model):
     entity_removed = models.BooleanField(default=False)
