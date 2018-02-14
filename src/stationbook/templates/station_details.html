@@ -34,16 +34,26 @@
 
     <div class="btn-group" role="group">
         <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">FDSNWS</button>
+            aria-expanded="false">FDSN Web Service</button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
             <a target="_blank" class="dropdown-item" href="{{ fdsn_station_link }}">FDSNWS-Station</a>
+        </div>
+    </div>
+
+    <div class="btn-group" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">Export data</button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <a class="dropdown-item disabled" href="#">Export to PDF</a>
+            <a class="dropdown-item disabled" href="#">Export to HTML</a>
+            <a class="dropdown-item disabled" href="#">Export to CSV</a>
         </div>
     </div>
 
     {% if user.is_authenticated %}
     <div class="btn-group" role="group">
         <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">Edit station data</button>
+            aria-expanded="false">Edit data</button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
             <a class="dropdown-item" href="{% url 'station_edit_basic' station.fdsnStation_fdsnNetwork.code station.code %}">Edit basic station data</a>
             <a class="dropdown-item" href="{% url 'station_edit_owner' station.fdsnStation_fdsnNetwork.code station.code %}">Edit owner station data</a>
@@ -53,16 +63,6 @@
         </div>
     </div>
     {% endif %}
-
-    <div class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">Export</button>
-        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a class="dropdown-item disabled" href="#">Export to PDF</a>
-            <a class="dropdown-item disabled" href="#">Export to HTML</a>
-            <a class="dropdown-item disabled" href="#">Export to CSV</a>
-        </div>
-    </div>
 </div>
 
 <div class="table-responsive">
