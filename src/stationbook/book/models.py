@@ -17,22 +17,6 @@ STRING_LENGTH_SHORT = 256
 STRING_LENGTH_MEDIUM = 1024
 STRING_LENGTH_LONG = 16384
 
-class Profile(models.Model):
-    user = models.OneToOneField(
-        User, related_name='profile', on_delete=models.CASCADE)
-    about = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
-    location = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
-
-    @receiver(post_save, sender=User)
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            Profile.objects.create(user=instance)
-
-    @receiver(post_save, sender=User)
-    def save_user_profile(sender, instance, **kwargs):
-        instance.profile.save()
-
 class ExtDataBase(models.Model):
     entity_removed = models.BooleanField(default=False)
 
@@ -187,7 +171,7 @@ class ExtBoreholeData(ExtDataBase):
         return 'Borehole data for station {0}'.format(self.station.code)
 
 class ExtBoreholeLayerData(ExtDataBase):
-    extBoreholeLayerData_extBoreholeData = models.ForeignKey(
+    borehole_data = models.ForeignKey(
         ExtBoreholeData, related_name='borehole_layers',
         on_delete=models.CASCADE, default=None)
     description = models.CharField(
@@ -213,7 +197,7 @@ class FdsnNetwork(models.Model):
 
 
 class FdsnStation(models.Model):
-    fdsnStation_fdsnNetwork = models.ForeignKey(
+    fdsn_network = models.ForeignKey(
         FdsnNetwork, related_name='fdsn_stations',
         on_delete=models.PROTECT, default=None)
     code = models.CharField(
@@ -249,7 +233,7 @@ class FdsnStation(models.Model):
 
 
 class ExtAccessData(ExtDataBase):
-    extAccessData_fdsnStation = models.ForeignKey(FdsnStation,
+    fdsn_station = models.ForeignKey(FdsnStation,
         related_name='access_data', on_delete=models.PROTECT)
     updated_by = models.ForeignKey(
         User, null=True, related_name='+', on_delete=models.SET_NULL)
@@ -259,7 +243,32 @@ class ExtAccessData(ExtDataBase):
 
     def __str__(self):
         return '{0} has been updated at {1} by {2}: {3}'.format(
-            self.extAccessData_fdsnStation__code,
+            self.fdsn_station__code,
             self.updated_at,
             self.updated_by,
             self.description)
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(
+        User, related_name='profile', on_delete=models.CASCADE)
+    fdsnNetworks = models.ManyToManyField(FdsnNetwork, related_name='editors')
+    about = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
+    location = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
+    agency = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
+    department = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
+    telephone = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
+    skype = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return 'Profile of: {0}'.format(self.user)
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()

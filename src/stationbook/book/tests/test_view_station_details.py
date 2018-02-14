@@ -13,7 +13,7 @@ class HomeTests(TestCase):
         self.ehod = ExtHousingData.objects.create()
         self.ebod = ExtBoreholeData.objects.create()
         self.station = FdsnStation.objects.create(
-            fdsnStation_fdsnNetwork=self.network,
+            fdsn_network=self.network,
             code='STA',
             latitude=50,
             longitude=100,

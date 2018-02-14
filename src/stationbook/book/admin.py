@@ -26,8 +26,8 @@ class FdsnStationAdmin(admin.ModelAdmin):
     list_display = ('code', 'site_name', 'latitude', 'longitude', 'elevation',
     'restricted_status', 'start_date', 'creation_date', )
     list_filter = [
-        'fdsnStation_fdsnNetwork__description',
-        'fdsnStation_fdsnNetwork__code',
+        'fdsn_network__description',
+        'fdsn_network__code',
     ]
 
 class ExtBasicAdmin(admin.ModelAdmin):
@@ -36,7 +36,7 @@ class ExtBasicAdmin(admin.ModelAdmin):
             'description', 'start', 'end',]}),
     ]
     list_display = ('__str__', 'description', 'start', 'end',)
-    list_filter = ['station__fdsnStation_fdsnNetwork__code', 'station__code',]
+    list_filter = ['station__fdsn_network__code', 'station__code',]
 
 class ExtOwnerAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -46,7 +46,7 @@ class ExtOwnerAdmin(admin.ModelAdmin):
     ]
     list_display = ('__str__', 'name_first', 'name_last', 'department',
     'agency', 'street', 'country', 'phone', 'email',)
-    list_filter = ['station__fdsnStation_fdsnNetwork__code', 'station__code',]
+    list_filter = ['station__fdsn_network__code', 'station__code',]
 
 class ExtMorphologyAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -58,7 +58,7 @@ class ExtMorphologyAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'description', 'geological_unit',
     'morphology_class', 'ground_type_ec8', 'groundwater_depth', 'vs_30', 'f0',
     'amp_f0', 'basin_flag', 'bedrock_depth',)
-    list_filter = ['station__fdsnStation_fdsnNetwork__code', 'station__code',]
+    list_filter = ['station__fdsn_network__code', 'station__code',]
 
 class ExtHousingAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -68,14 +68,14 @@ class ExtHousingAdmin(admin.ModelAdmin):
     ]
     list_display = ('__str__', 'description', 'housing_class', 'in_building',
     'numer_of_storeys','distance_to_building',)
-    list_filter = ['station__fdsnStation_fdsnNetwork__code', 'station__code',]
+    list_filter = ['station__fdsn_network__code', 'station__code',]
 
 class ExtBoreholeAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Change ext borehole details', {'fields': ['depth',]}),
     ]
     list_display = ('__str__', 'depth',)
-    list_filter = ['station__fdsnStation_fdsnNetwork__code', 'station__code',]
+    list_filter = ['station__fdsn_network__code', 'station__code',]
 
 class ExtBoreholeLayerAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -86,8 +86,9 @@ class ExtBoreholeLayerAdmin(admin.ModelAdmin):
 
 class ProfileAdmin(admin.ModelAdmin):
     fieldsets = [
-        ('Change profile details', {'fields': [
-            'about', 'location', 'birth_date',]}),
+        ('Change profile details', {'fields': ['fdsnNetworks',
+         'about', 'location', 'agency', 'department', 'telephone',
+         'skype', 'birth_date']}),
     ]
     list_display = ('__str__', 'user', 'about', 'location', 'birth_date',)
 

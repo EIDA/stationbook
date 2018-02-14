@@ -152,7 +152,7 @@ class ExtBasicDataUpdateView(StationUpdateViewBase):
         print(data.station)
         self.add_ext_access_data(data.station, 'Updated basic data')
         return redirect('station_details', \
-        network_code=data.station.fdsnStation_fdsnNetwork.code, \
+        network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
 
 
@@ -175,7 +175,7 @@ class ExtOwnerDataUpdateView(StationUpdateViewBase):
         data.save()
         self.add_ext_access_data(data.station, 'Updated owner data')
         return redirect('station_details', \
-        network_code=data.station.fdsnStation_fdsnNetwork.code, \
+        network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
 
 
@@ -199,7 +199,7 @@ class ExtMorphologyDataUpdateView(StationUpdateViewBase):
         data.save()
         self.add_ext_access_data(data.station, 'Updated morphology data')
         return redirect('station_details', \
-        network_code=data.station.fdsnStation_fdsnNetwork.code, \
+        network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
 
 
@@ -222,7 +222,7 @@ class ExtHousingDataUpdateView(StationUpdateViewBase):
         data.save()
         self.add_ext_access_data(data.station, 'Updated housing data')
         return redirect('station_details', \
-        network_code=data.station.fdsnStation_fdsnNetwork.code, \
+        network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
 
 
@@ -244,7 +244,7 @@ class ExtBoreholeDataUpdateView(StationUpdateViewBase):
         data.save()
         self.add_ext_access_data(data.station, 'Updated borehole data')
         return redirect('station_details', \
-        network_code=data.station.fdsnStation_fdsnNetwork.code, \
+        network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
 
 def custom_404(request):

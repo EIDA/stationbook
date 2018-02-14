@@ -43,7 +43,7 @@
         {% for station in network.fdsn_stations.all %}
         <tr>
             <td>
-                <a href="{% url 'station_details' station.fdsnStation_fdsnNetwork.code station.code %}">{{ station.code }}</a>
+                <a href="{% url 'station_details' station.fdsn_network.code station.code %}">{{ station.code }}</a>
                 <small class="text-muted d-block">
                     Latitude: {{ station.latitude }}, Longitude: {{ station.longitude }}
                 </small>

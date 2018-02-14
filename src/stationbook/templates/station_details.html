@@ -14,7 +14,7 @@
 {% block breadcrumb %}
 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
 <li class="breadcrumb-item"><a href="{% url 'networks' %}">Networks</a></li>
-<li class="breadcrumb-item"><a href="{% url 'network_details' station.fdsnStation_fdsnNetwork.code %}">{{ station.fdsnStation_fdsnNetwork.code }}</a></li>
+<li class="breadcrumb-item"><a href="{% url 'network_details' station.fdsn_network.code %}">{{ station.fdsn_network.code }}</a></li>
 <li class="breadcrumb-item active">{{ station.code }}</li>
 {% endblock %}
 
@@ -55,11 +55,11 @@
         <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">Edit data</button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a class="dropdown-item" href="{% url 'station_edit_basic' station.fdsnStation_fdsnNetwork.code station.code %}">Edit basic station data</a>
-            <a class="dropdown-item" href="{% url 'station_edit_owner' station.fdsnStation_fdsnNetwork.code station.code %}">Edit owner station data</a>
-            <a class="dropdown-item" href="{% url 'station_edit_morphology' station.fdsnStation_fdsnNetwork.code station.code %}">Edit morphology station data</a>
-            <a class="dropdown-item" href="{% url 'station_edit_housing' station.fdsnStation_fdsnNetwork.code station.code %}">Edit housing station data</a>
-            <a class="dropdown-item" href="{% url 'station_edit_borehole' station.fdsnStation_fdsnNetwork.code station.code %}">Edit borehole station data</a>
+            <a class="dropdown-item" href="{% url 'station_edit_basic' station.fdsn_network.code station.code %}">Edit basic station data</a>
+            <a class="dropdown-item" href="{% url 'station_edit_owner' station.fdsn_network.code station.code %}">Edit owner station data</a>
+            <a class="dropdown-item" href="{% url 'station_edit_morphology' station.fdsn_network.code station.code %}">Edit morphology station data</a>
+            <a class="dropdown-item" href="{% url 'station_edit_housing' station.fdsn_network.code station.code %}">Edit housing station data</a>
+            <a class="dropdown-item" href="{% url 'station_edit_borehole' station.fdsn_network.code station.code %}">Edit borehole station data</a>
         </div>
     </div>
     {% endif %}
@@ -83,7 +83,7 @@
     </thead>
     <tbody>
         <tr>
-            <td>{{ station.fdsnStation_fdsnNetwork.code }}</td>
+            <td>{{ station.fdsn_network.code }}</td>
             <td>{{ station.code }}</td>
             <td>{{ station.site_name }}</td>
             <td>{{ station.latitude }}</td>

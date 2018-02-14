@@ -16,7 +16,7 @@ class StationUpdateViewBase(UpdateView):
     def add_ext_access_data(self, station, desc):
         try:
             access = ExtAccessData()
-            access.extAccessData_fdsnStation = station
+            access.fdsn_station = station
             access.updated_by = self.request.user
             access.updated_at = timezone.now()
             access.description = desc

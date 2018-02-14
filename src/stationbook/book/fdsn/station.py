@@ -131,7 +131,7 @@ def _refresh_station():
                     # Create station entity
                     stat = FdsnStation()
                     # Assign station to network
-                    stat.fdsnStation_fdsnNetwork = net
+                    stat.fdsn_network = net
                     # Fill data obtained from the Web Service
                     stat.code = station.code
                     stat.latitude = station.latitude
