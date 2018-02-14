@@ -7,7 +7,7 @@ from django.utils import timezone
 # Register your models here.
 from .models import FdsnNetwork, FdsnStation, ExtBasicData, \
                     ExtOwnerData, ExtMorphologyData, ExtHousingData, \
-                    ExtBoreholeData, ExtBoreholeLayerData
+                    ExtBoreholeData, ExtBoreholeLayerData, Profile
 
 class FdsnNetworkAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -84,6 +84,13 @@ class ExtBoreholeLayerAdmin(admin.ModelAdmin):
     ]
     list_display = ('description', 'depth_top', 'depth_bottom',)
 
+class ProfileAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Change profile details', {'fields': [
+            'about', 'location', 'birth_date',]}),
+    ]
+    list_display = ('__str__', 'user', 'about', 'location', 'birthdate',)
+
 admin.site.register(FdsnNetwork, FdsnNetworkAdmin)
 admin.site.register(FdsnStation, FdsnStationAdmin)
 admin.site.register(ExtBasicData, ExtBasicAdmin)
@@ -91,3 +98,4 @@ admin.site.register(ExtOwnerData, ExtOwnerAdmin)
 admin.site.register(ExtMorphologyData, ExtMorphologyAdmin)
 admin.site.register(ExtHousingData, ExtHousingAdmin)
 admin.site.register(ExtBoreholeData, ExtBoreholeAdmin)
+admin.site.register(Profile, ProfileAdmin)
