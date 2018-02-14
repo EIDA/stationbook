@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import operator
+from functools import reduce
+
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, \
 render, render_to_response
@@ -8,6 +11,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
 from django.utils import timezone
+from django.db.models import Q
 
 from .fdsn.station import refresh_station_in_thread
 from .models import FdsnNetwork, FdsnStation, \
@@ -31,9 +35,17 @@ class SearchListView(ListView):
     model = FdsnStation
     context_object_name = 'data'
     template_name = 'search.html'
+    paginate_by = 10
 
     def get_queryset(self):
-        queryset = FdsnNetwork.objects.all()
+        queryset = FdsnStation.objects.all()
+
+        query = self.request.GET.get('search_text')
+        if query:
+            query_list = query.split()
+            queryset = queryset.filter(
+                reduce(operator.and_, (Q(code__icontains=q) for q in query_list)) | 
+                reduce(operator.and_,(Q(site_name__icontains=q) for q in query_list)))
         return queryset
 
 
@@ -215,7 +227,6 @@ class ExtBoreholeDataUpdateView(StationUpdateViewBase):
         return redirect('station_details', \
         network_code=data.station.fdsnStation_fdsnNetwork.code, \
         station_code=data.station.code)
-
 
 def custom_404(request):
     return render_to_response('404.html')
