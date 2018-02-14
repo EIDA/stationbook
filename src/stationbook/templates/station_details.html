@@ -24,7 +24,21 @@
 </div>
 
 <div class="btn-group mt-2 mb-2 float-right" role="group" aria-label="Button group with nested dropdown">
-    <button type="button" class="btn btn-primary disabled">Station gallery</button>
+    <div class="btn-group" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">Media</button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <a class="dropdown-item disabled" href="#">View station gallery</a>
+        </div>
+    </div>
+
+    <div class="btn-group" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">FDSNWS</button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <a target="_blank" class="dropdown-item" href="{{ fdsn_station_link }}">FDSNWS-Station</a>
+        </div>
+    </div>
 
     {% if user.is_authenticated %}
     <div class="btn-group" role="group">
@@ -41,12 +55,12 @@
     {% endif %}
 
     <div class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown" aria-haspopup="true"
+        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">Export</button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a class="dropdown-item" href="#">Export to PDF</a>
-            <a class="dropdown-item" href="#">Export to HTML</a>
-            <a class="dropdown-item" href="#">Export to CSV</a>
+            <a class="dropdown-item disabled" href="#">Export to PDF</a>
+            <a class="dropdown-item disabled" href="#">Export to HTML</a>
+            <a class="dropdown-item disabled" href="#">Export to CSV</a>
         </div>
     </div>
 </div>

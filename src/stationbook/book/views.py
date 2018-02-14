@@ -84,6 +84,13 @@ class StationDetailsListView(ListView):
         except FdsnStation.DoesNotExist:
             raise Http404("Station does not exist!")
         return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['fdsn_station_link'] = \
+        'http://orfeus-eu.org/fdsnws/station/1/query?network={net}&station={stat}&level=channel'\
+        .format(net=self.kwargs.get('network_code'), stat=self.kwargs.get('station_code'))
+        return context
 
 
 class StationGalleryListView(ListView):
