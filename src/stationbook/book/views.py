@@ -37,7 +37,10 @@ class SearchListView(ListView):
     template_name = 'search.html'
 
     def get_queryset(self):
-        queryset = FdsnStation.objects.all()
+        if self._get_search_phrase() == None:
+            queryset = None
+        else:
+            queryset = FdsnStation.objects.all()
 
         query = self.request.GET.get('search_text')
         if query:
@@ -51,10 +54,12 @@ class SearchListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['search_phrase'] = \
-        ((lambda x: x if len(x) > 0 else 'Empty')(
-            self.request.GET.get('search_text', '')))
+        context['search_phrase'] = self._get_search_phrase()
         return context
+
+    def _get_search_phrase(self):
+        return ((lambda x: x if len(x) > 0 else None)(
+            self.request.GET.get('search_text', '')))
 
 class NetworksListView(ListView):
     model = FdsnNetwork
