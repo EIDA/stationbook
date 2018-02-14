@@ -20,7 +20,7 @@ STRING_LENGTH_LONG = 16384
 class Profile(models.Model):
     user = models.OneToOneField(
         User, related_name='profile', on_delete=models.CASCADE)
-    about = models.TextField(max_length=STRING_LENGTH_MEDIUM, blank=True)
+    about = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
     location = models.CharField(max_length=STRING_LENGTH_SHORT, blank=True)
     birth_date = models.DateField(null=True, blank=True)
 
