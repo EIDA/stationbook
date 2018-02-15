@@ -32,6 +32,8 @@ urlpatterns = [
         book_view.ExtBoreholeDataUpdateView.as_view(), name='station_edit_borehole'),
     re_path(r'^networks/(?P<network_code>\w+)/station/(?P<station_code>\w+)/add_borehole_layer$',
         book_view.add_station_borehole_layer, name='station_add_borehole_layer'),
+    re_path(r'^networks/(?P<network_code>\w+)/station/(?P<station_code>\w+)/remove_borehole_layer/(?P<pk>\w+)$',
+        book_view.remove_station_borehole_layer, name='station_remove_borehole_layer'),
     path('signup/', accounts_views.signup, name='signup'),
     path('login/', auth_views.LoginView.as_view(
         template_name='login.html'), name='login'),

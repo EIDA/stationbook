@@ -17,6 +17,7 @@
     {% csrf_token %}
     {% include 'includes/form.html' %}
     <button type="submit" class="btn btn-success">Add borehole layer</button>
-    <button href="{% url 'station_details' station.fdsn_network.code station.code %}" class="btn btn-danger">Abort the mission</button>
   </form>
+  <br>
+  <a href="{% url 'station_details' station.fdsn_network.code station.code %}" class="btn btn-danger" role="button">Abort</a>
 {% endblock %}

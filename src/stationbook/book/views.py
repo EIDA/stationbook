@@ -20,7 +20,8 @@ ExtBasicData, ExtOwnerData, ExtMorphologyData, \
 ExtHousingData, ExtAccessData, ExtBoreholeData, ExtBoreholeLayerData
 from .base_classes import StationBookHelpers, StationUpdateViewBase
 from .logger import StationBookLogger
-from .forms import UserForm, ProfileForm, NewBoreholeLayerForm
+from .forms import UserForm, ProfileForm, \
+AddBoreholeLayerForm, RemoveBoreholeLayerForm
 
 # Stations list view is used as a home screen for the Station Book
 class HomeListView(ListView):
@@ -260,11 +261,10 @@ class ExtBoreholeDataUpdateView(StationUpdateViewBase):
 @login_required
 @transaction.atomic
 def add_station_borehole_layer(request, network_code, station_code):
-    print('wererere')
     station = get_object_or_404(
         FdsnStation, fdsn_network__code=network_code, code=station_code)
     if request.method == 'POST':
-        form = NewBoreholeLayerForm(request.POST)
+        form = AddBoreholeLayerForm(request.POST)
         if form.is_valid():
             borehole_layer = form.save(commit=False)
             borehole_layer.borehole_data = station.ext_borehole_data
@@ -277,10 +277,33 @@ def add_station_borehole_layer(request, network_code, station_code):
             network_code=network_code, \
             station_code=station_code)
     else:
-        form = NewBoreholeLayerForm()
+        form = AddBoreholeLayerForm()
         return render(
-            request, 'station_add_borehole_layer.html',
+            request, 'station_borehole_layer_add.html',
             {'station': station, 'form': form})
+
+@login_required
+@transaction.atomic
+def remove_station_borehole_layer(request, network_code, station_code, pk):
+    station = get_object_or_404(
+        FdsnStation, fdsn_network__code=network_code, code=station_code)
+    borehole_layer = get_object_or_404(
+        ExtBoreholeLayerData, pk=pk)
+    if request.method == 'POST':
+        form = RemoveBoreholeLayerForm(request.POST)
+        ExtBoreholeLayerData.objects.get(pk=pk).delete()
+        StationBookHelpers.add_ext_access_data(
+            request.user, station,
+            'Removed borehole layer ({0})'.format(
+                borehole_layer.description))
+        return redirect('station_details', \
+        network_code=network_code, \
+        station_code=station_code)
+    else:
+        form = RemoveBoreholeLayerForm()
+        return render(
+            request, 'station_borehole_layer_rem.html',
+            {'station': station, 'layer': borehole_layer, 'form': form})
 
 def custom_404(request):
     return render_to_response('404.html')

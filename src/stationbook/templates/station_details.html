@@ -23,7 +23,19 @@
     <div id="popup"></div>
 </div>
 
-<div class="btn-group mt-2 mb-2 float-right" role="group" aria-label="Button group with nested dropdown">
+<div class="btn-group mt-2 float-right" role="group">
+    <div class="btn-group" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">This page</button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <a class="dropdown-item" href="#basic_data">Go to basic data</a>
+            <a class="dropdown-item" href="#owner_data">Go to owner data</a>
+            <a class="dropdown-item" href="#morphology_data">Go to morphology data</a>
+            <a class="dropdown-item" href="#housing_data">Go to housing data</a>
+            <a class="dropdown-item" href="#borehole_data">Go to borehole data</a>
+        </div>
+    </div>
+
     <div class="btn-group" role="group">
         <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">Media</button>
@@ -34,7 +46,7 @@
 
     <div class="btn-group" role="group">
         <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">FDSN Web Service</button>
+            aria-expanded="false">FDSNWS</button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
             <a target="_blank" class="dropdown-item" href="{{ fdsn_station_link }}">FDSNWS-Station</a>
         </div>
@@ -101,7 +113,7 @@
 </div>
 
 <div class="table-responsive">
-<p><h1>Basic Data:</h1></p>
+<p id="basic_data"><h1>Basic Data:</h1></p>
 <table class="table table">
     <thead class="thead-inverse">
         <tr>
@@ -129,9 +141,10 @@
     </tbody>
 </table>
 </div>
+<a href="#" class="float-right">Top of the page</a>
 
 <div class="table-responsive">
-<p><h1>Owner Data:</h1></p>
+<p id="owner_data"><h1>Owner Data:</h1></p>
 <table class="table table">
     <thead class="thead-inverse">
         <tr>
@@ -159,9 +172,10 @@
     </tbody>
 </table>
 </div>
+<a href="#" class="float-right">Top of the page</a>
 
 <div class="table-responsive">
-<p><h1>Morphology Data:</h1></p>
+<p id="morphology_data"><h1>Morphology Data:</h1></p>
 <table class="table table">
     <thead class="thead-inverse">
         <tr>
@@ -203,9 +217,10 @@
     </tbody>
 </table>
 </div>
+<a href="#" class="float-right">Top of the page</a>
 
 <div class="table-responsive">
-<p><h1>Housing Data:</h1></p>
+<p id="housing_data"><h1>Housing Data:</h1></p>
 <table class="table table">
     <thead class="thead-inverse">
         <tr>
@@ -237,9 +252,10 @@
     </tbody>
 </table>
 </div>
+<a href="#" class="float-right">Top of the page</a>
 
 <div class="table-responsive">
-<p><h1>Borehole Data:</h1></p>
+<p id="borehole_data"><h1>Borehole Data:</h1></p>
 <table class="table table">
     <thead class="thead-inverse">
         <tr>
@@ -268,7 +284,7 @@
         <tr>
             <td>{{ layer.description }}
                 {% if user.is_authenticated %}
-                (<a href="#">Remove</a>)
+                (<a href="{% url 'station_remove_borehole_layer' station.fdsn_network.code station.code layer.pk %}">Remove</a>)
                 {% endif %}
             </td>
             <td>{{ layer.depth_top }}</td>
@@ -278,6 +294,7 @@
     {% endfor %}
 </table>
 </div>
+<a href="#" class="float-right">Top of the page</a>
 
 <script src="{% static 'js/ol.js' %}"></script>
 <script src="{% static 'js/home_openlayers.js' %}"></script>

@@ -30,6 +30,8 @@
               <a class="dropdown-item" href="{% url 'networks' %}">View all networks</a>
             </div>
           </li>
+          {% block menu_injection %}
+          {% endblock menu_injection %}
         </ul>
         {% if user.is_authenticated %}
         <ul class="navbar-nav p-1">

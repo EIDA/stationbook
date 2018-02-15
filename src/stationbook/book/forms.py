@@ -12,7 +12,12 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = ('about', 'location', 'agency', 'department', 'telephone', 'skype', 'birth_date')
 
-class NewBoreholeLayerForm(forms.ModelForm):
+class AddBoreholeLayerForm(forms.ModelForm):
+    class Meta:
+        model = ExtBoreholeLayerData
+        fields = ('description', 'depth_top', 'depth_bottom')
+
+class RemoveBoreholeLayerForm(forms.ModelForm):
     class Meta:
         model = ExtBoreholeLayerData
         fields = ('description', 'depth_top', 'depth_bottom')
