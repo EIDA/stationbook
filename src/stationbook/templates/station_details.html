@@ -204,9 +204,9 @@
     </thead>
     <tbody>
         <tr>
-            <td>{{ station.ext_morphology_data.geological_unit }}</td>
-            <td>{{ station.ext_morphology_data.morphology_class }}</td>
-            <td>{{ station.ext_morphology_data.ground_type_ec8 }}</td>
+            <td>{{ station.ext_morphology_data.get_geological_unit_display }}</td>
+            <td>{{ station.ext_morphology_data.get_morphology_class_display }}</td>
+            <td>{{ station.ext_morphology_data.get_ground_type_ec8_display }}</td>
             <td>{{ station.ext_morphology_data.groundwater_depth }}</td>
             <td>{{ station.ext_morphology_data.vs_30 }}</td>
             <td>{{ station.ext_morphology_data.f0 }}</td>
@@ -244,7 +244,7 @@
     </thead>
     <tbody>
         <tr>
-            <td>{{ station.ext_housing_data.housing_class }}</td>
+            <td>{{ station.ext_housing_data.get_housing_class_display }}</td>
             <td>{{ station.ext_housing_data.in_building }}</td>
             <td>{{ station.ext_housing_data.numer_of_storeys }}</td>
             <td>{{ station.ext_housing_data.distance_to_building }}</td>
