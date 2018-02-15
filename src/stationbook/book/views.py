@@ -152,7 +152,7 @@ class ExtBasicDataUpdateView(StationUpdateViewBase):
         data.save()
         print(data.station)
         StationBookHelpers.add_ext_access_data(
-            request.user, data.station, 'Updated basic data')
+            self.request.user, data.station, 'Updated basic data')
         return redirect('station_details', \
         network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
@@ -177,7 +177,7 @@ class ExtOwnerDataUpdateView(StationUpdateViewBase):
         data = form.save(commit=False)
         data.save()
         StationBookHelpers.add_ext_access_data(
-            request.user, data.station, 'Updated owner data')
+            self.request.user, data.station, 'Updated owner data')
         return redirect('station_details', \
         network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
@@ -203,7 +203,7 @@ class ExtMorphologyDataUpdateView(StationUpdateViewBase):
         data = form.save(commit=False)
         data.save()
         StationBookHelpers.add_ext_access_data(
-            request.user, data.station, 'Updated morphology data')
+            self.request.user, data.station, 'Updated morphology data')
         return redirect('station_details', \
         network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
@@ -228,7 +228,7 @@ class ExtHousingDataUpdateView(StationUpdateViewBase):
         data = form.save(commit=False)
         data.save()
         StationBookHelpers.add_ext_access_data(
-            request.user, data.station, 'Updated housing data')
+            self.request.user, data.station, 'Updated housing data')
         return redirect('station_details', \
         network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
@@ -252,7 +252,7 @@ class ExtBoreholeDataUpdateView(StationUpdateViewBase):
         data = form.save(commit=False)
         data.save()
         StationBookHelpers.add_ext_access_data(
-            request.user, data.station, 'Updated borehole data')
+            self.request.user, data.station, 'Updated borehole data')
         return redirect('station_details', \
         network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
