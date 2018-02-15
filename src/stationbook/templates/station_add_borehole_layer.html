@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load form_tags widget_tweaks %}
+
+{% block title %}My account{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'networks' %}">Networks</a></li>
+<li class="breadcrumb-item"><a href="{% url 'network_details' station.fdsn_network.code %}">{{ station.fdsn_network.code }}</a></li>
+<li class="breadcrumb-item"><a href="{% url 'station_details' station.fdsn_network.code station.code %}">{{ station.code }}</a></li>
+<li class="breadcrumb-item active">Add borehole layer</li>
+{% endblock %}
+
+{% block content %}
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit" class="btn btn-success">Add borehole layer</button>
+    <button href="{% url 'station_details' station.fdsn_network.code station.code %}" class="btn btn-danger">Abort the mission</button>
+  </form>
+{% endblock %}

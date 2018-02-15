@@ -253,7 +253,7 @@
     </tbody>
 </table>
 
-<p><h2>Borehole Layers: {% if user.is_authenticated %}(<a href="#">Add</a>){% endif %}</h2></p>
+<p><h2>Borehole Layers: {% if user.is_authenticated %}(<a href="{% url 'station_add_borehole_layer' station.fdsn_network.code station.code %}">Add</a>){% endif %}</h2></p>
 <table class="table table">
     <thead class="thead-inverse">
         <tr>

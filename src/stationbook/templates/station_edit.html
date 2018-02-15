@@ -14,6 +14,7 @@
 
 {% block breadcrumb %}
 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'networks' %}">Networks</a></li>
 <li class="breadcrumb-item"><a href="{% url 'network_details' data.station.fdsn_network.code %}">{{ data.station.fdsn_network.code }}</a></li>
 <li class="breadcrumb-item"><a href="{% url 'station_details' data.station.fdsn_network.code data.station.code %}">{{ data.station.code }}</a></li>
 <li class="breadcrumb-item active">Edit</li>

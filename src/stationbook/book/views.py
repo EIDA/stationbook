@@ -18,9 +18,9 @@ from .fdsn.station import refresh_station_in_thread
 from .models import FdsnNetwork, FdsnStation, \
 ExtBasicData, ExtOwnerData, ExtMorphologyData, \
 ExtHousingData, ExtAccessData, ExtBoreholeData, ExtBoreholeLayerData
-from .base_classes import StationUpdateViewBase
+from .base_classes import StationBookHelpers, StationUpdateViewBase
 from .logger import StationBookLogger
-from .forms import UserForm, ProfileForm
+from .forms import UserForm, ProfileForm, NewBoreholeLayerForm
 
 # Stations list view is used as a home screen for the Station Book
 class HomeListView(ListView):
@@ -142,6 +142,7 @@ class ExtBasicDataUpdateView(StationUpdateViewBase):
 
     def get_object(self):
         obj = get_object_or_404(self.model, \
+        station__fdsn_network__code=self.kwargs['network_code'],
         station__code=self.kwargs['station_code'])
         return obj
 
@@ -150,7 +151,8 @@ class ExtBasicDataUpdateView(StationUpdateViewBase):
         data = form.save(commit=False)
         data.save()
         print(data.station)
-        self.add_ext_access_data(data.station, 'Updated basic data')
+        StationBookHelpers.add_ext_access_data(
+            request.user, data.station, 'Updated basic data')
         return redirect('station_details', \
         network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
@@ -166,6 +168,7 @@ class ExtOwnerDataUpdateView(StationUpdateViewBase):
 
     def get_object(self):
         obj = get_object_or_404(self.model, \
+        station__fdsn_network__code=self.kwargs['network_code'],
         station__code=self.kwargs['station_code'])
         return obj
 
@@ -173,7 +176,8 @@ class ExtOwnerDataUpdateView(StationUpdateViewBase):
     def form_valid(self, form):
         data = form.save(commit=False)
         data.save()
-        self.add_ext_access_data(data.station, 'Updated owner data')
+        StationBookHelpers.add_ext_access_data(
+            request.user, data.station, 'Updated owner data')
         return redirect('station_details', \
         network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
@@ -190,6 +194,7 @@ class ExtMorphologyDataUpdateView(StationUpdateViewBase):
 
     def get_object(self):
         obj = get_object_or_404(self.model, \
+        station__fdsn_network__code=self.kwargs['network_code'],
         station__code=self.kwargs['station_code'])
         return obj
 
@@ -197,7 +202,8 @@ class ExtMorphologyDataUpdateView(StationUpdateViewBase):
     def form_valid(self, form):
         data = form.save(commit=False)
         data.save()
-        self.add_ext_access_data(data.station, 'Updated morphology data')
+        StationBookHelpers.add_ext_access_data(
+            request.user, data.station, 'Updated morphology data')
         return redirect('station_details', \
         network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
@@ -213,6 +219,7 @@ class ExtHousingDataUpdateView(StationUpdateViewBase):
 
     def get_object(self):
         obj = get_object_or_404(self.model, \
+        station__fdsn_network__code=self.kwargs['network_code'],
         station__code=self.kwargs['station_code'])
         return obj
 
@@ -220,7 +227,8 @@ class ExtHousingDataUpdateView(StationUpdateViewBase):
     def form_valid(self, form):
         data = form.save(commit=False)
         data.save()
-        self.add_ext_access_data(data.station, 'Updated housing data')
+        StationBookHelpers.add_ext_access_data(
+            request.user, data.station, 'Updated housing data')
         return redirect('station_details', \
         network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
@@ -235,6 +243,7 @@ class ExtBoreholeDataUpdateView(StationUpdateViewBase):
 
     def get_object(self):
         obj = get_object_or_404(self.model, \
+        station__fdsn_network__code=self.kwargs['network_code'],
         station__code=self.kwargs['station_code'])
         return obj
 
@@ -242,10 +251,36 @@ class ExtBoreholeDataUpdateView(StationUpdateViewBase):
     def form_valid(self, form):
         data = form.save(commit=False)
         data.save()
-        self.add_ext_access_data(data.station, 'Updated borehole data')
+        StationBookHelpers.add_ext_access_data(
+            request.user, data.station, 'Updated borehole data')
         return redirect('station_details', \
         network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
+
+@login_required
+@transaction.atomic
+def add_station_borehole_layer(request, network_code, station_code):
+    print('wererere')
+    station = get_object_or_404(
+        FdsnStation, fdsn_network__code=network_code, code=station_code)
+    if request.method == 'POST':
+        form = NewBoreholeLayerForm(request.POST)
+        if form.is_valid():
+            borehole_layer = form.save(commit=False)
+            borehole_layer.borehole_data = station.ext_borehole_data
+            borehole_layer.save()
+            StationBookHelpers.add_ext_access_data(
+                request.user, station,
+                'Added borehole layer ({0})'.format(
+                    borehole_layer.description))
+            return redirect('station_details', \
+            network_code=network_code, \
+            station_code=station_code)
+    else:
+        form = NewBoreholeLayerForm()
+        return render(
+            request, 'station_add_borehole_layer.html',
+            {'station': station, 'form': form})
 
 def custom_404(request):
     return render_to_response('404.html')
