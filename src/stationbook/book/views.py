@@ -18,7 +18,7 @@ from .fdsn.station import refresh_station_in_thread
 from .models import FdsnNetwork, FdsnStation, \
 ExtBasicData, ExtOwnerData, ExtMorphologyData, \
 ExtHousingData, ExtAccessData, ExtBoreholeData, ExtBoreholeLayerData
-from .book_base_classes import StationUpdateViewBase
+from .base_classes import StationUpdateViewBase
 from .logger import StationBookLogger
 from .forms import UserForm, ProfileForm
 
