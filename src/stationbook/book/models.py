@@ -17,10 +17,10 @@ STRING_LENGTH_SHORT = 256
 STRING_LENGTH_MEDIUM = 1024
 STRING_LENGTH_LONG = 16384
 
-class ExtDataBase(models.Model):
+class ExtEntityBase(models.Model):
     entity_removed = models.BooleanField(default=False)
 
-class ExtBasicData(ExtDataBase):
+class ExtBasicData(ExtEntityBase):
     description = models.TextField(
         max_length=STRING_LENGTH_LONG, default='', blank=True)
     start = models.DateField(blank=True, null=True)
@@ -33,7 +33,7 @@ class ExtBasicData(ExtDataBase):
         return mark_safe(markdown(self.description, safe_mode='escape'))
 
 
-class ExtOwnerData(ExtDataBase):
+class ExtOwnerData(ExtEntityBase):
     name_first = models.CharField(
         max_length=STRING_LENGTH_SHORT, blank=True, default='n/a')
     name_last = models.CharField(
@@ -54,7 +54,7 @@ class ExtOwnerData(ExtDataBase):
     def __str__(self):
         return 'Owner data for station {0}'.format(self.station.code)
 
-class ExtMorphologyData(ExtDataBase):
+class ExtMorphologyData(ExtEntityBase):
     GEOLOGICAL_UNIT_CHOICES = (
         ('unknown', 'Unknown'),
         ('alluvial_deposits', 'Alluvial deposits'),
@@ -134,7 +134,7 @@ class ExtMorphologyData(ExtDataBase):
         return mark_safe(markdown(self.description, safe_mode='escape'))
 
 
-class ExtHousingData(ExtDataBase):
+class ExtHousingData(ExtEntityBase):
     HOUSING_CLASS_CHOICES = (
         ('borehole', 'Borehole'),
         ('bridge', 'Bridge'),
@@ -164,13 +164,13 @@ class ExtHousingData(ExtDataBase):
     def get_description_as_markdown(self):
         return mark_safe(markdown(self.description, safe_mode='escape'))
 
-class ExtBoreholeData(ExtDataBase):
+class ExtBoreholeData(ExtEntityBase):
     depth = models.IntegerField(default=0)
 
     def __str__(self):
         return 'Borehole data for station {0}'.format(self.station.code)
 
-class ExtBoreholeLayerData(ExtDataBase):
+class ExtBoreholeLayerData(ExtEntityBase):
     borehole_data = models.ForeignKey(
         ExtBoreholeData, related_name='borehole_layers',
         on_delete=models.CASCADE, default=None)
@@ -232,7 +232,7 @@ class FdsnStation(models.Model):
         return 'Station {0}'.format(self.code)
 
 
-class ExtAccessData(ExtDataBase):
+class ExtAccessData(ExtEntityBase):
     fdsn_station = models.ForeignKey(FdsnStation,
         related_name='access_data', on_delete=models.PROTECT)
     updated_by = models.ForeignKey(

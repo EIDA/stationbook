@@ -1,8 +1,9 @@
 from django.test import TestCase
 from django.urls import resolve, reverse
 
-from ..models import FdsnNetwork, FdsnStation, ExtBasicData, ExtOwnerData,\
-ExtMorphologyData, ExtHousingData, ExtBoreholeData, ExtBoreholeLayerData
+from ..models import FdsnNetwork, FdsnStation, ExtEntityBase, \
+ExtBasicData, ExtOwnerData, ExtMorphologyData, ExtHousingData, \
+ExtBoreholeData, ExtBoreholeLayerData
 
 class HomeTests(TestCase):
     def setUp(self):
