@@ -18,7 +18,10 @@ STRING_LENGTH_MEDIUM = 1024
 STRING_LENGTH_LONG = 16384
 
 class ExtEntityBase(models.Model):
+    # TODO: entities should not be removed. It is more mature to set 'removed'
+    # flag to true and filter them out in the queries.
     entity_removed = models.BooleanField(default=False)
+
 
 class ExtBasicData(ExtEntityBase):
     description = models.TextField(
@@ -53,6 +56,7 @@ class ExtOwnerData(ExtEntityBase):
 
     def __str__(self):
         return 'Owner data for station {0}'.format(self.station.code)
+
 
 class ExtMorphologyData(ExtEntityBase):
     GEOLOGICAL_UNIT_CHOICES = (
@@ -164,11 +168,13 @@ class ExtHousingData(ExtEntityBase):
     def get_description_as_markdown(self):
         return mark_safe(markdown(self.description, safe_mode='escape'))
 
+
 class ExtBoreholeData(ExtEntityBase):
     depth = models.IntegerField(default=0)
 
     def __str__(self):
         return 'Borehole data for station {0}'.format(self.station.code)
+
 
 class ExtBoreholeLayerData(ExtEntityBase):
     borehole_data = models.ForeignKey(
@@ -181,6 +187,7 @@ class ExtBoreholeLayerData(ExtEntityBase):
 
     def __str__(self):
         return self.extBoreholeLayerData_extBoreholeData.station.code
+
 
 class FdsnNetwork(models.Model):
     code = models.CharField(

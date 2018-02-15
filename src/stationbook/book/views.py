@@ -9,8 +9,8 @@ from django.shortcuts import get_object_or_404, redirect, \
 render, render_to_response
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, DetailView
 from django.utils import timezone
+from django.views.generic import ListView, DetailView
 from django.db import transaction
 from django.db.models import Q
 
@@ -63,6 +63,7 @@ class SearchListView(ListView):
     def _get_search_phrase(self):
         return ((lambda x: x if len(x) > 0 else None)(
             self.request.GET.get('search_text', '')))
+
 
 class NetworksListView(ListView):
     model = FdsnNetwork
@@ -258,6 +259,7 @@ class ExtBoreholeDataUpdateView(StationUpdateViewBase):
         network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
 
+
 @login_required
 @transaction.atomic
 def add_station_borehole_layer(request, network_code, station_code):
@@ -282,6 +284,7 @@ def add_station_borehole_layer(request, network_code, station_code):
             request, 'station_borehole_layer_add.html',
             {'station': station, 'form': form})
 
+
 @login_required
 @transaction.atomic
 def remove_station_borehole_layer(request, network_code, station_code, pk):
@@ -305,11 +308,18 @@ def remove_station_borehole_layer(request, network_code, station_code, pk):
             request, 'station_borehole_layer_rem.html',
             {'station': station, 'layer': borehole_layer, 'form': form})
 
+
 def custom_404(request):
+    '''HTTP 404 custom handler
+    '''
     return render_to_response('404.html')
 
+
 def custom_500(request):
+    '''HTTP 500 custom handler
+    '''
     return render_to_response('500.html')
+
 
 @user_passes_test(lambda u: u.is_superuser)
 def refresh_fdsn(request):
@@ -317,6 +327,7 @@ def refresh_fdsn(request):
         'Refreshing FDSN by {0}'.format(request.user))
     refresh_station_in_thread()
     return redirect('home')
+
 
 @login_required
 @transaction.atomic

@@ -142,7 +142,7 @@ def _refresh_station():
                     stat.creation_date = station.creation_date
                     stat.site_name = station.site_name
                     # Create ext entities
-                    ext_data = ExtBasicData()
+                    ext_basic = ExtBasicData()
                     ext_owner = ExtOwnerData()
                     ext_morphology = ExtMorphologyData()
                     ext_housing = ExtHousingData()
@@ -151,13 +151,13 @@ def _refresh_station():
                     # Assign ext entities to station and save it
                     try:
                         with transaction.atomic():
-                            ext_data.save()
+                            ext_basic.save()
                             ext_owner.save()
                             ext_morphology.save()
                             ext_housing.save()
                             ext_borehole.save()
                             
-                            stat.ext_basic_data = ext_data
+                            stat.ext_basic_data = ext_basic
                             stat.ext_owner_data = ext_owner
                             stat.ext_morphology_data = ext_morphology
                             stat.ext_housing_data = ext_housing
