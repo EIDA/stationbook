@@ -326,7 +326,9 @@ class UserDetailsListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['activity'] = ExtAccessData.objects.filter(updated_by__username=self.kwargs.get('username'))[:25]
+        context['activity'] = \
+            ExtAccessData.objects.order_by('-updated_at').filter(
+                updated_by__username=self.kwargs.get('username'))[:25]
         return context
 
 

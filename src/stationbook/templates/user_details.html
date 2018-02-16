@@ -37,15 +37,14 @@
         <p><b>Staff team member: </b>{{ user.is_staff }}</p>
         <p><b>Active: </b>{{ user.is_active }}</p>
       </div>
-      <div class="col">
+      <div class="col col-md-auto">
             <h1>Activity:</h1>
             {% for access in activity %}
-            <p><b>{{ access.updated_at|naturaltime }}:</b> <br> Updated station 
+            <p><b>{{ access.updated_at|naturaltime }}:</b> <br> Updated 
             <a href="{% url 'station_details' access.fdsn_station.fdsn_network.code access.fdsn_station.code %}">
                 {{ access.fdsn_station.code }} ({{ access.fdsn_station.site_name }})</a>
-            in network
-            <a href="{% url 'network_details' access.fdsn_station.fdsn_network.code %}">{{ access.fdsn_station.fdsn_network.code }}</a>
-            ({{ access.description }})</p>
+            in <a href="{% url 'network_details' access.fdsn_station.fdsn_network.code %}">{{ access.fdsn_station.fdsn_network.code }}</a>
+            <br>({{ access.description }})</p>
             {% endfor %}
       </div>
     </div>
