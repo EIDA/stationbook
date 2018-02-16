@@ -12,31 +12,6 @@
 {% block content %}
 <div class="container">
     <div class="row">
-      <div class="col">
-        <h1>User details:</h1>
-        <p><b>Username: </b>{{ user.username }}</p>
-        <p><b>First name: </b>{{ user.first_name }}</p>
-        <p><b>Last name: </b>{{ user.last_name }}</p>
-        <p><b>Email: </b>{{ user.email }}</p>
-        <p><b>About me: </b>{{ user.profile.about }}</p>
-        <p><b>Location: </b>{{ user.profile.location }}</p>
-        <p><b>Agency: </b>{{ user.profile.agency }}</p>
-        <p><b>Department: </b>{{ user.profile.department }}</p>
-        <p><b>Telephone: </b>{{ user.profile.telephone }}</p>
-        <p><b>Skype: </b>{{ user.profile.skype }}</p>
-        <p><b>Birthdate: </b>{{ user.profile.birth_date }}</p>
-
-        <p><b>Can edit stations in networks: </b>
-        {% for network in user.profile.fdsnNetworks.all %}
-        {{ network.code }}
-        {% endfor %}
-        </p>
-
-        <p><b>Last login: </b>{{ user.last_login }}</p>
-        <p><b>Superuser: </b>{{ user.is_superuser }}</p>
-        <p><b>Staff team member: </b>{{ user.is_staff }}</p>
-        <p><b>Active: </b>{{ user.is_active }}</p>
-      </div>
       <div class="col col-md-auto">
             <h1>Activity:</h1>
             {% for access in activity %}
@@ -47,6 +22,31 @@
             <br>({{ access.description }})</p>
             {% endfor %}
       </div>
+      <div class="col">
+          <h1>User details:</h1>
+          <p><b>Username: </b>{{ user.username }}</p>
+          <p><b>First name: </b>{{ user.first_name }}</p>
+          <p><b>Last name: </b>{{ user.last_name }}</p>
+          <p><b>Email: </b>{{ user.email }}</p>
+          <p><b>About me: </b>{{ user.profile.about }}</p>
+          <p><b>Location: </b>{{ user.profile.location }}</p>
+          <p><b>Agency: </b>{{ user.profile.agency }}</p>
+          <p><b>Department: </b>{{ user.profile.department }}</p>
+          <p><b>Telephone: </b>{{ user.profile.telephone }}</p>
+          <p><b>Skype: </b>{{ user.profile.skype }}</p>
+          <p><b>Birthdate: </b>{{ user.profile.birth_date }}</p>
+  
+          <p><b>Can edit stations in networks: </b>
+          {% for network in user.profile.fdsnNetworks.all %}
+          {{ network.code }}
+          {% endfor %}
+          </p>
+  
+          <p><b>Last login: </b>{{ user.last_login }}</p>
+          <p><b>Superuser: </b>{{ user.is_superuser }}</p>
+          <p><b>Staff team member: </b>{{ user.is_staff }}</p>
+          <p><b>Active: </b>{{ user.is_active }}</p>
+        </div>
     </div>
   </div>
 {% endblock %}
