@@ -186,7 +186,7 @@ class ExtBoreholeLayerData(ExtEntityBase):
     depth_bottom = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.extBoreholeLayerData_extBoreholeData.station.code
+        return self.borehole_data.station.code
 
 
 class FdsnNetwork(models.Model):
@@ -241,7 +241,7 @@ class FdsnStation(models.Model):
 
 class ExtAccessData(ExtEntityBase):
     fdsn_station = models.ForeignKey(FdsnStation,
-        related_name='access_data', on_delete=models.PROTECT)
+        related_name='access_data', on_delete=models.CASCADE)
     updated_by = models.ForeignKey(
         User, null=True, related_name='+', on_delete=models.SET_NULL)
     updated_at = models.DateTimeField(null=True)
@@ -250,7 +250,7 @@ class ExtAccessData(ExtEntityBase):
 
     def __str__(self):
         return '{0} has been updated at {1} by {2}: {3}'.format(
-            self.fdsn_station__code,
+            self.fdsn_station.code,
             self.updated_at,
             self.updated_by,
             self.description)

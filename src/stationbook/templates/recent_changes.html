@@ -22,7 +22,7 @@
     <tbody>
         {% for access in data %}
         <tr>
-            <td>Updated {{ access.updated_at|naturaltime }} by {{ access.updated_by }}</td>
+            <td>Updated {{ access.updated_at|naturaltime }} by <a href="{% url 'user_details' access.updated_by %}">{{ access.updated_by }}</a></td>
             <td>
                 <a href="{% url 'network_details' access.fdsn_station.fdsn_network.code %}">
                     {{ access.fdsn_station.fdsn_network.code }}
