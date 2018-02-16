@@ -313,7 +313,7 @@ def remove_station_borehole_layer(request, network_code, station_code, pk):
 
 class UserDetailsListView(ListView):
     model = User
-    context_object_name = 'user'
+    context_object_name = 'user_data'
     template_name = 'user_details.html'
 
     def get_queryset(self):

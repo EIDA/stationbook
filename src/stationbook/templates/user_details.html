@@ -6,7 +6,7 @@
 {% block title %}My account{% endblock %}
 
 {% block breadcrumb %}
-<li class="breadcrumb-item active">{{ user.username }}</li>
+<li class="breadcrumb-item active">{{ user_data.username }}</li>
 {% endblock %}
 
 {% block content %}
@@ -24,28 +24,28 @@
       </div>
       <div class="col">
           <h1>User details:</h1>
-          <p><b>Username: </b>{{ user.username }}</p>
-          <p><b>First name: </b>{{ user.first_name }}</p>
-          <p><b>Last name: </b>{{ user.last_name }}</p>
-          <p><b>Email: </b>{{ user.email }}</p>
-          <p><b>About me: </b>{{ user.profile.about }}</p>
-          <p><b>Location: </b>{{ user.profile.location }}</p>
-          <p><b>Agency: </b>{{ user.profile.agency }}</p>
-          <p><b>Department: </b>{{ user.profile.department }}</p>
-          <p><b>Telephone: </b>{{ user.profile.telephone }}</p>
-          <p><b>Skype: </b>{{ user.profile.skype }}</p>
-          <p><b>Birthdate: </b>{{ user.profile.birth_date }}</p>
+          <p><b>Username: </b>{{ user_data.username }}</p>
+          <p><b>First name: </b>{{ user_data.first_name }}</p>
+          <p><b>Last name: </b>{{ user_data.last_name }}</p>
+          <p><b>Email: </b>{{ user_data.email }}</p>
+          <p><b>About me: </b>{{ user_data.profile.about }}</p>
+          <p><b>Location: </b>{{ user_data.profile.location }}</p>
+          <p><b>Agency: </b>{{ user_data.profile.agency }}</p>
+          <p><b>Department: </b>{{ user_data.profile.department }}</p>
+          <p><b>Telephone: </b>{{ user_data.profile.telephone }}</p>
+          <p><b>Skype: </b>{{ user_data.profile.skype }}</p>
+          <p><b>Birthdate: </b>{{ user_data.profile.birth_date }}</p>
   
           <p><b>Can edit stations in networks: </b>
-          {% for network in user.profile.fdsnNetworks.all %}
+          {% for network in user_data.profile.fdsnNetworks.all %}
           {{ network.code }}
           {% endfor %}
           </p>
   
-          <p><b>Last login: </b>{{ user.last_login }}</p>
-          <p><b>Superuser: </b>{{ user.is_superuser }}</p>
-          <p><b>Staff team member: </b>{{ user.is_staff }}</p>
-          <p><b>Active: </b>{{ user.is_active }}</p>
+          <p><b>Last login: </b>{{ user_data.last_login }}</p>
+          <p><b>Superuser: </b>{{ user_data.is_superuser }}</p>
+          <p><b>Staff team member: </b>{{ user_data.is_staff }}</p>
+          <p><b>Active: </b>{{ user_data.is_active }}</p>
         </div>
     </div>
   </div>
