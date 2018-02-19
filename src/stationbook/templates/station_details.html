@@ -28,8 +28,11 @@
         <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">Gallery</button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a target="_blank" class="dropdown-item" href="{% url 'station_gallery' station.fdsn_network.code station.code %}">Show station gallery</a>
-            <a target="_blank" class="dropdown-item" href="{% url 'station_photo_upload' station.fdsn_network.code station.code %}">Quick photo upload</a>
+            <a class="dropdown-item" href="{% url 'station_gallery' station.fdsn_network.code station.code %}">Show station gallery</a>
+            {% if user.is_authenticated %}
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'station_photo_upload' station.fdsn_network.code station.code %}">Quick photo upload</a>
+            {% endif %}
         </div>
     </div>
 

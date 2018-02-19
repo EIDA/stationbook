@@ -7,6 +7,7 @@ from functools import reduce
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, \
 render, render_to_response
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from django.utils import timezone
@@ -70,7 +71,8 @@ class NetworksListView(ListView):
     model = FdsnNetwork
     context_object_name = 'data'
     template_name = 'networks.html'
-
+    paginate_by = 10
+    
     def get_queryset(self):
         queryset = FdsnNetwork.objects.all().order_by('code')
         return queryset
@@ -402,6 +404,27 @@ def station_photo_remove(request, network_code, station_code, pk):
             })
 
 
+class UserDetailsListView(ListView):
+    model = User
+    context_object_name = 'user_data'
+    template_name = 'user_details.html'
+
+    def get_queryset(self):
+        try:
+            queryset = User.objects.\
+                get(username=self.kwargs.get('username'))
+        except User.DoesNotExist:
+            raise Http404("User does not exist!")
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['activity'] = \
+            ExtAccessData.objects.order_by('-updated_at').filter(
+                updated_by__username=self.kwargs.get('username'))[:25]
+        return context
+
+
 def custom_404(request):
     '''HTTP 404 custom handler
     '''
@@ -431,9 +454,9 @@ def update_profile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            redirect('my_account')
+            return redirect('my_account')
         else:
-            render(request, 'my_account.html', {
+            return render(request, 'my_account.html', {
                 'user_form': user_form, 'profile_form': profile_form
                 })
     else:

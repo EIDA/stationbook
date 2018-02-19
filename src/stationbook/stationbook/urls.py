@@ -42,6 +42,8 @@ urlpatterns = [
         book_view.station_photo_edit, name='station_photo_edit'),
     re_path(r'^networks/(?P<network_code>\w+)/station/(?P<station_code>\w+)/remove_photo/(?P<pk>\w+)$',
         book_view.station_photo_remove, name='station_photo_remove'),
+    re_path(r'^user/(?P<username>\w+)$',
+        book_view.UserDetailsListView.as_view(), name='user_details'),
     path('signup/', accounts_views.signup, name='signup'),
     path('login/', auth_views.LoginView.as_view(
         template_name='login.html'), name='login'),
