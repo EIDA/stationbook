@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.conf.urls import include
 from django.contrib import admin
 from django.views.generic import RedirectView
@@ -31,9 +33,15 @@ urlpatterns = [
     re_path(r'^networks/(?P<network_code>\w+)/station/(?P<station_code>\w+)/edit_borehole$',
         book_view.ExtBoreholeDataUpdateView.as_view(), name='station_edit_borehole'),
     re_path(r'^networks/(?P<network_code>\w+)/station/(?P<station_code>\w+)/add_borehole_layer$',
-        book_view.add_station_borehole_layer, name='station_add_borehole_layer'),
+        book_view.station_borehole_layer_add, name='station_add_borehole_layer'),
     re_path(r'^networks/(?P<network_code>\w+)/station/(?P<station_code>\w+)/remove_borehole_layer/(?P<pk>\w+)$',
-        book_view.remove_station_borehole_layer, name='station_remove_borehole_layer'),
+        book_view.station_borehole_layer_remove, name='station_remove_borehole_layer'),
+    re_path(r'^networks/(?P<network_code>\w+)/station/(?P<station_code>\w+)/upload_photo$',
+        book_view.station_photo_upload, name='station_photo_upload'),
+    re_path(r'^networks/(?P<network_code>\w+)/station/(?P<station_code>\w+)/edit_photo/(?P<pk>\w+)$',
+        book_view.station_photo_edit, name='station_photo_edit'),
+    re_path(r'^networks/(?P<network_code>\w+)/station/(?P<station_code>\w+)/remove_photo/(?P<pk>\w+)$',
+        book_view.station_photo_remove, name='station_photo_remove'),
     path('signup/', accounts_views.signup, name='signup'),
     path('login/', auth_views.LoginView.as_view(
         template_name='login.html'), name='login'),
@@ -66,6 +74,9 @@ urlpatterns = [
         name='password_change_done'),
     path('refresh_fdsn/', book_view.refresh_fdsn, name='refresh_fdsn'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Add custom handlers for the HTTP error codes
 handler404 = 'book.views.custom_404'

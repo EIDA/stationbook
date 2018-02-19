@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+{% endblock %} 
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'networks' %}">Networks</a></li>
+<li class="breadcrumb-item"><a href="{% url 'network_details' station.fdsn_network.code %}">{{ station.fdsn_network.code }}</a></li>
+<li class="breadcrumb-item"><a href="{% url 'station_details' station.fdsn_network.code station.code %}">{{ station.code }}</a></li>
+<li class="breadcrumb-item active">Edit photo</li>
+{% endblock %}
+
+{% block content %}
+<img src="{{ img.photo.url }}" class="img-fluid">
+<hr>
+<form method="post" class="mb-4" novalidate>
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit" class="btn btn-success">Save changes</button>
+    <a href="{% url 'station_gallery' station.fdsn_network.code station.code %}" class="btn btn-outline-secondary" role="button">Cancel</a>
+</form>
+{% endblock %}

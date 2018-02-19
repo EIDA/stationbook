@@ -186,7 +186,7 @@ class ExtBoreholeLayerData(ExtEntityBase):
     depth_bottom = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.extBoreholeLayerData_extBoreholeData.station.code
+        return self.borehole_data.station.code
 
 
 class FdsnNetwork(models.Model):
@@ -256,10 +256,18 @@ class ExtAccessData(ExtEntityBase):
             self.description)
 
 
+class Photo(models.Model):
+    fdsn_station = models.ForeignKey(
+        FdsnStation, related_name='photos', on_delete=models.CASCADE)
+    description = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
+    photo = models.ImageField(upload_to='station_photos/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+
 class Profile(models.Model):
     user = models.OneToOneField(
         User, related_name='profile', on_delete=models.CASCADE)
-    fdsnNetworks = models.ManyToManyField(FdsnNetwork, related_name='editors')
+    fdsn_networks = models.ManyToManyField(FdsnNetwork, related_name='editors')
     about = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
     location = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
     agency = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)

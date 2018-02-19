@@ -6,12 +6,36 @@
 
 {% block breadcrumb %}
 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-<li class="breadcrumb-item">Networks</li>
-<li class="breadcrumb-item">Network</li>
-<li class="breadcrumb-item">Station</li>
+<li class="breadcrumb-item"><a href="{% url 'networks' %}">Networks</a></li>
+<li class="breadcrumb-item"><a href="{% url 'network_details' station.fdsn_network.code %}">{{ station.fdsn_network.code }}</a></li>
+<li class="breadcrumb-item"><a href="{% url 'station_details' station.fdsn_network.code station.code %}">{{ station.code }}</a></li>
 <li class="breadcrumb-item active">Gallery</li>
 {% endblock %}
 
 {% block content %}
-Station gallery
+{% if user.is_authenticated %}
+<div class="btn-group mt-2 float-right" role="group">
+    <div class="btn-group" role="group">
+        <a class="btn btn-primary" href="{% url 'station_photo_upload' station.fdsn_network.code station.code %}">Upload photos</a>
+    </div>
+</div>
+{% endif %}
+
+<div class="table-responsive">
+    {% for img in station.photos.all %}
+    <p>Description: {{ img.description }}</p>
+    <img src="{{ img.photo.url }}" class="img-fluid">
+    <small class="text-muted d-block">
+        Uploaded on {{ img.uploaded_at }}
+    </small>
+    {% if user.is_authenticated %}
+    <p>
+        <a href="{% url 'station_photo_edit' station.fdsn_network.code station.code img.pk %}">Edit</a>
+        |
+        <a href="{% url 'station_photo_remove' station.fdsn_network.code station.code img.pk %}">Remove</a>
+    </p>
+    {% endif %}
+    <hr>
+    {% endfor %}
+</div>
 {% endblock %}

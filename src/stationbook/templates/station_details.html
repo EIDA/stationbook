@@ -26,21 +26,22 @@
 <div class="btn-group mt-2 float-right" role="group">
     <div class="btn-group" role="group">
         <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">Browse</button>
+            aria-expanded="false">Gallery</button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <a target="_blank" class="dropdown-item" href="{% url 'station_gallery' station.fdsn_network.code station.code %}">Show station gallery</a>
+            <a target="_blank" class="dropdown-item" href="{% url 'station_photo_upload' station.fdsn_network.code station.code %}">Quick photo upload</a>
+        </div>
+    </div>
+
+    <div class="btn-group" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">This page</button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
             <a class="dropdown-item" href="#basic_data">Go to basic data</a>
             <a class="dropdown-item" href="#owner_data">Go to owner data</a>
             <a class="dropdown-item" href="#morphology_data">Go to morphology data</a>
             <a class="dropdown-item" href="#housing_data">Go to housing data</a>
             <a class="dropdown-item" href="#borehole_data">Go to borehole data</a>
-        </div>
-    </div>
-
-    <div class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">Media</button>
-        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a class="dropdown-item disabled" href="#">View station gallery</a>
         </div>
     </div>
 

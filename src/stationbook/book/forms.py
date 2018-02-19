@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from .models import Profile, ExtBoreholeLayerData
+from .models import Profile, ExtBoreholeLayerData, Photo
 from django import forms
 
 class UserForm(forms.ModelForm):
@@ -21,3 +21,18 @@ class RemoveBoreholeLayerForm(forms.ModelForm):
     class Meta:
         model = ExtBoreholeLayerData
         fields = ('description', 'depth_top', 'depth_bottom')
+
+class StationPhotoForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ('description', 'photo', )
+
+class StationPhotoEditForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ('description',)
+
+class StationPhotoRemoveForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ('description',)

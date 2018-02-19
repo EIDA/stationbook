@@ -1,4 +1,14 @@
+# Ignore the virtual environment
 env/
+
+# Ignore Visual Studio Code folders and files
 .vscode/
+
+# Ignore the sqlite db gile
 db.sqlite3
+
+# Precompiled python files - ignore them too
 *.pyc
+
+# Ignore the media folder (file uploads)
+src/stationbook/media/

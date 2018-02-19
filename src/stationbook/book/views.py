@@ -17,11 +17,12 @@ from django.db.models import Q
 from .fdsn.station import refresh_station_in_thread
 from .models import FdsnNetwork, FdsnStation, \
 ExtBasicData, ExtOwnerData, ExtMorphologyData, \
-ExtHousingData, ExtAccessData, ExtBoreholeData, ExtBoreholeLayerData
+ExtHousingData, ExtAccessData, ExtBoreholeData, ExtBoreholeLayerData, Photo
 from .base_classes import StationBookHelpers, StationUpdateViewBase
 from .logger import StationBookLogger
 from .forms import UserForm, ProfileForm, \
-AddBoreholeLayerForm, RemoveBoreholeLayerForm
+AddBoreholeLayerForm, RemoveBoreholeLayerForm, StationPhotoForm, \
+StationPhotoEditForm, StationPhotoRemoveForm
 
 # Stations list view is used as a home screen for the Station Book
 class HomeListView(ListView):
@@ -129,7 +130,8 @@ class StationGalleryListView(ListView):
     def get_queryset(self):
         try:
             queryset = FdsnStation.objects.\
-            get(code=self.kwargs.get('station_code'))
+            get(fdsn_network__code=self.kwargs['network_code'],
+                code=self.kwargs.get('station_code'))
         except FdsnStation.DoesNotExist:
             raise Http404("Station does not exist!")
         return queryset
@@ -153,8 +155,10 @@ class ExtBasicDataUpdateView(StationUpdateViewBase):
         data = form.save(commit=False)
         data.save()
         print(data.station)
+
         StationBookHelpers.add_ext_access_data(
             self.request.user, data.station, 'Updated basic data')
+
         return redirect('station_details', \
         network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
@@ -178,8 +182,10 @@ class ExtOwnerDataUpdateView(StationUpdateViewBase):
     def form_valid(self, form):
         data = form.save(commit=False)
         data.save()
+
         StationBookHelpers.add_ext_access_data(
             self.request.user, data.station, 'Updated owner data')
+
         return redirect('station_details', \
         network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
@@ -204,8 +210,10 @@ class ExtMorphologyDataUpdateView(StationUpdateViewBase):
     def form_valid(self, form):
         data = form.save(commit=False)
         data.save()
+
         StationBookHelpers.add_ext_access_data(
             self.request.user, data.station, 'Updated morphology data')
+
         return redirect('station_details', \
         network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
@@ -229,8 +237,10 @@ class ExtHousingDataUpdateView(StationUpdateViewBase):
     def form_valid(self, form):
         data = form.save(commit=False)
         data.save()
+
         StationBookHelpers.add_ext_access_data(
             self.request.user, data.station, 'Updated housing data')
+
         return redirect('station_details', \
         network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
@@ -253,8 +263,10 @@ class ExtBoreholeDataUpdateView(StationUpdateViewBase):
     def form_valid(self, form):
         data = form.save(commit=False)
         data.save()
+
         StationBookHelpers.add_ext_access_data(
             self.request.user, data.station, 'Updated borehole data')
+
         return redirect('station_details', \
         network_code=data.station.fdsn_network.code, \
         station_code=data.station.code)
@@ -262,7 +274,7 @@ class ExtBoreholeDataUpdateView(StationUpdateViewBase):
 
 @login_required
 @transaction.atomic
-def add_station_borehole_layer(request, network_code, station_code):
+def station_borehole_layer_add(request, network_code, station_code):
     station = get_object_or_404(
         FdsnStation, fdsn_network__code=network_code, code=station_code)
     if request.method == 'POST':
@@ -271,13 +283,15 @@ def add_station_borehole_layer(request, network_code, station_code):
             borehole_layer = form.save(commit=False)
             borehole_layer.borehole_data = station.ext_borehole_data
             borehole_layer.save()
+
             StationBookHelpers.add_ext_access_data(
                 request.user, station,
                 'Added borehole layer ({0})'.format(
                     borehole_layer.description))
+
             return redirect('station_details', \
-            network_code=network_code, \
-            station_code=station_code)
+                network_code=network_code, \
+                station_code=station_code)
     else:
         form = AddBoreholeLayerForm()
         return render(
@@ -287,7 +301,7 @@ def add_station_borehole_layer(request, network_code, station_code):
 
 @login_required
 @transaction.atomic
-def remove_station_borehole_layer(request, network_code, station_code, pk):
+def station_borehole_layer_remove(request, network_code, station_code, pk):
     station = get_object_or_404(
         FdsnStation, fdsn_network__code=network_code, code=station_code)
     borehole_layer = get_object_or_404(
@@ -295,18 +309,97 @@ def remove_station_borehole_layer(request, network_code, station_code, pk):
     if request.method == 'POST':
         form = RemoveBoreholeLayerForm(request.POST)
         ExtBoreholeLayerData.objects.get(pk=pk).delete()
+
         StationBookHelpers.add_ext_access_data(
             request.user, station,
             'Removed borehole layer ({0})'.format(
                 borehole_layer.description))
+
         return redirect('station_details', \
-        network_code=network_code, \
-        station_code=station_code)
+            network_code=network_code, \
+            station_code=station_code)
     else:
         form = RemoveBoreholeLayerForm()
         return render(
             request, 'station_borehole_layer_rem.html',
             {'station': station, 'layer': borehole_layer, 'form': form})
+
+
+@login_required
+@transaction.atomic
+def station_photo_upload(request, network_code, station_code):
+    station = get_object_or_404(
+        FdsnStation, fdsn_network__code=network_code, code=station_code)
+    if request.method == 'POST':
+        form = StationPhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            photo = form.save(commit=False)
+            photo.fdsn_station = station
+            photo.save()
+
+            StationBookHelpers.add_ext_access_data(
+                request.user, station,
+                'Added photo ({0})'.format(photo.description))
+
+            return redirect('station_gallery', \
+                network_code=network_code, \
+                station_code=station_code)
+    else:
+        form = StationPhotoForm()
+        return render(request, 'upload_photo.html', {
+            'station': station, 'form': form})
+
+
+@login_required
+@transaction.atomic
+def station_photo_edit(request, network_code, station_code, pk):
+    station = get_object_or_404(
+        FdsnStation, fdsn_network__code=network_code, code=station_code)
+    photo = get_object_or_404(Photo, pk=pk)
+
+    if request.method == 'POST':
+        form = StationPhotoEditForm(request.POST, instance=photo)
+        form.save()
+
+        StationBookHelpers.add_ext_access_data(
+            request.user, station,
+            'Photo edited ({0})'.format(
+                photo.description))
+        
+        return redirect('station_gallery',
+            network_code=network_code,
+            station_code=station_code)
+    else:
+        form = StationPhotoEditForm(instance=photo)
+        return render(request, 'station_gallery_photo_edit.html', {
+            'station': station, 'img': photo, 'form': form
+            })
+
+
+@login_required
+@transaction.atomic
+def station_photo_remove(request, network_code, station_code, pk):
+    station = get_object_or_404(
+        FdsnStation, fdsn_network__code=network_code, code=station_code)
+    photo = get_object_or_404(Photo, pk=pk)
+
+    if request.method == 'POST':
+        form = StationPhotoRemoveForm(request.POST, instance=photo)
+        Photo.objects.get(pk=pk).delete()
+
+        StationBookHelpers.add_ext_access_data(
+            request.user, station,
+            'Removed photo ({0})'.format(
+                photo.description))
+        
+        return redirect('station_gallery',
+            network_code=network_code,
+            station_code=station_code)
+    else:
+        form = StationPhotoRemoveForm(instance=photo)
+        return render(request, 'station_gallery_photo_remove.html', {
+            'station': station, 'img': photo, 'form': form
+            })
 
 
 def custom_404(request):
@@ -346,6 +439,6 @@ def update_profile(request):
     else:
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
-    return render(request, 'my_account.html', {
-        'user_form': user_form, 'profile_form': profile_form
-        })
+        return render(request, 'my_account.html', {
+            'user_form': user_form, 'profile_form': profile_form
+            })
