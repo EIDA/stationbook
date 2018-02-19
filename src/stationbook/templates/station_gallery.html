@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/baguetteBox.min.css' %}" type="text/css">
 {% endblock %} 
 
 {% block breadcrumb %}
@@ -21,21 +22,36 @@
 </div>
 {% endif %}
 
-<div class="table-responsive">
+<div class="gallery">
     {% for img in station.photos.all %}
-    <p>Description: {{ img.description }}</p>
-    <img src="{{ img.photo.url }}" class="img-fluid">
+    <p><b>Description: </b>{{ img.description }}</p>
+    <a href="{{ img.photo.url }}" data-caption="{{ img.description }}">
+        <img src="{{ img.photo.url }}" style="max-width: 25%; height: auto;">
+    </a>
     <small class="text-muted d-block">
         Uploaded on {{ img.uploaded_at }}
     </small>
     {% if user.is_authenticated %}
     <p>
-        <a href="{% url 'station_photo_edit' station.fdsn_network.code station.code img.pk %}">Edit</a>
-        |
-        <a href="{% url 'station_photo_remove' station.fdsn_network.code station.code img.pk %}">Remove</a>
+    <a href="{% url 'station_photo_edit' station.fdsn_network.code station.code img.pk %}">Edit</a>
+    /
+    <a href="{% url 'station_photo_remove' station.fdsn_network.code station.code img.pk %}">Remove</a>
     </p>
     {% endif %}
     <hr>
     {% endfor %}
 </div>
+
+<script>
+    window.onload = function () {
+        baguetteBox.run('.gallery');
+        if (typeof oldIE === 'undefined' && Object.keys) {
+            hljs.initHighlighting();
+        }
+    };
+</script>
+
+{% block javascript %}
+<script src="{% static 'js/baguetteBox.min.js' %}"></script>
+{% endblock %}
 {% endblock %}
