@@ -86,7 +86,7 @@ class ExtBoreholeLayerAdmin(admin.ModelAdmin):
 
 class ProfileAdmin(admin.ModelAdmin):
     fieldsets = [
-        ('Change profile details', {'fields': ['fdsnNetworks',
+        ('Change profile details', {'fields': ['fdsn_networks',
          'about', 'location', 'agency', 'department', 'telephone',
          'skype', 'birth_date']}),
     ]
