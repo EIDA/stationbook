@@ -1,10 +1,11 @@
 from django.urls import resolve, reverse
 
 from .base_classes import NetworkStationTest
-from ..models import FdsnNetwork, FdsnStation, ExtEntityBase, \
-ExtBasicData, ExtOwnerData, ExtMorphologyData, ExtHousingData, \
-ExtBoreholeData, ExtBoreholeLayerData
 
 class StationBoreholeLayerAddTests(NetworkStationTest):
     def __init__(self, *args):
-        NetworkStationTest.__init__(self, *args, url='station_details')
+        pass
+        # NetworkStationTest.__init__(self, *args, url='station_add_borehole_layer')
+
+    # def test_station_borehole_layer_add_view_status_code(self):
+    #     self.assertEquals(self.response.status_code, 200)

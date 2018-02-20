@@ -1,17 +1,16 @@
-from django.test import TestCase
 from django.urls import resolve, reverse
 
+from .base_classes import NetworkStationTest
 from ..views import HomeListView
 
-class HomeTests(TestCase):
-    def setUp(self):
-        url = reverse('home')
-        self.response = self.client.get(url)
+class HomeTests(NetworkStationTest):
+    def __init__(self, *args):
+        NetworkStationTest.__init__(self, *args, url='home', arguments={})
 
     def test_home_view_status_code(self):
         self.assertEquals(self.response.status_code, 200)
 
-    def test_home_url_resolves_home_view(self):
+    def test_home_url_resolves_view(self):
         view = resolve('/')
         self.assertEquals(view.func.view_class, HomeListView)
 
