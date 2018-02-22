@@ -16,6 +16,7 @@ from django.db import transaction
 from django.db.models import Q
 
 from .fdsn.station import refresh_station_in_thread
+from .fdsn.station_channels import StationChannelsGraph
 from .models import FdsnNetwork, FdsnStation, \
 ExtBasicData, ExtOwnerData, ExtMorphologyData, \
 ExtHousingData, ExtAccessData, ExtBoreholeData, ExtBoreholeLayerData, Photo
@@ -121,6 +122,11 @@ class StationDetailsListView(ListView):
         context['fdsn_station_link'] = \
         'http://orfeus-eu.org/fdsnws/station/1/query?network={net}&station={stat}&level=channel'\
         .format(net=self.kwargs.get('network_code'), stat=self.kwargs.get('station_code'))
+        scg = StationChannelsGraph(
+            network=self.kwargs.get('network_code'),
+            station=self.kwargs.get('station_code'))
+        scg_result = scg.get_station_channels()
+        context['station_channels'] = scg_result.channels
         return context
 
 

@@ -54,6 +54,7 @@ class NetworkStationGraph(object):
                     stat.creation_date = station.find(
                         './/mw:CreationDate', namespaces=self.NSMAP).text
                     stat.site_name = station.find(
+                    './/mw:Site', namespaces=self.NSMAP).find(
                         './/mw:Name', namespaces=self.NSMAP).text
 
                     net.stations.append(stat)

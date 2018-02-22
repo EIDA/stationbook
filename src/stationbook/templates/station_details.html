@@ -40,6 +40,9 @@
         <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">This page</button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <a class="dropdown-item" href="#fdsnws_station">Go to FDSNWS-Station Data</a>
+            <a class="dropdown-item" href="#fdsnws_channels">Go to FDSNWS-Station Channels Data</a>
+            <a class="dropdown-item" href="#fdsnws_instrumentation">Go to FDSNWS-Station Instrumentation Data</a>
             <a class="dropdown-item" href="#basic_data">Go to basic data</a>
             <a class="dropdown-item" href="#owner_data">Go to owner data</a>
             <a class="dropdown-item" href="#morphology_data">Go to morphology data</a>
@@ -50,9 +53,9 @@
 
     <div class="btn-group" role="group">
         <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">FDSNWS</button>
+            aria-expanded="false">Data sources</button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a target="_blank" class="dropdown-item" href="{{ fdsn_station_link }}">FDSNWS-Station</a>
+            <a target="_blank" class="dropdown-item" href="{{ fdsn_station_link }}">FDSNWS-Station Channels and Instrumentation</a>
         </div>
     </div>
 
@@ -81,7 +84,7 @@
     {% endif %}
 </div>
 
-<div class="table-responsive">
+<div id="fdsnws_station" class="table-responsive">
 <p><h1>FDSNWS-Station Data:</h1></p>
 <table class="table table">
     <thead class="thead-inverse">
@@ -112,12 +115,97 @@
     </tbody>
 </table>
 {% if user.is_authenticated %}
-<p class="text-muted float-right">FDSNWS-Station data cannot be edited</p>
+<p class="text-muted float-right">DSNWS-Station Data cannot be edited</p>
 {% endif %}
 </div>
+<a href="#" class="float-right">Top of the page</a>
 
-<div class="table-responsive">
-<p id="basic_data"><h1>Basic Data:</h1></p>
+<div id="fdsnws_channels" class="table-responsive">
+<p><h1>FDSNWS-Station Channels Data:</h1></p>
+<table class="table table">
+    <thead class="thead-inverse">
+        <tr>
+            <th>Channel</th>
+            <th>Start</th>
+            <th>Status</th>
+            <th>Location</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Elevation</th>
+            <th>Depth</th>
+            <th>Azimuth</th>
+            <th>Dip</th>
+            <th>Sample rate</th>
+            <th>Storage format</th>
+            <th>Clock drift</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sch in station_channels %}
+        <tr>
+            <td>{{ sch.code }}</td>
+            <td>{{ sch.start_date }}</td>
+            <td>{{ sch.restricted_status }}</td>
+            <td>{{ sch.location_code }}</td>
+            <td>{{ sch.latitude }}</td>
+            <td>{{ sch.longitude }}</td>
+            <td>{{ sch.elevation }}</td>
+            <td>{{ sch.depth }}</td>
+            <td>{{ sch.azimuth }}</td>
+            <td>{{ sch.dip }}</td>
+            <td>{{ sch.sample_rate }}</td>
+            <td>{{ sch.storage_format }}</td>
+            <td>{{ sch.clock_drift }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% if user.is_authenticated %}
+<p class="text-muted float-right">FFDSNWS-Station Channels Data cannot be edited</p>
+{% endif %}
+</div>
+<a href="#" class="float-right">Top of the page</a>
+
+<div id="fdsnws_instrumentation" class="table-responsive">
+<p><h1>FDSNWS-Station Instrumentation Data:</h1></p>
+<table class="table table">
+    <thead class="thead-inverse">
+        <tr>
+            <th>Channel</th>
+            <th>Sensor type</th>
+            <th>Sensor description</th>
+            <th>Sensor model</th>
+            <th>Datalogger</th>
+            <th>Sensitivity value</th>
+            <th>Sensitivity frequency</th>
+            <th>Input units name</th>
+            <th>Output units name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sch in station_channels %}
+        <tr>
+            <td>{{ sch.code }}</td>
+            <td>{{ sch.sensor.type }}</td>
+            <td>{{ sch.sensor.description }}</td>
+            <td>{{ sch.sensor.model }}</td>
+            <td>{{ sch.data_logger.description }}</td>
+            <td>{{ sch.response.instrument_sensitivity.value }}</td>
+            <td>{{ sch.response.instrument_sensitivity.frequency }}</td>
+            <td>{{ sch.response.instrument_sensitivity.input_units.name }}</td>
+            <td>{{ sch.response.instrument_sensitivity.output_units.name }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% if user.is_authenticated %}
+<p class="text-muted float-right">FDSNWS-Station Instrumentation Data cannot be edited</p>
+{% endif %}
+</div>
+<a href="#" class="float-right">Top of the page</a>
+
+<div id="basic_data" class="table-responsive">
+<p><h1>Basic Data:</h1></p>
 <table class="table table">
     <thead class="thead-inverse">
         <tr>
@@ -147,8 +235,8 @@
 </div>
 <a href="#" class="float-right">Top of the page</a>
 
-<div class="table-responsive">
-<p id="owner_data"><h1>Owner Data:</h1></p>
+<div id="owner_data" class="table-responsive">
+<p><h1>Owner Data:</h1></p>
 <table class="table table">
     <thead class="thead-inverse">
         <tr>
@@ -178,8 +266,8 @@
 </div>
 <a href="#" class="float-right">Top of the page</a>
 
-<div class="table-responsive">
-<p id="morphology_data"><h1>Morphology Data:</h1></p>
+<div id="morphology_data" class="table-responsive">
+<p><h1>Morphology Data:</h1></p>
 <table class="table table">
     <thead class="thead-inverse">
         <tr>
@@ -223,8 +311,8 @@
 </div>
 <a href="#" class="float-right">Top of the page</a>
 
-<div class="table-responsive">
-<p id="housing_data"><h1>Housing Data:</h1></p>
+<div id="housing_data" class="table-responsive">
+<p><h1>Housing Data:</h1></p>
 <table class="table table">
     <thead class="thead-inverse">
         <tr>
@@ -258,8 +346,8 @@
 </div>
 <a href="#" class="float-right">Top of the page</a>
 
-<div class="table-responsive">
-<p id="borehole_data"><h1>Borehole Data:</h1></p>
+<div id="borehole_data" class="table-responsive">
+<p><h1>Borehole Data:</h1></p>
 <table class="table table">
     <thead class="thead-inverse">
         <tr>
