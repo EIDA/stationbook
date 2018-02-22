@@ -7,7 +7,12 @@ class HomeTests(NetworkStationTest):
     def __init__(self, *args):
         NetworkStationTest.__init__(self, *args, url='home', arguments={})
 
-    def test_home_view_status_code(self):
+    def test_home_view_status_code_authenticated(self):
+        self.login_and_refresh()
+        self.assertEquals(self.response.status_code, 200)
+    
+    def test_home_view_status_code_anon(self):
+        self.logout_and_refresh()
         self.assertEquals(self.response.status_code, 200)
 
     def test_home_url_resolves_view(self):

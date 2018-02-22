@@ -9,7 +9,12 @@ class NetworkDetailsTests(NetworkStationTest):
             self, *args, url='network_details',
             arguments={'network_code': 'NET'})
     
-    def test_network_details_view_status_code(self):
+    def test_network_details_view_status_code_authenticated(self):
+        self.login_and_refresh()
+        self.assertEquals(self.response.status_code, 200)
+    
+    def test_network_details_view_status_code_anon(self):
+        self.logout_and_refresh()
         self.assertEquals(self.response.status_code, 200)
 
     def test_network_details_url_resolves_view(self):
