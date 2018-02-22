@@ -1,8 +1,15 @@
 from django.urls import resolve, reverse
 
 from .base_classes import NetworkStationTest
+from ..views import ExtHousingDataUpdateView
 
 class StationHousingDataUpdateTests(NetworkStationTest):
     def __init__(self, *args):
-        pass
-        # NetworkStationTest.__init__(self, *args, url='station_edit_housing')
+        NetworkStationTest.__init__(self, *args, url='station_edit_housing')
+
+    def test_station_housing_data_update_view_status_code(self):
+        self.assertEquals(self.response.status_code, 200)
+
+    def test_station_housing_data_update_url_resolves_view(self):
+        view = resolve('/networks/NET/station/STA/edit_housing')
+        self.assertEquals(view.func.view_class, ExtHousingDataUpdateView)

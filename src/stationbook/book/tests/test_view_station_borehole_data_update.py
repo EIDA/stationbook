@@ -1,11 +1,15 @@
 from django.urls import resolve, reverse
 
 from .base_classes import NetworkStationTest
+from ..views import ExtBoreholeDataUpdateView
 
 class StationBoreholeDataUpdateTests(NetworkStationTest):
     def __init__(self, *args):
-        pass
-        # NetworkStationTest.__init__(self, *args, url='station_edit_borehole')
+        NetworkStationTest.__init__(self, *args, url='station_edit_borehole')
 
-    # def test_station_borehole_data_update_view_status_code(self):
-    #     self.assertEquals(self.response.status_code, 200)
+    def test_station_borehole_data_update_view_status_code(self):
+        self.assertEquals(self.response.status_code, 200)
+
+    def test_station_borehole_data_update_url_resolves_view(self):
+        view = resolve('/networks/NET/station/STA/edit_borehole')
+        self.assertEquals(view.func.view_class, ExtBoreholeDataUpdateView)

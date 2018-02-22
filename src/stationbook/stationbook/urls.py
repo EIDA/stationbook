@@ -18,7 +18,7 @@ urlpatterns = [
     path('recent_changes/', book_view.RecentChangesListView.as_view(), name='recent_changes'),
     re_path(r'^networks/(?P<network_code>\w+)/$',
         book_view.NetworkDetailsListView.as_view(), name='network_details'),
-    re_path(r'^networks/(?P<network_code>\w+)/station/(?P<station_code>\w+)/$',
+    re_path(r'^networks/(?P<network_code>\w+)/station/(?P<station_code>\w+)$',
         book_view.StationDetailsListView.as_view(), name='station_details'),
     re_path(r'^networks/(?P<network_code>\w+)/station/(?P<station_code>\w+)/gallery$',
         book_view.StationGalleryListView.as_view(), name='station_gallery'),
