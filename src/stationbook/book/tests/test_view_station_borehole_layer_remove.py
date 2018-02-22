@@ -10,8 +10,13 @@ class StationBoreholeLayerRemoveTests(NetworkStationTest):
             url='station_remove_borehole_layer',
             arguments={'network_code': 'NET', 'station_code': 'STA', 'pk': '1' })
 
-    def test_station_borehole_layer_remove_view_status_code(self):
+    def test_station_borehole_layer_remove_view_status_code_authenticated(self):
+        self.login_and_refresh()
         self.assertEquals(self.response.status_code, 200)
+
+    def test_station_borehole_layer_remove_view_status_code_anon(self):
+        self.logout_and_refresh()
+        self.assertEquals(self.response.status_code, 302)
 
     def test_station_borehole_layer_remove_url_resolves_view(self):
         view = resolve('/networks/NET/station/STA/remove_borehole_layer/1')

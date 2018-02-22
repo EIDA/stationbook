@@ -52,8 +52,7 @@ class NetworkStationTest(TestCase):
         img = tempfile.NamedTemporaryFile(suffix=".jpg").name
         self.photo = Photo.objects.create(
             fdsn_station=self.station, pk=1, photo=img)
-        
-        self.user_login()
+
         url = reverse(self.url, kwargs=self.net_stat)
         self.response = self.client.get(url)
 
@@ -62,3 +61,13 @@ class NetworkStationTest(TestCase):
     
     def user_logout(self):
         self.client.logout()
+    
+    def login_and_refresh(self):
+        self.user_login()
+        url = reverse(self.url, kwargs=self.net_stat)
+        self.response = self.client.get(url)
+
+    def logout_and_refresh(self):
+        self.user_logout()
+        url = reverse(self.url, kwargs=self.net_stat)
+        self.response = self.client.get(url)

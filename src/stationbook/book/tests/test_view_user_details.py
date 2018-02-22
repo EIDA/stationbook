@@ -10,7 +10,12 @@ class UserDetailsTests(NetworkStationTest):
             url='user_details',
             arguments={'username': 'admin' })
     
-    def test_user_details_view_status_code(self):
+    def test_user_details_view_status_code_authenticated(self):
+        self.login_and_refresh()
+        self.assertEquals(self.response.status_code, 200)
+    
+    def test_user_details_view_status_code_anon(self):
+        self.logout_and_refresh()
         self.assertEquals(self.response.status_code, 200)
 
     def test_user_details_url_resolves_view(self):
