@@ -6,6 +6,7 @@ import xml.etree.ElementTree as ET
 from django.db import transaction
 
 from .background import BackgroundThread
+from .fdsnws import NO_FDSNWS_DATA
 
 from ..logger import StationBookLogger
 from ..models import FdsnNetwork, FdsnStation, \
@@ -72,24 +73,24 @@ class Networks(object):
 # Single network instance and collection of stations
 class Network(object):
     def __init__(self):
-        self.code = ''
-        self.name = ''
-        self.description = ''
-        self.start_date = ''
-        self.restricted_status = ''
+        self.code = NO_FDSNWS_DATA
+        self.name = NO_FDSNWS_DATA
+        self.description = NO_FDSNWS_DATA
+        self.start_date = NO_FDSNWS_DATA
+        self.restricted_status = NO_FDSNWS_DATA
         self.stations = []
 
 # Single station instance
 class Station(object):
     def __init__(self):
-        self.code = ''
-        self.latitude = 0
-        self.longitude = 0
-        self.elevation = 0
-        self.restricted_status = ''
-        self.start_date = ''
-        self.creation_date = ''
-        self.site_name = ''
+        self.code = NO_FDSNWS_DATA
+        self.latitude = NO_FDSNWS_DATA
+        self.longitude = NO_FDSNWS_DATA
+        self.elevation = NO_FDSNWS_DATA
+        self.restricted_status = NO_FDSNWS_DATA
+        self.start_date = NO_FDSNWS_DATA
+        self.creation_date = NO_FDSNWS_DATA
+        self.site_name = NO_FDSNWS_DATA
 
 def _refresh_station():
     try:

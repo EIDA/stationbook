@@ -5,6 +5,7 @@ ReadTimeout, ConnectTimeout, HTTPError, Timeout, ConnectionError
 from urllib.request import urlopen
 import xml.etree.ElementTree as ET
 
+from .fdsnws import NO_FDSNWS_DATA
 from ..logger import StationBookLogger
 
 class StationChannelsGraph(object):
@@ -27,28 +28,57 @@ class StationChannelsGraph(object):
                 cha.start_date = channel.get('startDate')
                 cha.restricted_status = channel.get('restrictedStatus')
                 cha.location_code = channel.get('locationCode')
-                cha.latitude = channel.find(
-                    './/mw:Latitude', namespaces=self.NSMAP).text
-                cha.longitude = channel.find(
-                    './/mw:Longitude', namespaces=self.NSMAP).text
-                cha.elevation = channel.find(
-                    './/mw:Elevation', namespaces=self.NSMAP).text
-                cha.depth = channel.find(
-                    './/mw:Depth', namespaces=self.NSMAP).text
-                cha.azimuth = channel.find(
-                    './/mw:Azimuth', namespaces=self.NSMAP).text
-                cha.dip = channel.find(
-                    './/mw:Dip', namespaces=self.NSMAP).text
-                cha.sample_rate = channel.find(
-                    './/mw:SampleRate', namespaces=self.NSMAP).text
-                cha.storage_format = channel.find(
-                    './/mw:StorageFormat', namespaces=self.NSMAP).text
-                cha.clock_drift = channel.find(
-                    './/mw:ClockDrift', namespaces=self.NSMAP).text
+
+                tmp = channel.find(
+                    './/mw:Latitude', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.latitude = tmp.text
+
+                tmp = channel.find(
+                    './/mw:Longitude', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.longitude = tmp.text
+
+                tmp = channel.find(
+                    './/mw:Elevation', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.elevation = tmp.text
+
+                tmp = channel.find(
+                    './/mw:Depth', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.depth = tmp.text
+
+                tmp = channel.find(
+                    './/mw:Azimuth', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.azimuth = tmp.text
+
+                tmp = channel.find(
+                    './/mw:Dip', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.dip = tmp.text
+
+                tmp = channel.find(
+                    './/mw:SampleRate', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.sample_rate = tmp.text
+
+                tmp = channel.find(
+                    './/mw:StorageFormat', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.storage_format = tmp.text
+
+                tmp = channel.find(
+                    './/mw:ClockDrift', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.clock_drift = tmp.text
                 
-                cha.sensor.type = channel.find(
+                tmp = channel.find(
                     './/mw:Sensor', namespaces=self.NSMAP).find(
-                        './/mw:Type', namespaces=self.NSMAP).text
+                        './/mw:Type', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.sensor.type = tmp.text
                     
                 tmp = channel.find(
                     './/mw:Sensor', namespaces=self.NSMAP).find(
@@ -64,35 +94,47 @@ class StationChannelsGraph(object):
                 if tmp != None:
                     cha.sensor.description = tmp.text
 
-                cha.sensor.model = channel.find(
+                tmp = channel.find(
                     './/mw:Sensor', namespaces=self.NSMAP).find(
-                        './/mw:Model', namespaces=self.NSMAP).text
+                        './/mw:Model', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.sensor.model = tmp.text
 
-                cha.data_logger.description = channel.find(
+                tmp = channel.find(
                     './/mw:DataLogger', namespaces=self.NSMAP).find(
-                        './/mw:Description', namespaces=self.NSMAP).text
+                        './/mw:Description', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.data_logger.description = tmp.text
                 
-                cha.response.instrument_sensitivity.value = channel.find(
+                tmp = channel.find(
                     './/mw:Response', namespaces=self.NSMAP).find(
                         './/mw:InstrumentSensitivity', namespaces=self.NSMAP).find(
-                            './/mw:Value', namespaces=self.NSMAP).text
+                            './/mw:Value', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.response.instrument_sensitivity.value = tmp.text
 
-                cha.response.instrument_sensitivity.frequency = channel.find(
+                tmp = channel.find(
                     './/mw:Response', namespaces=self.NSMAP).find(
                         './/mw:InstrumentSensitivity', namespaces=self.NSMAP).find(
-                            './/mw:Frequency', namespaces=self.NSMAP).text
+                            './/mw:Frequency', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.response.instrument_sensitivity.frequency = tmp.text
 
-                cha.response.instrument_sensitivity.input_units.name = channel.find(
+                tmp = channel.find(
                     './/mw:Response', namespaces=self.NSMAP).find(
                         './/mw:InstrumentSensitivity', namespaces=self.NSMAP).find(
                             './/mw:InputUnits', namespaces=self.NSMAP).find(
-                                './/mw:Name', namespaces=self.NSMAP).text
+                                './/mw:Name', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.response.instrument_sensitivity.input_units.name = tmp.text
 
-                cha.response.instrument_sensitivity.output_units.name = channel.find(
+                tmp = channel.find(
                     './/mw:Response', namespaces=self.NSMAP).find(
                         './/mw:InstrumentSensitivity', namespaces=self.NSMAP).find(
                             './/mw:OutputUnits', namespaces=self.NSMAP).find(
-                                './/mw:Name', namespaces=self.NSMAP).text
+                                './/mw:Name', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.response.instrument_sensitivity.output_units.name = tmp.text
 
                 channels_graph.channels.append(cha)
             return channels_graph
@@ -113,20 +155,20 @@ class StationChannels(object):
 
 class StationChannel(object):
     def __init__(self):
-        self.code = ''
-        self.start_date = ''
-        self.restricted_status = ''
-        self.location_code = ''
-        self.latitude = ''
-        self.longitude = ''
-        self.elevation = ''
-        self.depth = ''
-        self.azimuth = ''
-        self.dip = ''
-        self.sample_rate = ''
+        self.code = NO_FDSNWS_DATA
+        self.start_date = NO_FDSNWS_DATA
+        self.restricted_status = NO_FDSNWS_DATA
+        self.location_code = NO_FDSNWS_DATA
+        self.latitude = NO_FDSNWS_DATA
+        self.longitude = NO_FDSNWS_DATA
+        self.elevation = NO_FDSNWS_DATA
+        self.depth = NO_FDSNWS_DATA
+        self.azimuth = NO_FDSNWS_DATA
+        self.dip = NO_FDSNWS_DATA
+        self.sample_rate = NO_FDSNWS_DATA
         # self.sample_rate_ratio = StationChannelSampleRateRatio()
-        self.storage_format = ''
-        self.clock_drift = ''
+        self.storage_format = NO_FDSNWS_DATA
+        self.clock_drift = NO_FDSNWS_DATA
         self.sensor = StationChannelSensor()
         self.data_logger = StationChannelDataLogger()
         self.response = StationChannelResponse()
@@ -137,8 +179,8 @@ class StationChannel(object):
 
 class StationChannelSampleRateRatio(object):
     def __init__(self):
-        self.number_samples = 0
-        self.number_seconds = 0
+        self.number_samples = NO_FDSNWS_DATA
+        self.number_seconds = NO_FDSNWS_DATA
     
     def __str__(self):
         return pprint(vars(self))
@@ -146,11 +188,11 @@ class StationChannelSampleRateRatio(object):
 
 class StationChannelSensor(object):
     def __init__(self):
-        self.resource_id = ''
-        self.type = ''
-        self.manufacturer = ''
-        self.description = ''
-        self.model = ''
+        self.resource_id = NO_FDSNWS_DATA
+        self.type = NO_FDSNWS_DATA
+        self.manufacturer = NO_FDSNWS_DATA
+        self.description = NO_FDSNWS_DATA
+        self.model = NO_FDSNWS_DATA
     
     def __str__(self):
         return pprint(vars(self))
@@ -158,8 +200,8 @@ class StationChannelSensor(object):
 
 class StationChannelDataLogger(object):
     def __init__(self):
-        self.resource_id = ''
-        self.description = ''
+        self.resource_id = NO_FDSNWS_DATA
+        self.description = NO_FDSNWS_DATA
     
     def __str__(self):
         return pprint(vars(self))
@@ -175,8 +217,8 @@ class StationChannelResponse(object):
 
 class StationChannelResponseInstrumentSensitivity(object):
     def __init__(self):
-        self.value = ''
-        self.frequency = ''
+        self.value = NO_FDSNWS_DATA
+        self.frequency = NO_FDSNWS_DATA
         self.input_units = StationChannelResponseInputUnits()
         self.output_units = StationChannelResponseOutputUnits()
 
@@ -186,7 +228,7 @@ class StationChannelResponseInstrumentSensitivity(object):
 
 class StationChannelResponseInputUnits(object):
     def __init__(self):
-        self.name = ''
+        self.name = NO_FDSNWS_DATA
 
     def __str__(self):
         return pprint(vars(self))
@@ -194,7 +236,7 @@ class StationChannelResponseInputUnits(object):
 
 class StationChannelResponseOutputUnits(object):
     def __init__(self):
-        self.name = ''
+        self.name = NO_FDSNWS_DATA
 
     def __str__(self):
         return pprint(vars(self))
