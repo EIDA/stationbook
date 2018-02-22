@@ -49,10 +49,20 @@ class StationChannelsGraph(object):
                 cha.sensor.type = channel.find(
                     './/mw:Sensor', namespaces=self.NSMAP).find(
                         './/mw:Type', namespaces=self.NSMAP).text
-
-                cha.sensor.description = channel.find(
+                    
+                tmp = channel.find(
                     './/mw:Sensor', namespaces=self.NSMAP).find(
-                        './/mw:Description', namespaces=self.NSMAP).text
+                        './/mw:Manufacturer', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.sensor.manufacturer = channel.find(
+                    './/mw:Sensor', namespaces=self.NSMAP).find(
+                        './/mw:Manufacturer', namespaces=self.NSMAP).text
+                
+                tmp = channel.find(
+                    './/mw:Sensor', namespaces=self.NSMAP).find(
+                        './/mw:Description', namespaces=self.NSMAP)
+                if tmp != None:
+                    cha.sensor.description = tmp.text
 
                 cha.sensor.model = channel.find(
                     './/mw:Sensor', namespaces=self.NSMAP).find(
@@ -138,6 +148,7 @@ class StationChannelSensor(object):
     def __init__(self):
         self.resource_id = ''
         self.type = ''
+        self.manufacturer = ''
         self.description = ''
         self.model = ''
     
