@@ -22,7 +22,9 @@ class StationChannelsGraph(object):
 
         # If something went wrong, log it and return empty dataset
         if http_code != 200:
-            StationBookLogger(__name__).log_exception('{0} from {1} in {2}'.format(http_code, self.url, StationChannelsGraph.__name__))
+            StationBookLogger(__name__).log_exception(
+                '{0} from {1} in {2}'.format(
+                    http_code, self.url, StationChannelsGraph.__name__))
             return StationChannels()
 
         root = ET.fromstring(response.read())
