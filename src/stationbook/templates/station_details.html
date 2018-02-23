@@ -363,7 +363,7 @@
     </tbody>
 </table>
 
-<p><h2>Borehole Layers: {% if user.is_authenticated and user_is_network_editor %}(<a href="{% url 'station_add_borehole_layer' station.fdsn_network.code station.code %}">Add</a>){% endif %}</h2></p>
+<p><h2>Borehole Layers: {% if user.is_authenticated and user_is_network_editor %}(<a href="{% url 'station_borehole_layer_add' station.fdsn_network.code station.code %}">Add</a>){% endif %}</h2></p>
 <table class="table table">
     <thead class="thead-inverse">
         <tr>
@@ -378,7 +378,8 @@
         <tr>
             <td>{{ layer.description }}
                 {% if user.is_authenticated and user_is_network_editor %}
-                (<a href="{% url 'station_remove_borehole_layer' station.fdsn_network.code station.code layer.pk %}">Remove</a>)
+                (<a href="{% url 'station_borehole_layer_edit' station.fdsn_network.code station.code layer.pk %}">Edit</a> / 
+                <a href="{% url 'station_borehole_layer_remove' station.fdsn_network.code station.code layer.pk %}">Remove</a>)
                 {% endif %}
             </td>
             <td>{{ layer.depth_top }}</td>

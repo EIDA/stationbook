@@ -7,7 +7,7 @@ class StationBoreholeLayerRemoveTests(NetworkStationTest):
     def __init__(self, *args):
         NetworkStationTest.__init__(
             self, *args,
-            url='station_remove_borehole_layer',
+            url='station_borehole_layer_remove',
             arguments={
                 'network_code': 'NET', 'station_code': 'STA', 'pk': '1'
                 })

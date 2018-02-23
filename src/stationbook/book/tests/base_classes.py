@@ -22,6 +22,7 @@ class NetworkStationTest(TestCase):
 
     def setUp(self):
         User.objects.create_user(
+            pk=1,
             username=self.username,
             email='admin@example.com',
             password=self.password)
@@ -35,6 +36,9 @@ class NetworkStationTest(TestCase):
         self.ebodl = ExtBoreholeLayerData.objects.create(
             borehole_data=self.ebod, pk=1
         )
+
+        # Give newly creater user write access to the network
+        self.network.editors.add(User.objects.get(pk=1).profile)
 
         self.station = FdsnStation.objects.create(
             fdsn_network=self.network,

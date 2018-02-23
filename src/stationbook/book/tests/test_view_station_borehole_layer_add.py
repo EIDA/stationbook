@@ -6,7 +6,7 @@ from ..views import station_borehole_layer_add
 class StationBoreholeLayerAddTests(NetworkStationTest):
     def __init__(self, *args):
         NetworkStationTest.__init__(
-            self, *args, url='station_add_borehole_layer')
+            self, *args, url='station_borehole_layer_add')
 
     def test_station_borehole_layer_add_view_status_code_authenticated(self):
         self.login_and_refresh()

@@ -26,8 +26,9 @@ StationBookHelpers, StationUpdateViewBase, StationAccessManager
 
 from .logger import StationBookLogger
 from .forms import \
-UserForm, ProfileForm, AddBoreholeLayerForm, RemoveBoreholeLayerForm, \
-StationPhotoForm, StationPhotoEditForm, StationPhotoRemoveForm
+UserForm, ProfileForm, AddBoreholeLayerForm, EditBoreholeLayerForm, \
+RemoveBoreholeLayerForm, StationPhotoForm, StationPhotoEditForm, \
+StationPhotoRemoveForm
 
 # Stations list view is used as a home screen for the Station Book
 class HomeListView(ListView):
@@ -343,6 +344,35 @@ def station_borehole_layer_add(request, network_code, station_code):
 
 @login_required
 @transaction.atomic
+def station_borehole_layer_edit(request, network_code, station_code, pk):
+    station = get_object_or_404(
+        FdsnStation, fdsn_network__code=network_code, code=station_code)
+    borehole_layer = get_object_or_404(ExtBoreholeLayerData, pk=pk)
+    
+    if not StationAccessManager.user_is_station_editor(request.user, station):
+        raise Http404("Write access to this network not granted!")
+
+    if request.method == 'POST':
+        form = EditBoreholeLayerForm(request.POST, instance=borehole_layer)
+        form.save()
+
+        StationBookHelpers.add_ext_access_data(
+            request.user, station,
+            'Edited borehole layer ({0})'.format(
+                borehole_layer.description))
+
+        return redirect('station_details', \
+            network_code=network_code, \
+            station_code=station_code)
+    else:
+        form = EditBoreholeLayerForm(instance=borehole_layer)
+        return render(
+            request, 'station_borehole_layer_edit.html',
+            {'station': station, 'layer': borehole_layer, 'form': form})
+
+
+@login_required
+@transaction.atomic
 def station_borehole_layer_remove(request, network_code, station_code, pk):
     station = get_object_or_404(
         FdsnStation, fdsn_network__code=network_code, code=station_code)
@@ -367,8 +397,11 @@ def station_borehole_layer_remove(request, network_code, station_code, pk):
     else:
         form = RemoveBoreholeLayerForm()
         return render(
-            request, 'station_borehole_layer_rem.html',
-            {'station': station, 'layer': borehole_layer, 'form': form})
+            request, 'station_borehole_layer_remove.html', {
+                'station': station, 
+                'layer': borehole_layer, 
+                'form': form
+                })
 
 
 @login_required
@@ -424,7 +457,7 @@ def station_photo_edit(request, network_code, station_code, pk):
             station_code=station_code)
     else:
         form = StationPhotoEditForm(instance=photo)
-        return render(request, 'station_gallery_photo_edit.html', {
+        return render(request, 'station_gallery_photo_edit.html', { 
             'station': station, 'img': photo, 'form': form
             })
 

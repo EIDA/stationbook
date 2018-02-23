@@ -49,7 +49,9 @@ class StationAccessManager(object):
     @staticmethod
     def user_is_network_editor(user, network):
         try:
-            if user.profile in network.editors.all():
+            if not hasattr(user, 'profile'):
+                return False
+            elif user.profile in network.editors.all():
                 return True
             else:
                 return False
@@ -61,7 +63,9 @@ class StationAccessManager(object):
     @staticmethod
     def user_is_station_editor(user, station):
         try:
-            if user.profile in station.fdsn_network.editors.all():
+            if not hasattr(user, 'profile'):
+                return False
+            elif user.profile in station.fdsn_network.editors.all():
                 return True
             else:
                 return False

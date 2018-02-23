@@ -20,6 +20,11 @@ class AddBoreholeLayerForm(forms.ModelForm):
         model = ExtBoreholeLayerData
         fields = ('description', 'depth_top', 'depth_bottom')
 
+class EditBoreholeLayerForm(forms.ModelForm):
+    class Meta:
+        model = ExtBoreholeLayerData
+        fields = ('description', 'depth_top', 'depth_bottom')
+
 class RemoveBoreholeLayerForm(forms.ModelForm):
     class Meta:
         model = ExtBoreholeLayerData
