@@ -8,7 +8,9 @@ class StationPhotoRemoveTests(NetworkStationTest):
         NetworkStationTest.__init__(
             self, *args,
             url='station_photo_remove',
-            arguments={'network_code': 'NET', 'station_code': 'STA', 'pk': '1' })
+            arguments={
+                'network_code': 'NET', 'station_code': 'STA', 'pk': '1'
+                })
     
     def test_station_photo_remove_view_status_code_authenticated(self):
         self.login_and_refresh()

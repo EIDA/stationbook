@@ -119,9 +119,13 @@ class StationDetailsListView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         context['fdsn_station_link'] = \
         'http://orfeus-eu.org/fdsnws/station/1/query?network={net}&station={stat}&level=channel'\
-        .format(net=self.kwargs.get('network_code'), stat=self.kwargs.get('station_code'))
+        .format(
+            net=self.kwargs.get('network_code'),
+            stat=self.kwargs.get('station_code'))
+
         scg = StationChannelsGraph(
             network=self.kwargs.get('network_code'),
             station=self.kwargs.get('station_code'))

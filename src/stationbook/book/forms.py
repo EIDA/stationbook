@@ -10,7 +10,10 @@ class UserForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('about', 'location', 'agency', 'department', 'telephone', 'skype', 'birth_date')
+        fields = (
+            'about', 'location', 'agency', 'department', 
+            'telephone', 'skype', 'birth_date'
+            )
 
 class AddBoreholeLayerForm(forms.ModelForm):
     class Meta:
