@@ -158,7 +158,17 @@ class StationGalleryListView(ListView):
         except FdsnStation.DoesNotExist:
             raise Http404("Station does not exist!")
         return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
+        user_is_network_editor = \
+        StationAccessManager.user_is_network_editor(
+            user=self.request.user,
+            network=FdsnNetwork.objects.get(
+                code=self.kwargs.get('network_code')))
+        context['user_is_network_editor'] = user_is_network_editor
+        return context
 
 @method_decorator(login_required, name='dispatch')
 class ExtBasicDataUpdateView(StationUpdateViewBase):

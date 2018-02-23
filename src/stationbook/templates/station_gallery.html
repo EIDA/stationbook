@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
+{% if user.is_authenticated and user_is_network_editor %}
 <div class="btn-group mt-2 float-right" role="group">
     <div class="btn-group" role="group">
         <a class="btn btn-primary" href="{% url 'station_photo_upload' station.fdsn_network.code station.code %}">Upload photos</a>
@@ -31,7 +31,7 @@
     <small class="text-muted d-block">
         Uploaded on {{ img.uploaded_at }}
     </small>
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and user_is_network_editor %}
     <p>
     <a href="{% url 'station_photo_edit' station.fdsn_network.code station.code img.pk %}">Edit</a>
     /
