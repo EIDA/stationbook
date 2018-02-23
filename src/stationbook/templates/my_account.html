@@ -13,7 +13,7 @@
 Networks assigned: 
 {% if user_profile.fdsn_networks.count > 0 %}
   {% for net in user_profile.fdsn_networks.all %}
-  {{ net.code }}
+  <a href="{% url 'network_details' net.code %}">{{ net.code }}</a>
   {% endfor %}
 {% else %}
 None
