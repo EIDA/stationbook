@@ -389,7 +389,7 @@
     var latitude = parseFloat("{{ station.latitude }}");
     var longitude = parseFloat("{{ station.longitude }}");
     var siteCode = "{{ station.code }}"
-    var markerPath = "{% static 'img/markers/marker-blue.png' %}"
+    var markerPath = "{% static 'img/markers/marker-red.png' %}"
 
     map.getView().setCenter(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857'));
     map.getView().setZoom(10);
@@ -398,7 +398,9 @@
     if (!isNaN(latitude) && !isNaN(longitude)) {
         var point = new ol.Feature({
             geometry: new ol.geom.Point(ol.proj.fromLonLat([longitude, latitude])),
-            name: `Site code: ${siteCode}, latitude: ${latitude}, longitude: ${longitude}`
+            name: `<b>Site code: </b>${siteCode}
+            <br><b>Latitude: </b>${latitude}
+            <br><b>Longitude: </b>${longitude}`
         });
 
         point.setStyle(new ol.style.Style({

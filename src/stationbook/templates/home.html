@@ -66,7 +66,10 @@
       if (!isNaN(latitude) && !isNaN(longitude)) {
         var point = new ol.Feature({
           geometry: new ol.geom.Point(ol.proj.fromLonLat([longitude, latitude])),
-          name: `Site code: ${siteCode}, latitude: ${latitude}, longitude: ${longitude}`
+          name: `<b>Site code: </b>${siteCode}
+          <br><b>Latitude: </b>${latitude}
+          <br><b>Longitude: </b>${longitude}
+          <br><a href="{% url 'station_details' station.fdsn_network.code station.code %}">Station details</a>`
         });
 
         point.setStyle(new ol.style.Style({
