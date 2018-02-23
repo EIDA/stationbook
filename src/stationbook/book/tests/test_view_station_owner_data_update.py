@@ -16,5 +16,5 @@ class StationOwnerDataUpdateTests(NetworkStationTest):
         self.assertEquals(self.response.status_code, 302)
 
     def test_station_owner_data_update_url_resolves_view(self):
-        view = resolve('/networks/NET/station/STA/edit_owner')
+        view = resolve('/networks/NET/station/STA/edit_owner/')
         self.assertEquals(view.func.view_class, ExtOwnerDataUpdateView)

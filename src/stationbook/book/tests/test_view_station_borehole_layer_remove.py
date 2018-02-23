@@ -21,5 +21,5 @@ class StationBoreholeLayerRemoveTests(NetworkStationTest):
         self.assertEquals(self.response.status_code, 302)
 
     def test_station_borehole_layer_remove_url_resolves_view(self):
-        view = resolve('/networks/NET/station/STA/remove_borehole_layer/1')
+        view = resolve('/networks/NET/station/STA/remove_borehole_layer/1/')
         self.assertEquals(view.func, station_borehole_layer_remove)

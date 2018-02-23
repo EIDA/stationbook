@@ -19,5 +19,5 @@ class UserDetailsTests(NetworkStationTest):
         self.assertEquals(self.response.status_code, 200)
 
     def test_user_details_url_resolves_view(self):
-        view = resolve('/user/admin')
+        view = resolve('/user/admin/')
         self.assertEquals(view.func.view_class, UserDetailsListView)

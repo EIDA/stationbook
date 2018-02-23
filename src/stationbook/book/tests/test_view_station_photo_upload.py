@@ -16,5 +16,5 @@ class StationPhotoUploadTests(NetworkStationTest):
         self.assertEquals(self.response.status_code, 302)
 
     def test_station_photo_upload_url_resolves_view(self):
-        view = resolve('/networks/NET/station/STA/upload_photo')
+        view = resolve('/networks/NET/station/STA/upload_photo/')
         self.assertEquals(view.func, station_photo_upload)

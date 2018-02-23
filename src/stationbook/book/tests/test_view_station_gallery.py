@@ -16,5 +16,5 @@ class StationGalleryTests(NetworkStationTest):
         self.assertEquals(self.response.status_code, 200)
 
     def test_station_gallery_url_resolves_view(self):
-        view = resolve('/networks/NET/station/STA/gallery')
+        view = resolve('/networks/NET/station/STA/gallery/')
         self.assertEquals(view.func.view_class, StationGalleryListView)

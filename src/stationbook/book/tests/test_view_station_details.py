@@ -16,5 +16,5 @@ class HomeTests(NetworkStationTest):
         self.assertEquals(self.response.status_code, 200)
     
     def test_station_details_url_resolves_view(self):
-        view = resolve('/networks/NET/station/STA')
+        view = resolve('/networks/NET/station/STA/')
         self.assertEquals(view.func.view_class, StationDetailsListView)
