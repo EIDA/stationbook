@@ -1,7 +1,8 @@
 from django.views.generic import UpdateView
 from django.utils import timezone
+from django.http import Http404
 
-from .models import ExtAccessData
+from .models import FdsnNetwork, ExtAccessData
 from .logger import StationBookLogger
 
 class StationBookHelpers():
@@ -16,29 +17,22 @@ class StationBookHelpers():
             access.save()
         except:
             StationBookLogger(__name__).log_exception(
-                add_ext_access_data.__name__)
+                StationBookHelpers.__name__)
 
-    @staticmethod
-    def user_is_network_editor(user, network):
-        try:
-            if user.profile in network.eitors.all():
-                return True
-            else:
-                return False
-        except:
-            return False
+
+class StationUpdateViewBaseMixin(object):
+    def __init__(self):
+        pass
     
-    @staticmethod
-    def user_is_station_editor(user, station):
-        try:
-            if user.profile in station.fdsn_network.eitors.all():
-                return True
-            else:
-                return False
-        except:
-            return False
+    def ensure_user_access_right(self):
+        if not StationAccessManager.user_is_network_editor(
+            user=self.request.user,
+            network=FdsnNetwork.objects.get(
+                code=self.kwargs.get('network_code'))):
+                raise Http404("Write access to this network not granted!")
 
-class StationUpdateViewBase(UpdateView):
+
+class StationUpdateViewBase(UpdateView, StationUpdateViewBaseMixin):
     def __init__(self, model, fields,
         template_name='station_edit.html',
         context_object_name='data'):
@@ -46,3 +40,32 @@ class StationUpdateViewBase(UpdateView):
         self.fields = fields
         self.template_name = template_name
         self.context_object_name = context_object_name
+
+
+class StationAccessManager(object):
+    def __init__(self):
+        pass
+    
+    @staticmethod
+    def user_is_network_editor(user, network):
+        try:
+            if user.profile in network.editors.all():
+                return True
+            else:
+                return False
+        except:
+            StationBookLogger(__name__).log_exception(
+                StationAccessManager.__name__)
+            return False
+    
+    @staticmethod
+    def user_is_station_editor(user, station):
+        try:
+            if user.profile in station.fdsn_network.editors.all():
+                return True
+            else:
+                return False
+        except:
+            StationBookLogger(__name__).log_exception(
+                StationAccessManager.__name__)
+            return False

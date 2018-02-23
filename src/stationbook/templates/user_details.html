@@ -26,7 +26,7 @@
     <p><b>Skype: </b>{{ user_data.profile.skype }}</p>
     <p><b>Birthdate: </b>{{ user_data.profile.birth_date }}</p>
     <p><b>Can edit stations in networks: </b>
-    {% for network in user_data.profile.fdsnNetworks.all %}
+    {% for network in user_data.profile.fdsn_networks.all %}
     {{ network.code }}
     {% endfor %}
     </p>

@@ -19,6 +19,15 @@
 {% endblock %}
 
 {% block content %}
+{% if user.is_authenticated and not user_is_network_editor %}
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  You are logged in, but not allowed to edit stations in this network.
+</div>
+{% endif %}
+
 <div id="map" class="map">
     <div id="popup"></div>
 </div>
@@ -29,7 +38,7 @@
             aria-expanded="false">Gallery</button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
             <a class="dropdown-item" href="{% url 'station_gallery' station.fdsn_network.code station.code %}">Show station gallery</a>
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and user_is_network_editor %}
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'station_photo_upload' station.fdsn_network.code station.code %}">Quick photo upload</a>
             {% endif %}
@@ -69,7 +78,7 @@
         </div>
     </div>
 
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and user_is_network_editor %}
     <div class="btn-group" role="group">
         <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">Edit data</button>
@@ -354,7 +363,7 @@
     </tbody>
 </table>
 
-<p><h2>Borehole Layers: {% if user.is_authenticated %}(<a href="{% url 'station_add_borehole_layer' station.fdsn_network.code station.code %}">Add</a>){% endif %}</h2></p>
+<p><h2>Borehole Layers: {% if user.is_authenticated and user_is_network_editor %}(<a href="{% url 'station_add_borehole_layer' station.fdsn_network.code station.code %}">Add</a>){% endif %}</h2></p>
 <table class="table table">
     <thead class="thead-inverse">
         <tr>
@@ -368,7 +377,7 @@
     <tbody>
         <tr>
             <td>{{ layer.description }}
-                {% if user.is_authenticated %}
+                {% if user.is_authenticated and user_is_network_editor %}
                 (<a href="{% url 'station_remove_borehole_layer' station.fdsn_network.code station.code layer.pk %}">Remove</a>)
                 {% endif %}
             </td>
