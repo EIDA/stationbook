@@ -507,5 +507,7 @@ def update_profile(request):
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
         return render(request, 'my_account.html', {
-            'user_form': user_form, 'profile_form': profile_form
+            'user_profile' : request.user.profile,
+            'user_form': user_form,
+            'profile_form': profile_form
             })

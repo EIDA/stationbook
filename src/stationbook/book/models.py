@@ -267,7 +267,7 @@ class Photo(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(
         User, related_name='profile', on_delete=models.CASCADE)
-    fdsn_networks = models.ManyToManyField(FdsnNetwork, related_name='editors')
+    fdsn_networks = models.ManyToManyField(FdsnNetwork, blank=True, related_name='editors')
     about = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
     location = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
     agency = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)

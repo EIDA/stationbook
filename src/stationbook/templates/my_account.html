@@ -9,6 +9,17 @@
 {% endblock %}
 
 {% block content %}
+<p>
+Networks assigned: 
+{% if user_profile.fdsn_networks.count > 0 %}
+  {% for net in user_profile.fdsn_networks.all %}
+  {{ net.code }}
+  {% endfor %}
+{% else %}
+None
+{% endif %}
+</p>
+
   <div class="row">
     <div class="col-lg-6 col-md-8 col-sm-10">
       <form method="post" novalidate>
