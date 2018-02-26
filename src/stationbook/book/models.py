@@ -189,7 +189,25 @@ class ExtBoreholeLayerData(ExtEntityBase):
         return self.borehole_data.station.code
 
 
+class FdsnNode(models.Model):
+    code = code = models.CharField(
+        max_length=STRING_LENGTH_SHORT, unique=True)
+    description = models.CharField(
+        max_length=STRING_LENGTH_SHORT, default='', blank=True)
+    url_dataselect = models.CharField(
+        max_length=STRING_LENGTH_MEDIUM, default='', blank=True)
+    url_station = models.CharField(
+        max_length=STRING_LENGTH_MEDIUM, default='', blank=True)
+    url_routing = models.CharField(
+        max_length=STRING_LENGTH_MEDIUM, default='', blank=True)
+    url_wfcatalog = models.CharField(
+        max_length=STRING_LENGTH_MEDIUM, default='', blank=True)
+
+
 class FdsnNetwork(models.Model):
+    fdsn_node = models.ForeignKey(
+        FdsnNode, related_name='fdsn_networks',
+        on_delete=models.CASCADE, default=None)
     code = models.CharField(
         max_length=STRING_LENGTH_SHORT, unique=True)
     description = models.CharField(
@@ -206,7 +224,7 @@ class FdsnNetwork(models.Model):
 class FdsnStation(models.Model):
     fdsn_network = models.ForeignKey(
         FdsnNetwork, related_name='fdsn_stations',
-        on_delete=models.PROTECT, default=None)
+        on_delete=models.CASCADE, default=None)
     code = models.CharField(
         max_length=STRING_LENGTH_SHORT, unique=True)
     site_name = models.CharField(
@@ -225,15 +243,15 @@ class FdsnStation(models.Model):
         max_length=STRING_LENGTH_SHORT, blank=True)
     # Ext data
     ext_basic_data = models.OneToOneField(ExtBasicData,
-        related_name='station', on_delete=models.PROTECT)
+        related_name='station', on_delete=models.CASCADE)
     ext_owner_data = models.OneToOneField(ExtOwnerData,
-        related_name='station', on_delete=models.PROTECT)
+        related_name='station', on_delete=models.CASCADE)
     ext_morphology_data = models.OneToOneField(ExtMorphologyData,
-        related_name='station', on_delete=models.PROTECT)
+        related_name='station', on_delete=models.CASCADE)
     ext_housing_data = models.OneToOneField(ExtHousingData,
-        related_name='station', on_delete=models.PROTECT)
+        related_name='station', on_delete=models.CASCADE)
     ext_borehole_data = models.OneToOneField(ExtBoreholeData,
-        related_name='station', on_delete=models.PROTECT)
+        related_name='station', on_delete=models.CASCADE)
 
     def __str__(self):
         return 'Station {0}'.format(self.code)

@@ -1,1 +1,0 @@
-NO_FDSNWS_DATA = 'n/a'

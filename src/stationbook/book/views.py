@@ -15,8 +15,7 @@ from django.views.generic import ListView, DetailView
 from django.db import transaction
 from django.db.models import Q
 
-from .fdsn.station import refresh_station_in_thread
-from .fdsn.station_channels import StationChannelsGraph
+from .fdsn.fdsn_manager import FdsnNetworkManager
 from .models import \
 FdsnNetwork, FdsnStation, ExtBasicData, ExtOwnerData, ExtMorphologyData, \
 ExtHousingData, ExtAccessData, ExtBoreholeData, ExtBoreholeLayerData, Photo
@@ -131,11 +130,12 @@ class StationDetailsListView(ListView):
             net=self.kwargs.get('network_code'),
             stat=self.kwargs.get('station_code'))
 
-        scg = StationChannelsGraph(
-            network=self.kwargs.get('network_code'),
-            station=self.kwargs.get('station_code'))
-        scg_result = scg.get_station_channels()
-        context['station_channels'] = scg_result.channels
+        fdsn_net_manager = FdsnNetworkManager()
+        scg = fdsn_net_manager.discover_station_channels(
+            network_code=self.kwargs.get('network_code'),
+            station_code=self.kwargs.get('station_code'))
+        context['station_channels'] = scg.channels
+            
 
         user_is_network_editor = \
         StationAccessManager.user_is_network_editor(
@@ -528,7 +528,8 @@ def custom_500(request):
 def refresh_fdsn(request):
     StationBookLogger(__name__).log_info(
         'Refreshing FDSN by {0}'.format(request.user))
-    refresh_station_in_thread()
+    fdsn_net_manager = FdsnNetworkManager()
+    fdsn_net_manager.process_fdsn_in_thread()
     return redirect('home')
 
 

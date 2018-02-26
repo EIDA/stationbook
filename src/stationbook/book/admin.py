@@ -5,26 +5,42 @@ from django.contrib import admin
 from django.utils import timezone
 
 # Register your models here.
-from .models import FdsnNetwork, FdsnStation, ExtBasicData, \
+from .models import FdsnNode, FdsnNetwork, FdsnStation, ExtBasicData, \
                     ExtOwnerData, ExtMorphologyData, ExtHousingData, \
                     ExtBoreholeData, ExtBoreholeLayerData, Profile, Photo
+
+
+class FdsnNodeAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Change node details', {'fields': [
+            'code', 'description', 'url_dataselect', 'url_station', 
+            'url_routing', 'url_wfcatalog',
+            ]}),
+    ]
+    list_display = (
+        'code', 'description', 'url_dataselect', 'url_station', 
+        'url_routing', 'url_wfcatalog',)
+    list_filter = ['code', 'description',]
+
 
 class FdsnNetworkAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Change station details', {'fields': [
-            'description', 'start_date', 'restricted_status',]}),
+            'description', 'start_date', 'restricted_status',
+            ]}),
     ]
     list_display = ('code', 'description', 'start_date', 'restricted_status', )
-    list_filter = ['description', 'code', ]
+    list_filter = ['fdsn_node__code', 'description',]
 
 class FdsnStationAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Change station details', {'fields': [
             'site_name', 'latitude', 'longitude', 'elevation',
-            'restricted_status', 'start_date', 'creation_date', ]}),
+            'restricted_status', 'start_date', 'creation_date',
+            ]}),
     ]
     list_display = ('code', 'site_name', 'latitude', 'longitude', 'elevation',
-    'restricted_status', 'start_date', 'creation_date', )
+    'restricted_status', 'start_date', 'creation_date',)
     list_filter = [
         'fdsn_network__description',
         'fdsn_network__code',
@@ -33,7 +49,8 @@ class FdsnStationAdmin(admin.ModelAdmin):
 class ExtBasicAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Change ext basic details', {'fields': [
-            'description', 'start', 'end',]}),
+            'description', 'start', 'end',
+            ]}),
     ]
     list_display = ('__str__', 'description', 'start', 'end',)
     list_filter = ['station__fdsn_network__code', 'station__code',]
@@ -42,7 +59,8 @@ class ExtOwnerAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Change ext owner details', {'fields': [
             'name_first', 'name_last', 'department', 'agency',
-            'street', 'country', 'phone', 'email',]}),
+            'street', 'country', 'phone', 'email',
+            ]}),
     ]
     list_display = ('__str__', 'name_first', 'name_last', 'department',
     'agency', 'street', 'country', 'phone', 'email',)
@@ -53,7 +71,8 @@ class ExtMorphologyAdmin(admin.ModelAdmin):
         ('Change ext morphology details', {'fields': [
             'description', 'geological_unit', 'morphology_class',
             'ground_type_ec8', 'groundwater_depth', 'vs_30', 'f0',
-            'amp_f0', 'basin_flag', 'bedrock_depth',]}),
+            'amp_f0', 'basin_flag', 'bedrock_depth',
+            ]}),
     ]
     list_display = ('__str__', 'description', 'geological_unit',
     'morphology_class', 'ground_type_ec8', 'groundwater_depth', 'vs_30', 'f0',
@@ -64,7 +83,8 @@ class ExtHousingAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Change ext housing details', {'fields': [
             'description', 'housing_class', 'in_building',
-            'numer_of_storeys','distance_to_building',]}),
+            'numer_of_storeys','distance_to_building',
+            ]}),
     ]
     list_display = ('__str__', 'description', 'housing_class', 'in_building',
     'numer_of_storeys','distance_to_building',)
@@ -72,7 +92,8 @@ class ExtHousingAdmin(admin.ModelAdmin):
 
 class ExtBoreholeAdmin(admin.ModelAdmin):
     fieldsets = [
-        ('Change ext borehole details', {'fields': ['depth',]}),
+        ('Change ext borehole details', {'fields': ['depth',
+        ]}),
     ]
     list_display = ('__str__', 'depth',)
     list_filter = ['station__fdsn_network__code', 'station__code',]
@@ -92,6 +113,7 @@ class ProfileAdmin(admin.ModelAdmin):
     ]
     list_display = ('__str__', 'user', 'about', 'location', 'birth_date',)
 
+admin.site.register(FdsnNode, FdsnNodeAdmin)
 admin.site.register(FdsnNetwork, FdsnNetworkAdmin)
 admin.site.register(FdsnStation, FdsnStationAdmin)
 admin.site.register(ExtBasicData, ExtBasicAdmin)
