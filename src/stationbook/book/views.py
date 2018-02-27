@@ -17,11 +17,14 @@ from django.db.models import Q
 
 from .fdsn.fdsn_manager import FdsnNetworkManager
 from .models import \
-FdsnNetwork, FdsnStation, ExtBasicData, ExtOwnerData, ExtMorphologyData, \
-ExtHousingData, ExtAccessData, ExtBoreholeData, ExtBoreholeLayerData, Photo
+FdsnNode, FdsnNetwork, FdsnStation, ExtBasicData, ExtOwnerData, \
+ExtMorphologyData, ExtHousingData, ExtAccessData, ExtBoreholeData, \
+ExtBoreholeLayerData, Photo
 
 from .base_classes import \
 StationBookHelpers, StationUpdateViewBase, StationAccessManager
+
+from .fdsn.base_classes import NodeWrapper
 
 from .logger import StationBookLogger
 from .forms import \
@@ -124,11 +127,13 @@ class StationDetailsListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['fdsn_station_link'] = \
-        'http://orfeus-eu.org/fdsnws/station/1/query?network={net}&station={stat}&level=channel'\
-        .format(
-            net=self.kwargs.get('network_code'),
-            stat=self.kwargs.get('station_code'))
+        node = FdsnNode.objects.get(
+            fdsn_networks__code=self.kwargs.get('network_code'))
+        node_wrapper = NodeWrapper(node)
+        channel_url = node_wrapper.build_url_station_channel_level().format(
+            self.kwargs.get('network_code'),
+            self.kwargs.get('station_code'))
+        context['fdsn_station_link'] = channel_url
 
         fdsn_net_manager = FdsnNetworkManager()
         scg = fdsn_net_manager.discover_station_channels(
@@ -136,7 +141,6 @@ class StationDetailsListView(ListView):
             station_code=self.kwargs.get('station_code'))
         context['station_channels'] = scg.channels
             
-
         user_is_network_editor = \
         StationAccessManager.user_is_network_editor(
             user=self.request.user,

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import ParseError
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
+import gzip
 from .background import BackgroundThread
 
 from django.db import transaction
@@ -23,6 +24,19 @@ class FdsnNetworkManager(object):
     def __init__(self):
         pass
 
+    def fdsn_request(self, url):
+        try:
+            req = Request(url)
+            req.add_header('Accept-Encoding', 'gzip')
+            response = urlopen(req)
+            
+            if response.info().get('Content-Encoding') == 'gzip':
+                return gzip.decompress(response.read())
+            else:
+                return response.read()
+        except Exception:
+            raise
+
     def _get_fdsn_nodes(self):
         try:
             for n in FdsnNode.objects.all():
@@ -32,10 +46,9 @@ class FdsnNetworkManager(object):
     
     def _discover_node_networks(self, node_wrapper):
         try:
-            response = urlopen(node_wrapper.build_url_station_network_level())
-            # if response.info().get('Content-Encoding') == 'gzip':
-            #     StationBookLogger(__name__).log_exception('were gzippped!')
-            root = ET.fromstring(response.read())
+            response = self.fdsn_request(
+                node_wrapper.build_url_station_network_level())
+            root = ET.fromstring(response)
 
             for network in root.findall('.//mw:Network', namespaces=NSMAP):
                 net_wrapper = NetworkWrapper()
@@ -75,14 +88,17 @@ class FdsnNetworkManager(object):
                 net.save()
         except:
             StationBookLogger(__name__).log_exception(
-                FdsnNetworkManager.__name__)
+                'Class: {0}, Node: {1}, Network: {2}'.format(
+                    FdsnNetworkManager.__name__, 
+                    node_wrapper.code, 
+                    network_wrapper.code))
     
     def _discover_network_stations(self, node_wrapper, network_wrapper):
         try:
-            response = urlopen(
+            response = self.fdsn_request(
                 node_wrapper.build_url_station_station_level().format(
                     network_wrapper.code.upper()))
-            root = ET.fromstring(response.read())
+            root = ET.fromstring(response)
 
             for station in root.find(
                 './/mw:Network', namespaces=NSMAP).findall(
@@ -194,21 +210,12 @@ class FdsnNetworkManager(object):
         try:
             network = FdsnNetwork.objects.get(code=network_code)
             node_wrapper = NodeWrapper(network.fdsn_node)
-            print(node_wrapper)
-            response = urlopen(
+            channels_graph = StationChannels()
+
+            response = self.fdsn_request(
                 node_wrapper.build_url_station_channel_level().format(
                     network_code.upper(), station_code.upper()))
-            
-            # If something went wrong, log it and return empty dataset
-            http_code = response.getcode()
-            if http_code != 200:
-                StationBookLogger(__name__).log_exception(
-                    '{0} in {1}'.format(
-                        http_code, FdsnNetworkManager.__name__))
-                return StationChannels()
-            
-            channels_graph = StationChannels()
-            root = ET.fromstring(response.read())
+            root = ET.fromstring(response)
 
             for channel in root.findall('.//mw:Channel', namespaces=NSMAP):
                 cha = StationChannel()
