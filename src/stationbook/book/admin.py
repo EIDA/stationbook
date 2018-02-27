@@ -39,10 +39,10 @@ class FdsnStationAdmin(admin.ModelAdmin):
             'restricted_status', 'start_date', 'creation_date',
             ]}),
     ]
-    list_display = ('code', 'site_name', 'latitude', 'longitude', 'elevation',
+    list_display = ('fdsn_network', 'code', 'site_name', 'latitude', 'longitude', 'elevation',
     'restricted_status', 'start_date', 'creation_date',)
     list_filter = [
-        'fdsn_network__description',
+        'fdsn_network__fdsn_node__code',
         'fdsn_network__code',
     ]
 

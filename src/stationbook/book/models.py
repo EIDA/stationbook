@@ -6,8 +6,8 @@ from enum import Enum
 
 from django.db import models, transaction
 from django.utils import timezone
-from django.contrib.auth.models import User
 from django.utils.html import mark_safe
+from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -209,10 +209,10 @@ class FdsnNetwork(models.Model):
         FdsnNode, related_name='fdsn_networks',
         on_delete=models.CASCADE, default=None)
     code = models.CharField(
-        max_length=STRING_LENGTH_SHORT, unique=True)
+        max_length=STRING_LENGTH_SHORT)
     description = models.CharField(
         max_length=STRING_LENGTH_SHORT, default='', blank=True)
-    start_date = models.CharField(
+    start_date = models.DateTimeField(
         max_length=STRING_LENGTH_SHORT, default='', blank=True)
     restricted_status = models.CharField(
         max_length=STRING_LENGTH_SHORT, default='', blank=True)
@@ -226,7 +226,7 @@ class FdsnStation(models.Model):
         FdsnNetwork, related_name='fdsn_stations',
         on_delete=models.CASCADE, default=None)
     code = models.CharField(
-        max_length=STRING_LENGTH_SHORT, unique=True)
+        max_length=STRING_LENGTH_SHORT)
     site_name = models.CharField(
         max_length=STRING_LENGTH_SHORT, blank=True)
     latitude = models.DecimalField(
@@ -237,9 +237,9 @@ class FdsnStation(models.Model):
         max_digits=8, decimal_places=2, blank=True)
     restricted_status = models.CharField(
         max_length=STRING_LENGTH_SHORT, blank=True)
-    start_date = models.CharField(
+    start_date = models.DateTimeField(
         max_length=STRING_LENGTH_SHORT, blank=True)
-    creation_date = models.CharField(
+    creation_date = models.DateTimeField(
         max_length=STRING_LENGTH_SHORT, blank=True)
     # Ext data
     ext_basic_data = models.OneToOneField(ExtBasicData,

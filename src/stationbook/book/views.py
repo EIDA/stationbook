@@ -15,7 +15,7 @@ from django.views.generic import ListView, DetailView
 from django.db import transaction
 from django.db.models import Q
 
-from .fdsn.fdsn_manager import FdsnNetworkManager
+from .fdsn.fdsn_manager import FdsnManager, FdsnStationChannelsManager
 from .models import \
 FdsnNode, FdsnNetwork, FdsnStation, ExtBasicData, ExtOwnerData, \
 ExtMorphologyData, ExtHousingData, ExtAccessData, ExtBoreholeData, \
@@ -135,8 +135,8 @@ class StationDetailsListView(ListView):
             self.kwargs.get('station_code'))
         context['fdsn_station_link'] = channel_url
 
-        fdsn_net_manager = FdsnNetworkManager()
-        scg = fdsn_net_manager.discover_station_channels(
+        fdsn_cha_manager = FdsnStationChannelsManager()
+        scg = fdsn_cha_manager.discover_station_channels(
             network_code=self.kwargs.get('network_code'),
             station_code=self.kwargs.get('station_code'))
         context['station_channels'] = scg.channels
@@ -532,7 +532,7 @@ def custom_500(request):
 def refresh_fdsn(request):
     StationBookLogger(__name__).log_info(
         'Refreshing FDSN by {0}'.format(request.user))
-    fdsn_net_manager = FdsnNetworkManager()
+    fdsn_net_manager = FdsnManager()
     fdsn_net_manager.process_fdsn_in_thread()
     return redirect('home')
 
