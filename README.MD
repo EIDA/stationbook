@@ -24,7 +24,7 @@
     ```
     (env) [usr@host stationbook]$ python3 manage.py createsuperuser
     ```
-1. Load the initial data into the database:
+1. Load the fixtures into the database:
     ```
     (env) [usr@host stationbook]$ python3 manage.py loaddata book.json
     ```
@@ -32,3 +32,10 @@
     ```
     (env) [usr@host stationbook]$ python3 manage.py runserver 0.0.0.0:8080
     ```
+# FDSN data synchronization
+Below code can be used to synchronize with the EIDA nodes. EIDA nodes can be configured manually using admin panel or loaded from the fixtures.
+```
+(env) [usr@host stationbook]$ python3 manage.py shell
+>>> from book.fdsn.fdsn_manager import FdsnManager
+>>> FdsnManager().process_fdsn()
+```
