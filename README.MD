@@ -1,11 +1,34 @@
 # Quick start guide
-```
-[usr@host src]$ python3 -m venv env
-[usr@host src]$ source env/bin/activate
-(env) [usr@host src]$ pip install -r requirements.txt
-(env) [usr@host stationbook]$ cd stationbook/
-(env) [usr@host stationbook]$ python3 manage.py makemigrations
-(env) [usr@host stationbook]$ python3 manage.py migrate
-(env) [usr@host stationbook]$ python3 manage.py createsuperuser
-(env) [usr@host stationbook]$ python3 manage.py runserver 0.0.0.0:8080
-```
+1. Create the virtual environment:
+    ```
+    [usr@host src]$ python3 -m venv env
+    ```
+1. Activate the virtual environment:
+    ```
+    [usr@host src]$ source env/bin/activate
+    ```
+1. Install the dependencies:
+    ```
+    (env) [usr@host src]$ pip install -r requirements.txt
+    ```
+1. Go to the root directory:
+    ```
+    (env) [usr@host stationbook]$ cd stationbook/
+    ```
+1. Prepare the database migration and apply it:
+    ```
+    (env) [usr@host stationbook]$ python3 manage.py makemigrations
+    (env) [usr@host stationbook]$ python3 manage.py migrate
+    ```
+1. Create the super user:
+    ```
+    (env) [usr@host stationbook]$ python3 manage.py createsuperuser
+    ```
+1. Load the initial data into the database:
+    ```
+    (env) [usr@host stationbook]$ python3 manage.py loaddata book.json
+    ```
+1. Run the test server:
+    ```
+    (env) [usr@host stationbook]$ python3 manage.py runserver 0.0.0.0:8080
+    ```
