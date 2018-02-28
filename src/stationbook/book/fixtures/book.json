@@ -1,0 +1,134 @@
+[
+{
+    "model": "book.fdsnnode",
+    "pk": 1,
+    "fields": {
+        "code": "ODC",
+        "description": "",
+        "url_dataselect": "",
+        "url_station": "http://www.orfeus-eu.org/fdsnws/station/1/query",
+        "url_routing": "http://www.orfeus-eu.org/eidaws/routing/1/query",
+        "url_wfcatalog": ""
+    }
+},
+{
+    "model": "book.fdsnnode",
+    "pk": 2,
+    "fields": {
+        "code": "GFZ",
+        "description": "",
+        "url_dataselect": "",
+        "url_station": "http://geofon.gfz-potsdam.de/fdsnws/station/1/query",
+        "url_routing": "",
+        "url_wfcatalog": ""
+    }
+},
+{
+    "model": "book.fdsnnode",
+    "pk": 3,
+    "fields": {
+        "code": "RESIF",
+        "description": "",
+        "url_dataselect": "",
+        "url_station": "http://ws.resif.fr/fdsnws/station/1/query",
+        "url_routing": "",
+        "url_wfcatalog": ""
+    }
+},
+{
+    "model": "book.fdsnnode",
+    "pk": 4,
+    "fields": {
+        "code": "INGV",
+        "description": "",
+        "url_dataselect": "",
+        "url_station": "http://webservices.ingv.it/fdsnws/station/1/query",
+        "url_routing": "",
+        "url_wfcatalog": ""
+    }
+},
+{
+    "model": "book.fdsnnode",
+    "pk": 5,
+    "fields": {
+        "code": "ETHZ",
+        "description": "",
+        "url_dataselect": "",
+        "url_station": "http://eida.ethz.ch/fdsnws/station/1/query",
+        "url_routing": "",
+        "url_wfcatalog": ""
+    }
+},
+{
+    "model": "book.fdsnnode",
+    "pk": 6,
+    "fields": {
+        "code": "BGR",
+        "description": "",
+        "url_dataselect": "",
+        "url_station": "http://eida.bgr.de/fdsnws/station/1/query",
+        "url_routing": "",
+        "url_wfcatalog": ""
+    }
+},
+{
+    "model": "book.fdsnnode",
+    "pk": 7,
+    "fields": {
+        "code": "NIEP",
+        "description": "",
+        "url_dataselect": "",
+        "url_station": "http://eida-sc3.infp.ro/fdsnws/station/1/query",
+        "url_routing": "",
+        "url_wfcatalog": ""
+    }
+},
+{
+    "model": "book.fdsnnode",
+    "pk": 8,
+    "fields": {
+        "code": "KOERI",
+        "description": "",
+        "url_dataselect": "",
+        "url_station": "http://eida-service.koeri.boun.edu.tr/fdsnws/station/1/query",
+        "url_routing": "",
+        "url_wfcatalog": ""
+    }
+},
+{
+    "model": "book.fdsnnode",
+    "pk": 9,
+    "fields": {
+        "code": "IPGP",
+        "description": "",
+        "url_dataselect": "",
+        "url_station": "http://eida.ipgp.fr/fdsnws/station/1/query",
+        "url_routing": "",
+        "url_wfcatalog": ""
+    }
+},
+{
+    "model": "book.fdsnnode",
+    "pk": 10,
+    "fields": {
+        "code": "LMU",
+        "description": "",
+        "url_dataselect": "",
+        "url_station": "http://erde.geophysik.uni-muenchen.de/fdsnws/station/1/query",
+        "url_routing": "",
+        "url_wfcatalog": ""
+    }
+},
+{
+    "model": "book.fdsnnode",
+    "pk": 11,
+    "fields": {
+        "code": "NOA",
+        "description": "",
+        "url_dataselect": "",
+        "url_station": "http://eida.gein.noa.gr/fdsnws/station/1/query",
+        "url_routing": "",
+        "url_wfcatalog": ""
+    }
+}
+]
