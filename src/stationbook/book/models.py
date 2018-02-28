@@ -7,8 +7,6 @@ from django.db import models, transaction
 from django.utils import timezone
 from django.utils.html import mark_safe
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 from markdown import markdown
 
@@ -177,8 +175,8 @@ class ExtBoreholeData(ExtEntityBase):
 
 class ExtBoreholeLayerData(ExtEntityBase):
     borehole_data = models.ForeignKey(
-        ExtBoreholeData, related_name='borehole_layers',
-        on_delete=models.CASCADE, default=None)
+        ExtBoreholeData, related_name='borehole_layers', 
+        null=True, on_delete=models.SET_NULL)
     description = models.CharField(
         max_length=STRING_LENGTH_SHORT, default='', blank=True)
     depth_top = models.IntegerField(default=0)
@@ -242,15 +240,15 @@ class FdsnStation(models.Model):
         max_length=STRING_LENGTH_SHORT, blank=True)
     # Ext data
     ext_basic_data = models.OneToOneField(ExtBasicData,
-        related_name='station', on_delete=models.CASCADE)
+        related_name='station', null=True, on_delete=models.SET_NULL)
     ext_owner_data = models.OneToOneField(ExtOwnerData,
-        related_name='station', on_delete=models.CASCADE)
+        related_name='station', null=True, on_delete=models.SET_NULL)
     ext_morphology_data = models.OneToOneField(ExtMorphologyData,
-        related_name='station', on_delete=models.CASCADE)
+        related_name='station', null=True, on_delete=models.SET_NULL)
     ext_housing_data = models.OneToOneField(ExtHousingData,
-        related_name='station', on_delete=models.CASCADE)
+        related_name='station', null=True, on_delete=models.SET_NULL)
     ext_borehole_data = models.OneToOneField(ExtBoreholeData,
-        related_name='station', on_delete=models.CASCADE)
+        related_name='station', null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return 'Station {0}'.format(self.code)
@@ -295,12 +293,3 @@ class Profile(models.Model):
 
     def __str__(self):
         return 'Profile of: {0}'.format(self.user)
-
-    @receiver(post_save, sender=User)
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            Profile.objects.create(user=instance)
-
-    @receiver(post_save, sender=User)
-    def save_user_profile(sender, instance, **kwargs):
-        instance.profile.save()

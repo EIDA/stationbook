@@ -26,7 +26,7 @@ class FdsnNodeAdmin(admin.ModelAdmin):
 class FdsnNetworkAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Change station details', {'fields': [
-            'description', 'start_date', 'restricted_status',
+            'description', 'restricted_status',
             ]}),
     ]
     list_display = ('code', 'description', 'start_date', 'restricted_status', )
@@ -121,5 +121,6 @@ admin.site.register(ExtOwnerData, ExtOwnerAdmin)
 admin.site.register(ExtMorphologyData, ExtMorphologyAdmin)
 admin.site.register(ExtHousingData, ExtHousingAdmin)
 admin.site.register(ExtBoreholeData, ExtBoreholeAdmin)
+admin.site.register(ExtBoreholeLayerData)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Photo)
