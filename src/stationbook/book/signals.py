@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 
-from .models import FdsnStation, \
+from .models import Profile, FdsnStation, \
 ExtBasicData, ExtOwnerData, ExtMorphologyData, ExtHousingData, ExtAccessData, \
 ExtBoreholeData, ExtBoreholeLayerData, Photo
 
