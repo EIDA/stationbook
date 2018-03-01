@@ -9,7 +9,7 @@ class StationBoreholeLayerEditTests(NetworkStationTest):
             self, *args,
             url='station_borehole_layer_edit',
             arguments={
-                'network_code': 'NET', 'station_code': 'STA', 'pk': '1'
+                'network_pk': '1', 'station_pk': '1', 'layer_pk': '1'
                 })
 
     def test_station_borehole_layer_edit_view_status_code_authenticated(self):
@@ -21,5 +21,5 @@ class StationBoreholeLayerEditTests(NetworkStationTest):
         self.assertEquals(self.response.status_code, 302)
 
     def test_station_borehole_layer_edit_url_resolves_view(self):
-        view = resolve('/networks/NET/station/STA/edit_borehole_layer/1/')
+        view = resolve('/networks/1/station/1/edit_borehole_layer/1/')
         self.assertEquals(view.func, station_borehole_layer_edit)

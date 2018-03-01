@@ -9,7 +9,7 @@ class StationBoreholeLayerRemoveTests(NetworkStationTest):
             self, *args,
             url='station_borehole_layer_remove',
             arguments={
-                'network_code': 'NET', 'station_code': 'STA', 'pk': '1'
+                'network_pk': '1', 'station_pk': '1', 'layer_pk': '1'
                 })
 
     def test_station_borehole_layer_remove_view_status_code_authenticated(self):
@@ -21,5 +21,5 @@ class StationBoreholeLayerRemoveTests(NetworkStationTest):
         self.assertEquals(self.response.status_code, 302)
 
     def test_station_borehole_layer_remove_url_resolves_view(self):
-        view = resolve('/networks/NET/station/STA/remove_borehole_layer/1/')
+        view = resolve('/networks/1/station/1/remove_borehole_layer/1/')
         self.assertEquals(view.func, station_borehole_layer_remove)

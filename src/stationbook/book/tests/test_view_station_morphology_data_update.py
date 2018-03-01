@@ -16,5 +16,5 @@ class StationMorphologyDataUpdateTests(NetworkStationTest):
         self.assertEquals(self.response.status_code, 302)
 
     def test_station_morphology_data_update_url_resolves_view(self):
-        view = resolve('/networks/NET/station/STA/edit_morphology/')
+        view = resolve('/networks/1/station/1/edit_morphology/')
         self.assertEquals(view.func.view_class, ExtMorphologyDataUpdateView)

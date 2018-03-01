@@ -5,14 +5,14 @@ from django.test.client import Client
 from django.urls import resolve, reverse
 from django.contrib.auth.models import User
 
-from ..models import FdsnNetwork, FdsnStation, ExtEntityBase, \
+from ..models import FdsnNode, FdsnNetwork, FdsnStation, ExtEntityBase, \
 ExtBasicData, ExtOwnerData, ExtMorphologyData, ExtHousingData, \
 ExtBoreholeData, ExtBoreholeLayerData, Photo
 
 class NetworkStationTest(TestCase):
     def __init__(
         self, *args, 
-        url, arguments={'network_code': 'NET', 'station_code': 'STA'}):
+        url, arguments={'network_pk': '1', 'station_pk': '1'}):
 
         TestCase.__init__(self, *args)
         self.url = url
@@ -27,7 +27,16 @@ class NetworkStationTest(TestCase):
             email='admin@example.com',
             password=self.password)
         
-        self.network = FdsnNetwork.objects.create(code='NET')
+        self.node = FdsnNode.objects.create(
+            pk=1, 
+            code='ODC',
+            url_station='',
+            url_routing='')
+
+        self.network = FdsnNetwork.objects.create(
+            fdsn_node=self.node, 
+            pk=1, code='NET', 
+            start_date='1990-01-01 12:00')
         self.ebad = ExtBasicData.objects.create()
         self.eowd = ExtOwnerData.objects.create()
         self.emod = ExtMorphologyData.objects.create()
@@ -41,8 +50,11 @@ class NetworkStationTest(TestCase):
         self.network.editors.add(User.objects.get(pk=1).profile)
 
         self.station = FdsnStation.objects.create(
+            pk=1,
             fdsn_network=self.network,
             code='STA',
+            start_date='1980-01-01 12:00',
+            creation_date='1990-01-01 12:00',
             latitude=50,
             longitude=100,
             elevation=600,

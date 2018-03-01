@@ -17,5 +17,5 @@ class StationBoreholeLayerAddTests(NetworkStationTest):
         self.assertEquals(self.response.status_code, 302)
 
     def test_station_borehole_layer_add_update_url_resolves_view(self):
-        view = resolve('/networks/NET/station/STA/add_borehole_layer/')
+        view = resolve('/networks/1/station/1/add_borehole_layer/')
         self.assertEquals(view.func, station_borehole_layer_add)
