@@ -15,6 +15,7 @@
 <table class="table">
     <thead class="thead-inverse">
         <tr>
+            <th>Node</th>
             <th>Network</th>
             <th>Start Date</th>
             <th>Status</th>
@@ -24,7 +25,10 @@
         {% for network in data %}
         <tr>
             <td>
-                <a href="{% url 'network_details' network.code %}">{{ network.code }}</a>
+                {{ network.fdsn_node }}
+            </td>
+            <td>
+                <a href="{% url 'network_details' network.pk %}">{{ network.code }}</a>
                 <small class="text-muted d-block">
                     {{ network.description }}
                 </small>

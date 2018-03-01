@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+{% endblock %} 
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+    <a href="{% url 'home' %}">Home</a>
+</li>
+<li class="breadcrumb-item active">Nodes</li>
+{% endblock %}
+
+{% block content %}
+<table class="table">
+    <thead class="thead-inverse">
+        <tr>
+            <th>Code</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for node in data %}
+        <tr>
+            <td>
+                {{ node.code }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

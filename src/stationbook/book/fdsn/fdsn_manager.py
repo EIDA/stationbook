@@ -183,15 +183,16 @@ class FdsnStationChannelsManager(FdsnHttpBase):
     def __init__(self_):
         pass
     
-    def discover_station_channels(self, network_code, station_code):
+    def discover_station_channels(self, network_pk, station_pk):
         try:
-            network = FdsnNetwork.objects.get(code=network_code)
+            network = FdsnNetwork.objects.get(pk=network_pk)
+            station = FdsnStation.objects.get(pk=station_pk)
             node_wrapper = NodeWrapper(network.fdsn_node)
             channels_graph = StationChannels()
 
             response = self.fdsn_request(
                 node_wrapper.build_url_station_channel_level().format(
-                    network_code.upper(), station_code.upper()))
+                    network.code.upper(), station.code.upper()))
             root = ET.fromstring(response)
 
             for channel in root.findall('.//mw:Channel', namespaces=NSMAP):

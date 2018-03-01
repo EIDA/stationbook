@@ -8,8 +8,8 @@
 {% block breadcrumb %}
 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
 <li class="breadcrumb-item"><a href="{% url 'networks' %}">Networks</a></li>
-<li class="breadcrumb-item"><a href="{% url 'network_details' station.fdsn_network.code %}">{{ station.fdsn_network.code }}</a></li>
-<li class="breadcrumb-item"><a href="{% url 'station_details' station.fdsn_network.code station.code %}">{{ station.code }}</a></li>
+<li class="breadcrumb-item"><a href="{% url 'network_details' station.fdsn_network.pk %}">{{ station.fdsn_network.code }}</a></li>
+<li class="breadcrumb-item"><a href="{% url 'station_details' station.fdsn_network.pk station.pk %}">{{ station.code }}</a></li>
 <li class="breadcrumb-item active">Gallery</li>
 {% endblock %}
 
@@ -17,7 +17,7 @@
 {% if user.is_authenticated and user_is_network_editor %}
 <div class="btn-group mt-2 float-right" role="group">
     <div class="btn-group" role="group">
-        <a class="btn btn-primary" href="{% url 'station_photo_upload' station.fdsn_network.code station.code %}">Upload photos</a>
+        <a class="btn btn-primary" href="{% url 'station_photo_upload' station.fdsn_network.pk station.pk %}">Upload photos</a>
     </div>
 </div>
 {% endif %}
@@ -33,9 +33,9 @@
     </small>
     {% if user.is_authenticated and user_is_network_editor %}
     <p>
-    <a href="{% url 'station_photo_edit' station.fdsn_network.code station.code img.pk %}">Edit</a>
+    <a href="{% url 'station_photo_edit' station.fdsn_network.pk station.pk img.pk %}">Edit</a>
     /
-    <a href="{% url 'station_photo_remove' station.fdsn_network.code station.code img.pk %}">Remove</a>
+    <a href="{% url 'station_photo_remove' station.fdsn_network.pk station.pk img.pk %}">Remove</a>
     </p>
     {% endif %}
     <hr>

@@ -218,7 +218,13 @@ class FdsnNetwork(models.Model):
         max_length=STRING_LENGTH_SHORT, default='', blank=True)
 
     def __str__(self):
-        return 'Network {0}'.format(self.code)
+        return 'Node {0} Network {1} Year {2}'.format(
+            self.fdsn_node.code,
+            self.code,
+            self.start_date.year)
+    
+    def has_stations(self):
+        return self.fdsn_stations.count > 0
 
 
 class FdsnStation(models.Model):

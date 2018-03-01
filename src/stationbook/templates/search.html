@@ -24,13 +24,13 @@
     {% for station in data %}
     <tr>
       <td>
-        <a href="{% url 'network_details' station.fdsn_network.code %}">{{ station.fdsn_network.code }}</a>
+        <a href="{% url 'network_details' station.fdsn_network.pk %}">{{ station.fdsn_network.code }}</a>
         <small class="text-muted d-block">
           {{ station.fdsn_network.description }}
         </small>
       </td>
       <td>
-        <a href ="{% url 'station_details' station.fdsn_network.code station.code %}">{{ station.code }}</a>
+        <a href ="{% url 'station_details' station.fdsn_network.pk station.pk %}">{{ station.code }}</a>
         <small class="text-muted d-block">
           Latitude: {{ station.latitude }},
           Longitude: {{ station.longitude }}

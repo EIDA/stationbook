@@ -28,7 +28,7 @@ class StationUpdateViewBaseMixin(object):
         if not StationAccessManager.user_is_network_editor(
             user=self.request.user,
             network=FdsnNetwork.objects.get(
-                code=self.kwargs.get('network_code'))):
+                pk=self.kwargs.get('network_pk'))):
                 raise Http404("Write access to this network not granted!")
 
 

@@ -30,7 +30,7 @@ class FdsnNetworkAdmin(admin.ModelAdmin):
             ]}),
     ]
     list_display = ('fdsn_node', 'code', 'description', 'start_date', 'restricted_status', )
-    list_filter = ['fdsn_node__code', 'description',]
+    list_filter = ['fdsn_node__code', 'code',]
 
 class FdsnStationAdmin(admin.ModelAdmin):
     fieldsets = [
