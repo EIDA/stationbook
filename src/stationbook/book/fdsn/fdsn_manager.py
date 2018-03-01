@@ -154,9 +154,10 @@ class FdsnNetworkManager(FdsnHttpBase):
                 net.save()
             else:
                 self.log_information(
-                    'Adding: node {0} Network {1}!'.format(
+                    'Adding: node {0} Network {1} Year {2}'.format(
                         node_wrapper.code,
-                        network_wrapper.code))
+                        network_wrapper.code,
+                        network_wrapper.parse_start_date_year()))
 
                 net = FdsnNetwork()
                 net.code = network_wrapper.code
@@ -499,9 +500,10 @@ class FdsnRoutingManager(FdsnHttpBase):
                 stat.save()
             else:
                 self.log_information(
-                    'Adding: node {0} Network {1} Station {2}!'.format(
+                    'Adding: node {0} Network {1} Year {2} Station {3}'.format(
                         node_wrapper.code,
                         network_wrapper.code,
+                        network_wrapper.parse_start_date_year(),
                         station_wrapper.code))
 
                 # Create station entity

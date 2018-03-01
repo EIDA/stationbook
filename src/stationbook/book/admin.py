@@ -29,7 +29,7 @@ class FdsnNetworkAdmin(admin.ModelAdmin):
             'description', 'restricted_status',
             ]}),
     ]
-    list_display = ('code', 'description', 'start_date', 'restricted_status', )
+    list_display = ('fdsn_node', 'code', 'description', 'start_date', 'restricted_status', )
     list_filter = ['fdsn_node__code', 'description',]
 
 class FdsnStationAdmin(admin.ModelAdmin):

@@ -199,6 +199,9 @@ class FdsnNode(models.Model):
         max_length=STRING_LENGTH_MEDIUM, default='', blank=True)
     url_wfcatalog = models.CharField(
         max_length=STRING_LENGTH_MEDIUM, default='', blank=True)
+    
+    def __str__(self):
+        return self.code
 
 
 class FdsnNetwork(models.Model):
