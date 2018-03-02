@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/datatable/dataTables.bootstrap4.min.css' %}">
 {% endblock %} 
 
 {% block breadcrumb %}
@@ -12,8 +13,16 @@
 {% endblock %}
 
 {% block content %}
-<table class="table">
-    <thead class="thead-inverse">
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#networks_table').DataTable({
+            stateSave: true
+        });
+    });
+</script>
+
+<table id="networks_table" class="table" cellspacing="0" width="100%">
+    <thead>
         <tr>
             <th>Node</th>
             <th>Network</th>
@@ -34,7 +43,7 @@
                 </small>
             </td>
             <td>
-                {{ network.start_date }}
+                {{ network.start_date.year }}/{{ network.start_date.month }}/{{ network.start_date.day }}
             </td>
             <td>
                 {{ network.restricted_status }}
@@ -43,5 +52,9 @@
         {% endfor %}
     </tbody>
 </table>
-{% include 'includes/pagination.html' %}
+
+{% block javascript %}
+<script src="{% static 'js/datatable/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/datatable/dataTables.bootstrap4.min.js' %}"></script>
+{% endblock %}
 {% endblock %}

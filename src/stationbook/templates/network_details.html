@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/datatable/dataTables.bootstrap4.min.css' %}">
 <link rel="stylesheet" href="{% static 'css/ol.css' %}" type="text/css">
 <style>
   .map {
@@ -19,6 +20,13 @@
 {% endblock %}
 
 {% block content %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#stations_table').DataTable({
+            stateSave: true
+        });
+    });
+</script>
 <h1>Network details</h1>
 <p><b>Network Node:</b> {{ network.fdsn_node.code }}</p>
 <p><b>Network Code:</b> {{ network.code }}</p>
@@ -36,8 +44,8 @@
 <script src="{% static 'js/home_openlayers.js' %}"></script>
 
 <h1>List of stations</h1>
-<table class="table">
-    <thead class="thead-inverse">
+<table id="stations_table" class="table" cellspacing="0" width="100%">
+    <thead>
         <tr>
             <th>Station code</th>
             <th>Site name</th>
@@ -57,7 +65,7 @@
                 {{ station.site_name }}
             </td>
             <td>
-                {{ station.start_date }}
+                {{ station.start_date.year }}/{{ station.start_date.month }}/{{ station.start_date.day }}
             </td>
         </tr>
         <script type="text/javascript">
@@ -98,5 +106,8 @@
     map.getView().setCenter(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857'));
     map.getView().setZoom(6);
 </script>
-{% include 'includes/pagination.html' %}
+{% block javascript %}
+<script src="{% static 'js/datatable/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/datatable/dataTables.bootstrap4.min.js' %}"></script>
+{% endblock %}
 {% endblock %}

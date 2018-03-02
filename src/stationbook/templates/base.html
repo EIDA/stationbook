@@ -7,10 +7,15 @@
   <title>{% block title %}Station Book{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/app.css' %}">
-  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Bangers'> {% block stylesheet %}{% endblock %}
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Bangers'>
+  {% block stylesheet %} {% endblock %}
 </head>
 
 <body>
+  <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
   {% block body %}
   <nav class="navbar sticky-top navbar-expand-sm navbar-dark bg-dark">
     <div class="container">
@@ -90,10 +95,7 @@
     </div>
   </div>
   {% endblock footer %}
-
-  <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-  <script src="{% static 'js/popper.min.js' %}"></script>
-  <script src="{% static 'js/bootstrap.min.js' %}"></script> {% block javascript %} {% endblock %}
+  {% block javascript %} {% endblock %}
 </body>
 
 </html>

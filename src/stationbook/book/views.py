@@ -99,7 +99,7 @@ class NetworksListView(ListView):
     model = FdsnNetwork
     context_object_name = 'data'
     template_name = 'networks.html'
-    paginate_by = 10
+    
     
     def get_queryset(self):
         queryset = FdsnNetwork.objects.annotate(
@@ -112,7 +112,6 @@ class RecentChangesListView(ListView):
     model = ExtAccessData
     context_object_name = 'data'
     template_name = 'recent_changes.html'
-    paginate_by = 10
 
     def get_queryset(self):
         queryset = ExtAccessData.objects.order_by('-updated_at')[:1000]
@@ -123,7 +122,6 @@ class NetworkDetailsListView(ListView):
     model = FdsnStation
     context_object_name = 'stations'
     template_name = 'network_details.html'
-    paginate_by = 50
 
     def get_queryset(self):
         try:

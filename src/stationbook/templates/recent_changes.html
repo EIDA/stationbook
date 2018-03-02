@@ -3,6 +3,7 @@
 {% load humanize %}
 
 {% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/datatable/dataTables.bootstrap4.min.css' %}">
 {% endblock %}
 
 {% block breadcrumb %}
@@ -11,8 +12,13 @@
 {% endblock %}
 
 {% block content %}
-<table class="table">
-    <thead class="thead-inverse">
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#recent_changes_table').DataTable();
+    });
+</script>
+<table id="recent_changes_table" class="table" cellspacing="0" width="100%">
+    <thead>
         <tr>
             <th>Info</th>
             <th>Network / Station</th>
@@ -40,5 +46,8 @@
         {% endfor %}
     </tbody>
 </table>
-{% include 'includes/pagination.html' %}
+{% block javascript %}
+<script src="{% static 'js/datatable/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/datatable/dataTables.bootstrap4.min.js' %}"></script>
+{% endblock %}
 {% endblock %}
