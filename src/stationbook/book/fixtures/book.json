@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
         "code": "ODC",
-        "description": "",
+        "description": "ORFEUS Data Center - Koninklijk Nederlands Meterologisch Instituut",
         "url_dataselect": "",
         "url_station": "http://www.orfeus-eu.org/fdsnws/station/1/query",
         "url_routing": "http://www.orfeus-eu.org/eidaws/routing/1/query",
@@ -16,7 +16,7 @@
     "pk": 2,
     "fields": {
         "code": "GFZ",
-        "description": "",
+        "description": "Helmholz-Zentrum Potsdam",
         "url_dataselect": "",
         "url_station": "http://geofon.gfz-potsdam.de/fdsnws/station/1/query",
         "url_routing": "",
@@ -28,7 +28,7 @@
     "pk": 3,
     "fields": {
         "code": "RESIF",
-        "description": "",
+        "description": "Reseau Sismologique & Geodesique Francais",
         "url_dataselect": "",
         "url_station": "http://ws.resif.fr/fdsnws/station/1/query",
         "url_routing": "",
@@ -40,7 +40,7 @@
     "pk": 4,
     "fields": {
         "code": "INGV",
-        "description": "",
+        "description": "Istituto Nazionale di Geofisica e Vulcanologia",
         "url_dataselect": "",
         "url_station": "http://webservices.ingv.it/fdsnws/station/1/query",
         "url_routing": "",
@@ -52,7 +52,7 @@
     "pk": 5,
     "fields": {
         "code": "ETHZ",
-        "description": "",
+        "description": "ETH Zurich Schweizerischer Erdbebendienst (SED)",
         "url_dataselect": "",
         "url_station": "http://eida.ethz.ch/fdsnws/station/1/query",
         "url_routing": "",
@@ -64,7 +64,7 @@
     "pk": 6,
     "fields": {
         "code": "BGR",
-        "description": "",
+        "description": "Bundesanstalt für Geowissenschaften und Rohstoffe",
         "url_dataselect": "",
         "url_station": "http://eida.bgr.de/fdsnws/station/1/query",
         "url_routing": "",
@@ -76,7 +76,7 @@
     "pk": 7,
     "fields": {
         "code": "NIEP",
-        "description": "",
+        "description": "National Institute for Earth Physics",
         "url_dataselect": "",
         "url_station": "http://eida-sc3.infp.ro/fdsnws/station/1/query",
         "url_routing": "",
@@ -88,7 +88,7 @@
     "pk": 8,
     "fields": {
         "code": "KOERI",
-        "description": "",
+        "description": "Kandilli Observatory and Earthquake Research Institute",
         "url_dataselect": "",
         "url_station": "http://eida-service.koeri.boun.edu.tr/fdsnws/station/1/query",
         "url_routing": "",
@@ -100,7 +100,7 @@
     "pk": 9,
     "fields": {
         "code": "IPGP",
-        "description": "",
+        "description": "L'Institut de Physique du Globe de Paris",
         "url_dataselect": "",
         "url_station": "http://eida.ipgp.fr/fdsnws/station/1/query",
         "url_routing": "",
@@ -112,7 +112,7 @@
     "pk": 10,
     "fields": {
         "code": "LMU",
-        "description": "",
+        "description": "Ludwig Maximilians Universitat Munchen",
         "url_dataselect": "",
         "url_station": "http://erde.geophysik.uni-muenchen.de/fdsnws/station/1/query",
         "url_routing": "",
@@ -124,7 +124,7 @@
     "pk": 11,
     "fields": {
         "code": "NOA",
-        "description": "",
+        "description": "National Observatory of Athens",
         "url_dataselect": "",
         "url_station": "http://eida.gein.noa.gr/fdsnws/station/1/query",
         "url_routing": "",

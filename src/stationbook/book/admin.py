@@ -7,7 +7,7 @@ from django.utils import timezone
 # Register your models here.
 from .models import FdsnNode, FdsnNetwork, FdsnStation, ExtBasicData, \
                     ExtOwnerData, ExtMorphologyData, ExtHousingData, \
-                    ExtBoreholeData, ExtBoreholeLayerData, Profile, Photo
+                    ExtBoreholeData, ExtBoreholeLayerData, Profile, Photo, Link
 
 
 class FdsnNodeAdmin(admin.ModelAdmin):
@@ -124,3 +124,4 @@ admin.site.register(ExtBoreholeData, ExtBoreholeAdmin)
 admin.site.register(ExtBoreholeLayerData)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Photo)
+admin.site.register(Link)

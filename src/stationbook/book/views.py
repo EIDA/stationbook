@@ -19,7 +19,7 @@ from .fdsn.fdsn_manager import FdsnManager, FdsnStationChannelsManager
 from .models import \
 FdsnNode, FdsnNetwork, FdsnStation, ExtBasicData, ExtOwnerData, \
 ExtMorphologyData, ExtHousingData, ExtAccessData, ExtBoreholeData, \
-ExtBoreholeLayerData, Photo
+ExtBoreholeLayerData, Photo, Link
 
 from .base_classes import \
 StationBookHelpers, StationUpdateViewBase, StationAccessManager
@@ -115,6 +115,16 @@ class RecentChangesListView(ListView):
 
     def get_queryset(self):
         queryset = ExtAccessData.objects.order_by('-updated_at')[:1000]
+        return queryset
+
+
+class LinksListView(ListView):
+    model = Link
+    context_object_name = 'links'
+    template_name = 'links.html'
+
+    def get_queryset(self):
+        queryset = Link.objects.order_by('category')
         return queryset
 
 

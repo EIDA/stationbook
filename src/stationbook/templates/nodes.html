@@ -12,10 +12,20 @@
 {% endblock %}
 
 {% block content %}
-<table class="table">
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#nodes_table').DataTable({
+            "paging": false,
+            "filter": false,
+            "info": false
+        });
+    });
+</script>
+<table id="nodes_table" class="table" cellspacing="0" width="100%">
     <thead class="thead-inverse">
         <tr>
             <th>Code</th>
+            <th>Description</th>
         </tr>
     </thead>
     <tbody>
@@ -24,8 +34,15 @@
             <td>
                 <a href="{% url 'node_details' node.pk %}">{{ node.code }}</a>
             </td>
+            <td>
+                {{ node.description }}
+            </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+{% block javascript %}
+<script src="{% static 'js/datatable/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/datatable/dataTables.bootstrap4.min.js' %}"></script>
+{% endblock %}
 {% endblock %}

@@ -3,6 +3,7 @@
 
 {% block breadcrumb %}
 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'nodes' %}">Nodes</a></li>
 <li class="breadcrumb-item active">{{ node.code }}</li>
 {% endblock %}
 
@@ -14,5 +15,4 @@
 <p><b>Node Station URL:</b> <a href="{{ node.url_station }}" target="_blank">{{ node.url_station }}</a></p>
 <p><b>Node Routing URL:</b> <a href="{{ node.url_routing }}" target="_blank">{{ node.url_routing }}</a></p>
 <p><b>Node WFCatalog URL:</b> <a href="{{ node.url_wfcatalog }}" target="_blank">{{ node.url_wfcatalog }}</a></p>
-
 {% endblock %}

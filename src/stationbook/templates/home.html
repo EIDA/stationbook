@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{% static 'css/ol.css' %}" type="text/css">
 <style>
   .map {
-    height: 500px;
+    height: 300px;
     width: 100%;
   }
 </style>
@@ -94,10 +94,10 @@
 </table>
 
 <script type="text/javascript">
-var latitude = parseFloat("{{ stations.0.latitude }}");
-var longitude = parseFloat("{{ stations.0.longitude }}");
-map.getView().setCenter(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857'));
-map.getView().setZoom(8);
+  var latitude = parseFloat("{{ stations.0.latitude }}");
+  var longitude = parseFloat("{{ stations.0.longitude }}");
+  map.getView().setCenter(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857'));
+  map.getView().setZoom(8);
 </script>
 
 {% endblock %}

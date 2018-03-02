@@ -17,6 +17,7 @@ urlpatterns = [
     path('nodes/', book_view.NodesListView.as_view(), name='nodes'),
     path('networks/', book_view.NetworksListView.as_view(), name='networks'),
     path('recent_changes/', book_view.RecentChangesListView.as_view(), name='recent_changes'),
+    path('links/', book_view.LinksListView.as_view(), name='links'),
     re_path(r'^nodes/(?P<node_pk>\w+)/$',
         book_view.NodeDetailsListView.as_view(), name='node_details'),
     re_path(r'^networks/(?P<network_pk>\w+)/$',
