@@ -14,10 +14,12 @@
 {% block content %}
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#recent_changes_table').DataTable();
+        $('#recent_changes_table').DataTable({
+            "ordering": false,
+        });
     });
 </script>
-<table id="recent_changes_table" class="table" cellspacing="0" width="100%">
+<table id="recent_changes_table" class="display compact" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th>Info</th>

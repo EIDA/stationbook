@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item active">{{ node.code }}</li>
+{% endblock %}
+
+{% block content %}
+<h1>Node details</h1>
+<p><b>Node Code:</b> {{ node.code }}</p>
+<p><b>Node Description:</b> {{ node.description }}</p>
+<p><b>Node Dataselect URL:</b> <a href="{{ node.url_dataselect }}" target="_blank">{{ node.url_dataselect }}</a></p>
+<p><b>Node Station URL:</b> <a href="{{ node.url_station }}" target="_blank">{{ node.url_station }}</a></p>
+<p><b>Node Routing URL:</b> <a href="{{ node.url_routing }}" target="_blank">{{ node.url_routing }}</a></p>
+<p><b>Node WFCatalog URL:</b> <a href="{{ node.url_wfcatalog }}" target="_blank">{{ node.url_wfcatalog }}</a></p>
+
+{% endblock %}

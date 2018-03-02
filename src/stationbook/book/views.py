@@ -85,12 +85,12 @@ class NodesListView(ListView):
 
 class NodeDetailsListView(ListView):
     model = FdsnNode
-    context_object_name = 'data'
+    context_object_name = 'node'
     template_name = 'node_details.html'
 
     def get_queryset(self):
         try:
-            queryset = FdsnNode.objects.get(pk=self.kwargs.get('pk'))
+            queryset = FdsnNode.objects.get(pk=self.kwargs.get('node_pk'))
         except FdsnNetwork.DoesNotExist:
             raise Http404("Node does not exist!")
         return queryset

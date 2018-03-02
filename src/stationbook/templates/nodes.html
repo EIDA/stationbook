@@ -22,7 +22,7 @@
         {% for node in data %}
         <tr>
             <td>
-                {{ node.code }}
+                <a href="{% url 'node_details' node.pk %}">{{ node.code }}</a>
             </td>
         </tr>
         {% endfor %}
