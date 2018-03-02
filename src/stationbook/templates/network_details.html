@@ -14,9 +14,9 @@
 
 {% block breadcrumb %}
 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-<li class="breadcrumb-item active">{{ network.fdsn_node.code }}</li>
+<li class="breadcrumb-item"><a href="{% url 'node_details' network.fdsn_node.pk %}">{{ network.fdsn_node.code }}</a></li>
 <li class="breadcrumb-item"><a href="{% url 'networks' %}">Networks</a></li>
-<li class="breadcrumb-item active">{{ network.code }}</li>
+<li class="breadcrumb-item active">{{ network.get_code_year }}</li>
 {% endblock %}
 
 {% block content %}
@@ -34,9 +34,9 @@
 </script>
 <h1>Network details</h1>
 <p><b>Network Node:</b> {{ network.fdsn_node.code }}</p>
-<p><b>Network Code:</b> {{ network.code }}</p>
+<p><b>Network Code:</b> {{ network.get_code_year }}</p>
+<p><b>Network Start Date:</b> {{ network.get_start_date }}</p>
 <p><b>Network Description:</b> {{ network.description }}</p>
-<p><b>Network Start Date:</b> {{ network.start_date }}</p>
 <p><b>Network Restricted Status:</b> {{ network.restricted_status }}</p>
 
 <script src="{% static 'js/ol.js' %}"></script>
@@ -64,7 +64,7 @@
                 {{ station.site_name }}
             </td>
             <td>
-                {{ station.start_date.year }}/{{ station.start_date.month }}/{{ station.start_date.day }}
+                {{ station.get_start_date }}
             </td>
         </tr>
         <script type="text/javascript">

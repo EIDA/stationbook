@@ -42,7 +42,7 @@
           {{ station.fdsn_network.fdsn_node }}
       </td>
       <td>
-        <a href="{% url 'network_details' station.fdsn_network.pk %}">{{ station.fdsn_network.pk }} / {{ station.fdsn_network.start_date.year }}</a>
+        <a href="{% url 'network_details' station.fdsn_network.pk %}">{{ station.fdsn_network.get_code_year }}</a>
         <small class="text-muted d-block">
           {{ station.fdsn_network.description }}
         </small>
@@ -58,7 +58,7 @@
           {{ station.site_name }}
       </td>
       <td>
-          {{ station.start_date }}
+          {{ station.get_start_date }}
       </td>
     </tr>
     <script type="text/javascript">

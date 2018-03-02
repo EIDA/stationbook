@@ -37,13 +37,13 @@
                 {{ network.fdsn_node }}
             </td>
             <td>
-                <a href="{% url 'network_details' network.pk %}">{{ network.code }}</a>
+                <a href="{% url 'network_details' network.pk %}">{{ network.get_code_year }}</a>
                 <small class="text-muted d-block">
                     {{ network.description }}
                 </small>
             </td>
             <td>
-                {{ network.start_date.year }}/{{ network.start_date.month }}/{{ network.start_date.day }}
+                {{ network.get_start_date }}
             </td>
             <td>
                 {{ network.restricted_status }}

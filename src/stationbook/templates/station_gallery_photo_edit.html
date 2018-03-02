@@ -6,8 +6,9 @@
 
 {% block breadcrumb %}
 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'node_details' station.fdsn_network.fdsn_node.pk %}">{{ station.fdsn_network.fdsn_node.code }}</a></li>
 <li class="breadcrumb-item"><a href="{% url 'networks' %}">Networks</a></li>
-<li class="breadcrumb-item"><a href="{% url 'network_details' station.fdsn_network.pk %}">{{ station.fdsn_network.code }}</a></li>
+<li class="breadcrumb-item"><a href="{% url 'network_details' station.fdsn_network.pk %}">{{ station.fdsn_network.get_code_year }}</a></li>
 <li class="breadcrumb-item"><a href="{% url 'station_details' station.fdsn_network.pk station.pk %}">{{ station.code }}</a></li>
 <li class="breadcrumb-item active">Edit photo</li>
 {% endblock %}

@@ -225,6 +225,16 @@ class FdsnNetwork(models.Model):
     
     def has_stations(self):
         return self.fdsn_stations.count > 0
+    
+    def get_code_year(self):
+        return '{0} {1}'.format(self.code, self.start_date.year)
+    
+    def get_start_date(self):
+        return '{0}/{1}/{2}'.format(
+            self.start_date.year,
+            self.start_date.month,
+            self.start_date.day
+        )
 
 
 class FdsnStation(models.Model):
@@ -261,6 +271,13 @@ class FdsnStation(models.Model):
 
     def __str__(self):
         return 'Station {0}'.format(self.code)
+    
+    def get_start_date(self):
+        return '{0}/{1}/{2}'.format(
+            self.start_date.year,
+            self.start_date.month,
+            self.start_date.day
+        )
 
 
 class ExtAccessData(ExtEntityBase):
