@@ -39,7 +39,7 @@
     {% for station in stations %}
     <tr>
       <td>
-          {{ station.fdsn_network.fdsn_node }}
+          <a href="{% url 'node_details' station.fdsn_network.fdsn_node %}">{{ station.fdsn_network.fdsn_node }}</a>
       </td>
       <td>
         <a href="{% url 'network_details' station.fdsn_network.pk %}">{{ station.fdsn_network.get_code_year }}</a>
