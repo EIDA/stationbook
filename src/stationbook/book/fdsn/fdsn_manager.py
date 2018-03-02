@@ -38,6 +38,7 @@ class FdsnHttpBase(object):
             else:
                 return response.read()
         except Exception:
+            self.log_exception(url)
             raise
     
     def _get_fdsn_nodes(self):
@@ -403,6 +404,8 @@ class FdsnRoutingManager(FdsnHttpBase):
                     yield datacenter_wrapper.url, param_wrapper
             
             return route_wrapper
+        except ParseError:
+            self.log_exception()
         except Exception:
             raise
 
