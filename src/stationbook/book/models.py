@@ -42,6 +42,8 @@ class ExtOwnerData(ExtEntityBase):
         max_length=STRING_LENGTH_SHORT, blank=True, default='n/a')
     agency = models.CharField(
         max_length=STRING_LENGTH_SHORT, blank=True, default='n/a')
+    city = models.CharField(
+        max_length=STRING_LENGTH_SHORT, blank=True, default='n/a')
     street = models.CharField(
         max_length=STRING_LENGTH_SHORT, blank=True, default='n/a')
     country = models.CharField(

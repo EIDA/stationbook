@@ -245,7 +245,7 @@ class ExtOwnerDataUpdateView(StationUpdateViewBase):
         StationUpdateViewBase.__init__(self, 
         model=ExtOwnerData,
         fields=('name_first', 'name_last', 'department', 'agency',
-        'street', 'country', 'phone', 'email',))
+        'city', 'street', 'country', 'phone', 'email',))
 
     def get_object(self):
         self.ensure_user_access_right()
