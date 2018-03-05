@@ -56,40 +56,13 @@
       </td>
     </tr>
     <script type="text/javascript">
-      var latitude = parseFloat("{{ station.latitude }}");
-      var longitude = parseFloat("{{ station.longitude }}");
-      var siteCode = "{{ station.code }}"
-      var markerPath = "{% static 'img/markers/marker-red.png' %}"
-
-      // Check if values are valid and add a marker to the map
-      if (!isNaN(latitude) && !isNaN(longitude)) {
-          var point = new ol.Feature({
-              geometry: new ol.geom.Point(ol.proj.fromLonLat([longitude, latitude])),
-              name: `<b>Site code: </b>${siteCode}
-                     <br><b>Latitude: </b>${latitude}
-                     <br><b>Longitude: </b>${longitude}
-                     <br><a href="{% url 'station_details' station.fdsn_network.pk station.pk %}">Station details</a>`
-          });
-
-          point.setStyle(new ol.style.Style({
-              image: new ol.style.Icon( /** @type {olx.style.IconOptions} */ ({
-                  anchor: [0.5, 46],
-                  anchorXUnits: 'fraction',
-                  anchorYUnits: 'pixels',
-                  src: markerPath,
-              }))
-          }));
-          vectorSource.addFeature(point);
-      }
+    var latitude=parseFloat("{{ station.latitude }}"),longitude=parseFloat("{{ station.longitude }}"),siteCode="{{ station.code }}",markerPath="{% static 'img/markers/marker-red.png' %}";if(!isNaN(latitude)&&!isNaN(longitude)){var point=new ol.Feature({geometry:new ol.geom.Point(ol.proj.fromLonLat([longitude,latitude])),name:`<b>Site code: </b>${siteCode}\n<br><b>Latitude: </b>${latitude}\n<br><b>Longitude: </b>${longitude}\n<br><a href="{% url 'station_details' station.fdsn_network.pk station.pk %}">Station details</a>`});point.setStyle(new ol.style.Style({image:new ol.style.Icon({anchor:[.5,46],anchorXUnits:"fraction",anchorYUnits:"pixels",src:markerPath})})),vectorSource.addFeature(point)}
     </script>
     {% endfor %}
   </tbody>
 </table>
 
 <script type="text/javascript">
-  var latitude = parseFloat("{{ stations.0.latitude }}");
-  var longitude = parseFloat("{{ stations.0.longitude }}");
-  map.getView().setCenter(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857'));
-  map.getView().setZoom(8);
+var latitude=parseFloat("{{ stations.0.latitude }}"),longitude=parseFloat("{{ stations.0.longitude }}");map.getView().setCenter(ol.proj.transform([longitude,latitude],"EPSG:4326","EPSG:3857")),map.getView().setZoom(8);
 </script>
 {% endblock %}
