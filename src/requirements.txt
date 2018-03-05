@@ -2,6 +2,7 @@ amqp==2.2.2
 billiard==3.5.0.3
 certifi==2018.1.18
 chardet==3.0.4
+dj-database-url==0.5.0
 Django==2.0.2
 django-cleanup==2.1.0
 django-compat==1.0.15
@@ -11,6 +12,7 @@ idna==2.6
 kombu==4.1.0
 Markdown==2.6.11
 Pillow==5.0.0
+python-decouple==3.1
 pytz==2017.3
 requests==2.18.4
 six==1.11.0
