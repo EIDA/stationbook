@@ -75,9 +75,9 @@
               var point = new ol.Feature({
                 geometry: new ol.geom.Point(ol.proj.fromLonLat([longitude, latitude])),
                 name: `<b>Site code: </b>${siteCode}
-                <br><b>Latitude: </b>${latitude}
-                <br><b>Longitude: </b>${longitude}
-                <br><a href="{% url 'station_details' station.fdsn_network.pk station.pk %}">Station details</a>`
+                       <br><b>Latitude: </b>${latitude}
+                       <br><b>Longitude: </b>${longitude}
+                       <br><a href="{% url 'station_details' station.fdsn_network.pk station.pk %}">Station details</a>`
               });
       
               point.setStyle(new ol.style.Style({
