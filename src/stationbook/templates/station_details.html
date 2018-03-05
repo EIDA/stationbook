@@ -399,7 +399,7 @@
     // Use "safe" template tag to prevent location string encoding
     var latitude = parseFloat("{{ station.latitude }}");
     var longitude = parseFloat("{{ station.longitude }}");
-    var siteCode = "{{ station.pk }}"
+    var siteCode = "{{ station.code }}"
     var markerPath = "{% static 'img/markers/marker-red.png' %}"
 
     map.getView().setCenter(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857'));
