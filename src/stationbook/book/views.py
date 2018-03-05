@@ -552,15 +552,17 @@ class UserDetailsListView(ListView):
         return context
 
 
-def custom_404(request):
+def custom_404(request, exception):
     '''HTTP 404 custom handler
     '''
+    # TODO Show the exception text on custom 404 error page
     return render_to_response('404.html')
 
 
-def custom_500(request):
+def custom_500(request, exception):
     '''HTTP 500 custom handler
     '''
+    # TODO Show the exception text on custom 500 error page
     return render_to_response('500.html')
 
 
