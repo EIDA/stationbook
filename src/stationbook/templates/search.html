@@ -43,31 +43,6 @@
           {{ station.start_date }}
       </td>
     </tr>
-    <script type="text/javascript">
-      // Use "safe" template tag to prevent location string encoding
-      var latitude = parseFloat("{{ station.latitude }}");
-      var longitude = parseFloat("{{ station.longitude }}");
-      var siteCode = "{{ station.code }}"
-      var markerPath = "{% static 'img/markers/marker-red.png' %}"
-
-      // Check if values are valid and add a marker to the map
-      if (!isNaN(latitude) && !isNaN(longitude)) {
-        var point = new ol.Feature({
-          geometry: new ol.geom.Point(ol.proj.fromLonLat([longitude, latitude])),
-          name: `Site code: ${siteCode}, latitude: ${latitude}, longitude: ${longitude}`
-        });
-
-        point.setStyle(new ol.style.Style({
-          image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-            anchor: [0.5, 46],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
-            src: markerPath,
-          }))
-        }));
-        vectorSource.addFeature(point);
-      }
-    </script>
     {% endfor %}
   </tbody>
 </table>
