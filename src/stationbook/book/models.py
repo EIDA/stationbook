@@ -306,6 +306,12 @@ class Photo(models.Model):
     photo = models.ImageField(upload_to='station_photos/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return 'Station {0}, photo description: {1}'.format(
+            self.fdsn_station.code,
+            self.description
+        )
+
 
 class Profile(models.Model):
     user = models.OneToOneField(

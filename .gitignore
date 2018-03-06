@@ -1,7 +1,7 @@
 # Ignore Visual Studio Code folders and files
 .vscode/
 
-# Ignore the sqlite db gile
+# Ignore the sqlite db file
 db.sqlite3
 
 # Ignore the media folder (file uploads)
