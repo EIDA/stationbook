@@ -39,3 +39,7 @@ Below code can be used to synchronize with the EIDA nodes. EIDA nodes can be con
 >>> from book.fdsn.fdsn_manager import FdsnManager
 >>> FdsnManager().process_fdsn()
 ```
+Tail can be used to follow the sync status:
+```
+tail -f src/stationbook/logs/station_book.log
+```
