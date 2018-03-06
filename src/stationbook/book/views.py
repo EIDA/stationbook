@@ -91,7 +91,7 @@ class NodeDetailsListView(ListView):
     def get_queryset(self):
         try:
             queryset = FdsnNode.objects.get(pk=self.kwargs.get('node_pk'))
-        except FdsnNetwork.DoesNotExist:
+        except FdsnNode.DoesNotExist:
             raise Http404("Node does not exist!")
         return queryset
 
@@ -130,22 +130,22 @@ class LinksListView(ListView):
 
 class NetworkDetailsListView(ListView):
     model = FdsnStation
-    context_object_name = 'stations'
+    context_object_name = 'network'
     template_name = 'network_details.html'
 
     def get_queryset(self):
         try:
-            queryset = FdsnStation.objects.filter(
-                fdsn_network__pk=self.kwargs.get('network_pk'))
-
-        except FdsnStation.DoesNotExist:
+            queryset = FdsnNetwork.objects.get(
+                pk=self.kwargs.get('network_pk')
+            )
+        except FdsnNetwork.DoesNotExist:
             raise Http404("Network does not exist!")
         return queryset
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['network'] = get_object_or_404(
-            FdsnNetwork, pk=self.kwargs.get('network_pk'))
+        context['stations'] = FdsnStation.objects.filter(
+            fdsn_network__pk=self.kwargs.get('network_pk'))
         return context
 
 class StationDetailsListView(ListView):
@@ -555,15 +555,13 @@ class UserDetailsListView(ListView):
 def custom_404(request, exception):
     '''HTTP 404 custom handler
     '''
-    # TODO Show the exception text on custom 404 error page
-    return render_to_response('404.html')
+    return render_to_response('404.html', {'exception': exception})
 
 
 def custom_500(request, exception):
     '''HTTP 500 custom handler
     '''
-    # TODO Show the exception text on custom 500 error page
-    return render_to_response('500.html')
+    return render_to_response('500.html', {'exception': exception})
 
 
 @user_passes_test(lambda u: u.is_superuser)
