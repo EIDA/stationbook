@@ -3,9 +3,9 @@ from django.utils import timezone
 from django.http import Http404
 
 from .models import FdsnNetwork, ExtAccessData
-from .logger import StationBookLogger
+from .logger import StationBookLoggerMixin
 
-class StationBookHelpers():
+class StationBookHelpers(StationBookLoggerMixin):
     @staticmethod
     def add_ext_access_data(user, station, desc):
         try:
@@ -16,8 +16,7 @@ class StationBookHelpers():
             access.description = desc
             access.save()
         except:
-            StationBookLogger(__name__).log_exception(
-                StationBookHelpers.__name__)
+            log_exception(StationBookHelpers.__name__)
 
 
 class StationUpdateViewBaseMixin(object):

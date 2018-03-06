@@ -26,7 +26,6 @@ StationBookHelpers, StationUpdateViewBase, StationAccessManager
 
 from .fdsn.base_classes import NodeWrapper
 
-from .logger import StationBookLogger
 from .forms import \
 UserForm, ProfileForm, AddBoreholeLayerForm, EditBoreholeLayerForm, \
 RemoveBoreholeLayerForm, StationPhotoForm, StationPhotoEditForm, \
@@ -566,8 +565,6 @@ def custom_500(request, exception=None):
 
 @user_passes_test(lambda u: u.is_superuser)
 def refresh_fdsn(request):
-    StationBookLogger(__name__).log_info(
-        'Refreshing FDSN by {0}'.format(request.user))
     fdsn_net_manager = FdsnManager()
     fdsn_net_manager.process_fdsn_in_thread()
     return redirect('home')

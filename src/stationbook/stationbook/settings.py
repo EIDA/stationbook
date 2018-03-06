@@ -175,13 +175,13 @@ LOGGING = {
         },
     },
     'loggers': {
+        '': {
+            'handlers': ['file'],
+            'level': "INFO",
+        },
         'book': {
             'handlers': ['file',],
             'propagate': True,
-            'level': "INFO",
-        },
-        '': {
-            'handlers': ['console'],
             'level': "INFO",
         },
     },
