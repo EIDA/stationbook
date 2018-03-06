@@ -176,8 +176,8 @@ class FdsnNetworkManager(FdsnHttpBase):
 
 
 class FdsnStationChannelsManager(FdsnHttpBase):
-    def __init__(self_):
-         super(FdsnStationChannelsManager, self).__init__()
+    def __init__(self):
+        super(FdsnStationChannelsManager, self).__init__()
     
     def discover_station_channels(self, network_pk, station_pk):
         try:
