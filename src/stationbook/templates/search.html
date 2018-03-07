@@ -23,6 +23,7 @@
 <table id="search_table" class="table" cellspacing="0" width="100%">
   <thead>
     <tr>
+      <th>Node</th>
       <th>Network</th>
       <th>Station code</th>
       <th>Site name</th>
@@ -32,6 +33,9 @@
   <tbody>
     {% for station in data %}
     <tr>
+      <td>
+        <a href="{% url 'node_details' station.fdsn_network.fdsn_node.pk %}">{{ station.fdsn_network.fdsn_node.code }}</a>
+      </td>
       <td>
         <a href="{% url 'network_details' station.fdsn_network.pk %}">{{ station.fdsn_network.get_code_year }}</a>
         <small class="text-muted d-block">
