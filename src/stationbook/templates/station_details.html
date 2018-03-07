@@ -101,6 +101,7 @@
             <th>Elevation [m]</th>
             <th>Status</th>
             <th>Start</th>
+            <th>End</th>
             <th>Created</th>
         </tr>
     </thead>
@@ -113,8 +114,9 @@
             <td>{{ station.longitude }}</td>
             <td>{{ station.elevation }}</td>
             <td>{{ station.restricted_status }}</td>
-            <td>{{ station.start_date }}</td>
-            <td>{{ station.creation_date }}</td>
+            <td>{{ station.get_start_date }}</td>
+            <td>{{ station.get_end_date }}</td>
+            <td>{{ station.get_created_date }}</td>
         </tr>
     </tbody>
 </table>

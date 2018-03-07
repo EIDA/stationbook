@@ -60,7 +60,7 @@ class NetworkWrapper(object):
         self.pk = 0
         self.code = NO_FDSNWS_DATA
         self.description = NO_FDSNWS_DATA
-        self.start_date = NO_FDSNWS_DATA
+        self.start_date = None
         self.restricted_status = NO_FDSNWS_DATA
         self.stations = []
     
@@ -84,9 +84,13 @@ class StationWrapper(object):
         self.longitude = NO_FDSNWS_DATA
         self.elevation = NO_FDSNWS_DATA
         self.restricted_status = NO_FDSNWS_DATA
-        self.start_date = NO_FDSNWS_DATA
+        self.start_date = None
+        self.end_date = None
         self.creation_date = NO_FDSNWS_DATA
         self.site_name = NO_FDSNWS_DATA
+    
+    def parse_start_date_year(self):
+        return parse_datetime(self.start_date).year
 
 
 class StationChannels(object):

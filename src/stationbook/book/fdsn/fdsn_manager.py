@@ -87,13 +87,20 @@ class FdsnHttpBase(StationBookLoggerMixin):
                 fdsn_network__fdsn_node__code=node_wrapper.code,
                 fdsn_network__code=network_wrapper.code,
                 fdsn_network__start_date__year=network_wrapper.parse_start_date_year(),
-                code=station_wrapper.code)
+                code=station_wrapper.code,
+                start_date__year=station_wrapper.parse_start_date_year())
 
         except FdsnStation.DoesNotExist:
             return None
         except Exception:
             self.log_exception()
             raise
+    
+    def validate_string(self, string):
+        if not string or len(string)<=0:
+            return NO_FDSNWS_DATA
+        else:
+            return string
 
 
 class FdsnNetworkManager(FdsnHttpBase):
@@ -115,20 +122,32 @@ class FdsnNetworkManager(FdsnHttpBase):
 
                 tmp = network.get('code')
                 if tmp != None:
-                    net_wrapper.code = tmp
+                    net_wrapper.code = self.validate_string(tmp)
+                else:
+                    self.log_warning(
+                        'Network with no code received \
+                        when discovering node networks!'
+                    )
+                    continue
 
                 tmp = network.get('startDate')
                 if tmp != None:
-                    net_wrapper.start_date = tmp
+                    net_wrapper.start_date = self.validate_string(tmp)
+                else:
+                    self.log_warning(
+                        'Network with no startDate received \
+                        when discovering node networks!'
+                    )
+                    continue
                 
-                tmp = network.get('restrictedStatus') or NO_FDSNWS_DATA
+                tmp = network.get('restrictedStatus')
                 if tmp != None:
-                    net_wrapper.restricted_status = tmp
+                    net_wrapper.restricted_status = self.validate_string(tmp)
                 
                 tmp = network.find(
-                    './/mw:Description', namespaces=NSMAP).text
+                    './/mw:Description', namespaces=NSMAP)
                 if tmp != None:
-                    net_wrapper.description = tmp
+                    net_wrapper.description = self.validate_string(tmp.text)
 
                 yield net_wrapper
         except ParseError:
@@ -199,109 +218,109 @@ class FdsnStationChannelsManager(FdsnHttpBase):
 
                 tmp = channel.get('code')
                 if tmp != None:
-                    cha.code = tmp
+                    cha.code = self.validate_string(tmp)
 
                 tmp = channel.get('startDate')
                 if tmp != None:
-                    cha.start_date = tmp
+                    cha.start_date = self.validate_string(tmp)
 
                 tmp = channel.get('restrictedStatus')
                 if tmp != None:
-                    cha.restricted_status = tmp
+                    cha.restricted_status = self.validate_string(tmp)
 
                 tmp = channel.get('locationCode')
                 if tmp != None:
-                    cha.location_code = tmp
+                    cha.location_code = self.validate_string(tmp)
 
                 tmp = channel.find(
-                    './/mw:Latitude', namespaces=NSMAP).text
+                    './/mw:Latitude', namespaces=NSMAP)
                 if tmp != None:
-                    cha.latitude = tmp
+                    cha.latitude = self.validate_string(tmp.text)
 
                 tmp = channel.find(
-                    './/mw:Longitude', namespaces=NSMAP).text
+                    './/mw:Longitude', namespaces=NSMAP)
                 if tmp != None:
-                    cha.longitude = tmp
+                    cha.longitude = self.validate_string(tmp.text)
 
                 tmp = channel.find(
-                    './/mw:Elevation', namespaces=NSMAP).text
+                    './/mw:Elevation', namespaces=NSMAP)
                 if tmp != None:
-                    cha.elevation = tmp
+                    cha.elevation = self.validate_string(tmp.text)
 
                 tmp = channel.find(
-                    './/mw:Depth', namespaces=NSMAP).text
+                    './/mw:Depth', namespaces=NSMAP)
                 if tmp != None:
-                    cha.depth = tmp
+                    cha.depth = self.validate_string(tmp.text)
 
                 tmp = channel.find(
-                    './/mw:Azimuth', namespaces=NSMAP).text
+                    './/mw:Azimuth', namespaces=NSMAP)
                 if tmp != None:
-                    cha.azimuth = tmp
+                    cha.azimuth = self.validate_string(tmp.text)
 
                 tmp = channel.find(
-                    './/mw:Dip', namespaces=NSMAP).text
+                    './/mw:Dip', namespaces=NSMAP)
                 if tmp != None:
-                    cha.dip = tmp
+                    cha.dip = self.validate_string(tmp.text)
 
                 tmp = channel.find(
-                    './/mw:SampleRate', namespaces=NSMAP).text
+                    './/mw:SampleRate', namespaces=NSMAP)
                 if tmp != None:
-                    cha.sample_rate = tmp
+                    cha.sample_rate = self.validate_string(tmp.text)
 
                 tmp = channel.find(
-                    './/mw:StorageFormat', namespaces=NSMAP).text
+                    './/mw:StorageFormat', namespaces=NSMAP)
                 if tmp != None:
-                    cha.storage_format = tmp
+                    cha.storage_format = self.validate_string(tmp.text)
 
                 tmp = channel.find(
-                    './/mw:ClockDrift', namespaces=NSMAP).text
+                    './/mw:ClockDrift', namespaces=NSMAP)
                 if tmp != None:
-                    cha.clock_drift = tmp
+                    cha.clock_drift = self.validate_string(tmp.text)
                 
                 tmp = channel.find(
-                    './/mw:Sensor//mw:Type', namespaces=NSMAP).text
+                    './/mw:Sensor//mw:Type', namespaces=NSMAP)
                 if tmp != None:
-                    cha.sensor.type = tmp
+                    cha.sensor.type = self.validate_string(tmp.text)
                     
                 tmp = channel.find(
-                    './/mw:Sensor//mw:Manufacturer', namespaces=NSMAP).text
+                    './/mw:Sensor//mw:Manufacturer', namespaces=NSMAP)
                 if tmp != None:
-                    cha.sensor.manufacturer = tmp
+                    cha.sensor.manufacturer = self.validate_string(tmp.text)
                 
                 tmp = channel.find(
-                    './/mw:Sensor//mw:Description', namespaces=NSMAP).text
+                    './/mw:Sensor//mw:Description', namespaces=NSMAP)
                 if tmp != None:
-                    cha.sensor.description = tmp
+                    cha.sensor.description = self.validate_string(tmp.text)
 
                 tmp = channel.find(
-                    './/mw:Sensor//mw:Model', namespaces=NSMAP).text
+                    './/mw:Sensor//mw:Model', namespaces=NSMAP)
                 if tmp != None:
-                    cha.sensor.model = tmp
+                    cha.sensor.model = self.validate_string(tmp.text)
 
                 tmp = channel.find(
-                    './/mw:DataLogger//mw:Description', namespaces=NSMAP).text
+                    './/mw:DataLogger//mw:Description', namespaces=NSMAP)
                 if tmp != None:
-                    cha.data_logger.description = tmp
+                    cha.data_logger.description = self.validate_string(tmp.text)
                 
                 tmp = channel.find(
-                    './/mw:Response//mw:InstrumentSensitivity/mw:Value', namespaces=NSMAP).text
+                    './/mw:Response//mw:InstrumentSensitivity/mw:Value', namespaces=NSMAP)
                 if tmp != None:
-                    cha.response.instrument_sensitivity.value = tmp
+                    cha.response.instrument_sensitivity.value = self.validate_string(tmp.text)
 
                 tmp = channel.find(
-                    './/mw:Response//mw:InstrumentSensitivity//mw:Frequency', namespaces=NSMAP).text
+                    './/mw:Response//mw:InstrumentSensitivity//mw:Frequency', namespaces=NSMAP)
                 if tmp != None:
-                    cha.response.instrument_sensitivity.frequency = tmp
+                    cha.response.instrument_sensitivity.frequency = self.validate_string(tmp.text)
 
                 tmp = channel.find(
-                    './/mw:Response//mw:InstrumentSensitivity//mw:InputUnits//mw:Name', namespaces=NSMAP).text
+                    './/mw:Response//mw:InstrumentSensitivity//mw:InputUnits//mw:Name', namespaces=NSMAP)
                 if tmp != None:
-                    cha.response.instrument_sensitivity.input_units.name = tmp
+                    cha.response.instrument_sensitivity.input_units.name = self.validate_string(tmp.text)
 
                 tmp = channel.find(
-                    './/mw:Response//mw:InstrumentSensitivity//mw:OutputUnits//mw:Name', namespaces=NSMAP).text
+                    './/mw:Response//mw:InstrumentSensitivity//mw:OutputUnits//mw:Name', namespaces=NSMAP)
                 if tmp != None:
-                    cha.response.instrument_sensitivity.output_units.name = tmp
+                    cha.response.instrument_sensitivity.output_units.name = self.validate_string(tmp.text)
 
                 channels_graph.channels.append(cha)
 
@@ -417,11 +436,11 @@ class FdsnRoutingManager(FdsnHttpBase):
 
                 tmp = network.get('startDate')
                 if tmp != None:
-                    network_wrapper.start_date = tmp
+                    network_wrapper.start_date = self.validate_string(tmp)
                 
                 tmp = network.get('code')
                 if tmp != None:
-                    network_wrapper.code = tmp
+                    network_wrapper.code = self.validate_string(tmp)
 
                 for station in network.findall(
                     '.mw:Station', namespaces=NSMAP):
@@ -429,40 +448,48 @@ class FdsnRoutingManager(FdsnHttpBase):
 
                     tmp = station.get('code')
                     if tmp != None:
-                        stat_wrapper.code = tmp
+                        stat_wrapper.code = self.validate_string(tmp)
+                    else:
+                        self.log_warning(
+                            'Station with no code received \
+                            when discovering network stations! Network: {0}'\
+                            .format(vars(network_wrapper))
+                        )
+                        continue
 
-                    tmp = station.find(
-                        './/mw:Latitude', namespaces=NSMAP).text
+                    tmp = station.find('.//mw:Latitude', namespaces=NSMAP)
                     if tmp != None:
-                        stat_wrapper.latitude = tmp
+                        stat_wrapper.latitude = self.validate_string(tmp.text)
                     
-                    tmp = station.find(
-                            './/mw:Longitude', namespaces=NSMAP).text
+                    tmp = station.find('.//mw:Longitude', namespaces=NSMAP)
                     if tmp != None:
-                        stat_wrapper.longitude = tmp
+                        stat_wrapper.longitude = self.validate_string(tmp.text)
                     
-                    tmp = station.find(
-                        './/mw:Elevation', namespaces=NSMAP).text
+                    tmp = station.find('.//mw:Elevation', namespaces=NSMAP)
                     if tmp != None:
-                        stat_wrapper.elevation = tmp
+                        stat_wrapper.elevation = self.validate_string(tmp.text)
                     
-                    tmp = station.get('restrictedStatus') or NO_FDSNWS_DATA
+                    tmp = station.get('restrictedStatus')
                     if tmp != None:
-                        stat_wrapper.restricted_status = tmp
+                        stat_wrapper.restricted_status = self.validate_string(tmp)
                     
                     tmp = station.get('startDate')
                     if tmp != None:
-                        stat_wrapper.start_date = tmp
+                        stat_wrapper.start_date = self.validate_string(tmp)
+                    
+                    tmp = station.get('endDate')
+                    if tmp != None:
+                        stat_wrapper.end_date = self.validate_string(tmp)
                     
                     tmp = station.find(
-                        './/mw:CreationDate', namespaces=NSMAP).text
+                        './/mw:CreationDate', namespaces=NSMAP)
                     if tmp != None:
-                        stat_wrapper.creation_date = tmp
+                        stat_wrapper.creation_date = self.validate_string(tmp.text)
                     
                     tmp = station.find(
-                        './/mw:Site//mw:Name', namespaces=NSMAP).text
+                        './/mw:Site//mw:Name', namespaces=NSMAP)
                     if tmp != None:
-                        stat_wrapper.site_name = tmp
+                        stat_wrapper.site_name = self.validate_string(tmp.text)
 
                     yield node_wrapper, network_wrapper, stat_wrapper
         except ParseError:
@@ -480,21 +507,24 @@ class FdsnRoutingManager(FdsnHttpBase):
             # If station is known in the database, just update it with the
             # latest FDSN data, otherwise add it to the database
             if stat:
+                # stat.code = station_wrapper.code
                 stat.latitude = station_wrapper.latitude
                 stat.longitude = station_wrapper.longitude
                 stat.elevation = station_wrapper.elevation
                 stat.restricted_status = station_wrapper.restricted_status
-                stat.start_date = station_wrapper.start_date
+                # stat.start_date = station_wrapper.start_date
+                stat.end_date = station_wrapper.end_date
                 stat.creation_date = station_wrapper.creation_date
                 stat.site_name = station_wrapper.site_name
                 stat.save()
             else:
                 self.log_information(
-                    'Adding: node {0} Network {1} Year {2} Station {3}'.format(
+                    'Adding: node {0} Network {1} Year {2} Station {3} Year {4}'.format(
                         node_wrapper.code,
                         network_wrapper.code,
                         network_wrapper.parse_start_date_year(),
-                        station_wrapper.code))
+                        station_wrapper.code,
+                        station_wrapper.parse_start_date_year()))
 
                 # Create station entity
                 stat = FdsnStation()
@@ -511,6 +541,7 @@ class FdsnRoutingManager(FdsnHttpBase):
                 stat.elevation = station_wrapper.elevation
                 stat.restricted_status = station_wrapper.restricted_status
                 stat.start_date = station_wrapper.start_date
+                stat.end_date = station_wrapper.end_date
                 stat.creation_date = station_wrapper.creation_date
                 stat.site_name = station_wrapper.site_name
                 # Create ext entities

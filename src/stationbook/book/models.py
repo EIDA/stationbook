@@ -25,6 +25,7 @@ class ExtBasicData(ExtEntityBase):
         max_length=STRING_LENGTH_LONG, default='', blank=True)
     start = models.DateField(blank=True, null=True)
     end = models.DateField(blank=True, null=True)
+    imported_from_fdsn = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return 'Basic data for station {0}'.format(self.station.code)
@@ -190,7 +191,7 @@ class ExtBoreholeLayerData(ExtEntityBase):
 
 class FdsnNode(models.Model):
     code = code = models.CharField(
-        max_length=STRING_LENGTH_SHORT, unique=True)
+        primary_key=True, max_length=STRING_LENGTH_SHORT, unique=True)
     description = models.CharField(
         max_length=STRING_LENGTH_SHORT, default='', blank=True)
     url_dataselect = models.CharField(
@@ -218,6 +219,10 @@ class FdsnNetwork(models.Model):
         max_length=STRING_LENGTH_SHORT, default='', blank=True)
     restricted_status = models.CharField(
         max_length=STRING_LENGTH_SHORT, default='', blank=True)
+
+    class Meta:
+        unique_together = (('fdsn_node', 'code', 'start_date'),)
+        ordering = ['fdsn_node__code', 'code',]
 
     def __str__(self):
         return 'Node {0} Network {1} Year {2}'.format(
@@ -257,6 +262,8 @@ class FdsnStation(models.Model):
         max_length=STRING_LENGTH_SHORT, blank=True)
     start_date = models.DateTimeField(
         max_length=STRING_LENGTH_SHORT, blank=True)
+    end_date = models.DateTimeField(
+        max_length=STRING_LENGTH_SHORT, null=True, blank=True)
     creation_date = models.DateTimeField(
         max_length=STRING_LENGTH_SHORT, blank=True)
     # Ext data
@@ -271,6 +278,10 @@ class FdsnStation(models.Model):
     ext_borehole_data = models.OneToOneField(ExtBoreholeData,
         related_name='station', null=True, on_delete=models.SET_NULL)
 
+    class Meta:
+        unique_together = (('fdsn_network', 'code', 'start_date'),)
+        ordering = ['fdsn_network__fdsn_node__code', 'fdsn_network__code', 'code',]
+
     def __str__(self):
         return 'Station {0}'.format(self.code)
     
@@ -279,6 +290,23 @@ class FdsnStation(models.Model):
             self.start_date.year,
             self.start_date.month,
             self.start_date.day
+        )
+    
+    def get_end_date(self):
+        if self.end_date:
+            return '{0}/{1}/{2}'.format(
+                self.end_date.year,
+                self.end_date.month,
+                self.end_date.day
+            )
+        else:
+            return None
+    
+    def get_created_date(self):
+        return '{0}/{1}/{2}'.format(
+            self.creation_date.year,
+            self.creation_date.month,
+            self.creation_date.day
         )
 
 
@@ -290,6 +318,9 @@ class ExtAccessData(ExtEntityBase):
     updated_at = models.DateTimeField(null=True)
     description = models.CharField(
         max_length=STRING_LENGTH_SHORT, default='Change', blank=True)
+
+    class Meta:
+        ordering = ['-updated_at',]
 
     def __str__(self):
         return '{0} has been updated at {1} by {2}: {3}'.format(
@@ -305,6 +336,9 @@ class Photo(models.Model):
     description = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
     photo = models.ImageField(upload_to='station_photos/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['uploaded_at',]
 
     def __str__(self):
         return 'Station {0}, photo description: {1}'.format(
