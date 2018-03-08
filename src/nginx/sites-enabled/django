@@ -4,7 +4,7 @@ server {
     charset utf-8;
 
     location /static/ {
-        alias /data/stationbook;
+        alias /data/stationbook/stationbook/static/;
     }
 
     location / {
