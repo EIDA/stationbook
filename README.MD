@@ -1,19 +1,20 @@
 # Quick start guide
-1. Create the .env configuration file in `/src/stationbook/.env`.
-Example test server configuration:
+1. Create the .env configuration file in `/src/stationbook/.env`. Example test server configuration:
     ```
-    SECRET_KEY=''
+    SECRET_KEY='#ps1ib&=v%zsgzi5q*qp-ei*b1bg19dxv&861m@4@x+2ww6nx^'
     DEBUG=True
     ALLOWED_HOSTS=.localhost,127.0.0.1
     DATABASE_URL=sqlite:///db.sqlite3
     DATABASE_ENGINE='django.db.backends.postgresql'
-    DATABASE_NAME='postgres'
-    DATABASE_USER='postgres'
-    DATABASE_HOST='db'
+    DATABASE_HOST='postgres'
+    DATABASE_NAME='stationbook'
+    DATABASE_USER='admin'
+    DATABASE_PASS='passwd'
     DATABASE_PORT=5432
     EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
     ```
     SECRET_KEY should be a 50-characters long string of random characters from the following set: `abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)`
+1. Make sure SQLite is configured as the default database in `src/stationbook/stationbook/settings.py`
 1. Create the virtual environment:
     ```
     [usr@host src]$ python3 -m venv env
@@ -46,6 +47,24 @@ Example test server configuration:
 1. Run the test server:
     ```
     (env) [usr@host stationbook]$ python3 manage.py runserver 0.0.0.0:8080
+    ```
+# Docker
+1. Create the .env configuration file in `/src/.env`. Example test server configuration:
+    ```
+    DB_NAME=stationbook
+    DB_USER=admin
+    DB_PASS=passwd
+    DB_SERVICE=postgres
+    DB_PORT=5432
+    ```
+1. Make sure PostgreSQL is configured as the default database in `src/stationbook/stationbook/settings.py`
+1. Build and run the images
+    ```
+    (env) [usr@host src]$ docker-compose up
+    ```
+1. Creating super user and synchronizing with the FDSN can be done after connecting to the image containing the StationBook code.
+    ```
+    [usr@host ~]$ docker exec -it <CONTAINER ID> sh
     ```
 # FDSN data synchronization
 Below code can be used to synchronize with the EIDA nodes. EIDA nodes can be configured manually using admin panel or loaded from the fixtures.
