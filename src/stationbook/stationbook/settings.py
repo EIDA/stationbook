@@ -87,13 +87,17 @@ WSGI_APPLICATION = 'stationbook.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'not-default': {
         'ENGINE': config('DATABASE_ENGINE'),
         'NAME': config('DATABASE_NAME'),
         'USER': config('DATABASE_USER'),
+        'PASSWORD': config('DATABASE_PASS'),
         'HOST': config('DATABASE_HOST'),
         'PORT': config('DATABASE_PORT'),
-    }
+    },
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')	
+    )
 }
 
 # Password validation
@@ -132,6 +136,8 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [

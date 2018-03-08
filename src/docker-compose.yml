@@ -1,16 +1,50 @@
-version: '3'
-
+version: '2'
 services:
-  db:
-    image: postgres
-    ports:
-      - "5432:5432"
-  web:
-    build: .
-    command: bash -c "python3 stationbook/manage.py makemigrations && python3 stationbook/manage.py migrate && python3 stationbook/manage.py runserver 0.0.0.0:8000"
+  sbweb:
+    restart: always
+    build: ./stationbook/
+    expose:
+      - "8080"
+    links:
+      - sbpostgres:postgres
+      - sbredis:redis
+    env_file: .env
     volumes:
-      - .:/src/
+      - /data/stationbook/stationbook/static
+    command: gunicorn stationbook.wsgi:application -w 2 -b :8080
+    
+  sbnginx:
+    restart: always
+    build: ./nginx/
     ports:
-      - "8000:8000"
-    depends_on:
-      - db
+      - "8080:8080"
+    volumes_from:
+      - sbweb
+    links:
+      - sbweb:sbweb
+    
+  sbpostgres:
+    restart: always
+    image: postgres:latest
+    volumes_from:
+      - sbdata
+    volumes:
+      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./backups/postgresql:/backup
+    env_file:
+      - .env
+    expose:
+      - "5432"
+    
+  sbredis:
+    restart: always
+    image: redis:latest
+    expose:
+      - "6379"
+    
+  sbdata:
+    restart: always
+    image: alpine
+    volumes:
+      - /var/lib/postgresql
+    command: "true"
