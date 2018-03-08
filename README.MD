@@ -6,9 +6,14 @@ Example test server configuration:
     DEBUG=True
     ALLOWED_HOSTS=.localhost,127.0.0.1
     DATABASE_URL=sqlite:///db.sqlite3
+    DATABASE_ENGINE='django.db.backends.postgresql'
+    DATABASE_NAME='postgres'
+    DATABASE_USER='postgres'
+    DATABASE_HOST='db'
+    DATABASE_PORT=5432
     EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
     ```
-    - SECRET_KEY should be a 50-characters long string of random characters from the following set: `abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)`
+    SECRET_KEY should be a 50-characters long string of random characters from the following set: `abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)`
 1. Create the virtual environment:
     ```
     [usr@host src]$ python3 -m venv env
