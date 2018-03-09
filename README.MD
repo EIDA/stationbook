@@ -62,7 +62,7 @@
     ```
     (env) [usr@host src]$ docker-compose up
     ```
-1. Creating super user and synchronizing with the FDSN can be done after connecting to the image containing the StationBook code.
+1. Migrating the database, loading the fixtures, creating super user and synchronizing with the FDSN can be done after connecting to the image containing the Station Book code.
     ```
     [usr@host ~]$ docker exec -it <CONTAINER ID> sh
     ```

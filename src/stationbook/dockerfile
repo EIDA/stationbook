@@ -17,4 +17,4 @@ RUN apk del -r python3-dev postgresql
 
 # Prepare
 COPY . /data/stationbook/
-RUN mkdir -p /static/admin
+RUN python3 manage.py collectstatic

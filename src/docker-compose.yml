@@ -3,6 +3,9 @@ services:
   sbweb:
     restart: always
     build: ./stationbook/
+    depends_on:
+      - sbpostgres
+      - sbredis
     expose:
       - "8080"
     links:
@@ -16,6 +19,8 @@ services:
   sbnginx:
     restart: always
     build: ./nginx/
+    depends_on:
+      - sbweb
     ports:
       - "8080:8080"
     volumes_from:
@@ -26,6 +31,8 @@ services:
   sbpostgres:
     restart: always
     image: postgres:latest
+    depends_on:
+      - sbdata
     volumes_from:
       - sbdata
     volumes:
