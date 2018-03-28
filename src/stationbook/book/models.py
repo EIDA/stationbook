@@ -331,10 +331,19 @@ class ExtAccessData(ExtEntityBase):
 
 
 class Photo(models.Model):
+    def path_file_name(self, instance):
+        return 'station_photos/{0}-{1}/{2}-{3}/{4}'.format(
+            self.fdsn_station.fdsn_network.code,
+            self.fdsn_station.fdsn_network.start_date.year,
+            self.fdsn_station.code,
+            self.fdsn_station.start_date.year,
+            self.fdsn_station.code
+            )
+
     fdsn_station = models.ForeignKey(
         FdsnStation, related_name='photos', on_delete=models.CASCADE)
     description = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
-    photo = models.ImageField(upload_to='station_photos/')
+    photo = models.ImageField(upload_to=path_file_name)
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
