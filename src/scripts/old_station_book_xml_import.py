@@ -1,5 +1,7 @@
 import sys, os, django
-sys.path.append(".")
+proj_path = '../stationbook/'
+sys.path.append(proj_path)
+os.chdir(proj_path)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "stationbook.settings")
 django.setup()
 
@@ -12,7 +14,7 @@ class SB1XMLProcessor(object):
 
     def xml_load(self):
         try:
-            self.xml_root = ET.parse('/nobackup/users/bienkows/stationbookdata/sb_export.xml').getroot()
+            self.xml_root = ET.parse('../scripts/data/sb_export.xml').getroot()
         except:
             raise
     
