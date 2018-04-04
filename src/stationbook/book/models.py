@@ -337,7 +337,7 @@ class Photo(models.Model):
             self.fdsn_station.fdsn_network.start_date.year,
             self.fdsn_station.code,
             self.fdsn_station.start_date.year,
-            self.fdsn_station.code
+            instance
             )
 
     fdsn_station = models.ForeignKey(
