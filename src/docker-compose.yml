@@ -12,6 +12,8 @@ services:
     env_file: .env
     volumes:
       - /data/stationbook/stationbook/static
+    networks:
+      - sb
     command: gunicorn stationbook.wsgi:application -w 2 -b :8080
     
   sbnginx:
@@ -25,15 +27,25 @@ services:
       - sbweb
     links:
       - sbweb:sbweb
+    networks:
+      - sb
     
   sbpostgres:
     restart: always
     image: postgres:latest
     volumes:
       - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-      - ./docker/postgresql/data:/var/lib/postgresql/data
+      - sbpostgresql:/var/lib/postgresql/data
       - ./docker/postgresql/backups:/backup
     env_file:
       - .env
     expose:
       - "5432"
+    networks:
+      - sb
+
+volumes:
+  sbpostgresql:
+
+networks:
+  sb:
