@@ -44,10 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    
+
     'django_cleanup',
     'widget_tweaks',
-    
+
     'accounts',
     'book',
 ]
@@ -96,18 +96,8 @@ DATABASES = {
         'PORT': config('DATABASE_PORT'),
     },
     'not-default': dj_database_url.config(
-        default=config('DATABASE_URL')	
+        default=config('DATABASE_URL')
     )
-}
-
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "sbredis://sbredis:6379/0",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
 }
 
 # Password validation
@@ -187,7 +177,7 @@ LOGGING = {
         'file': {
             'class': 'logging.handlers.RotatingFileHandler',
             'formatter': 'simple',
-            'maxBytes': 1024*1024*5, # 5 Megabytes
+            'maxBytes': 1024*1024*5,  # 5 Megabytes
             'backupCount': 25,
             'filename': os.path.join(BASE_DIR, 'logs', 'station_book.log'),
             'filters': ['require_debug_true'],
@@ -199,7 +189,7 @@ LOGGING = {
             'level': "INFO",
         },
         'book': {
-            'handlers': ['file',],
+            'handlers': ['file', ],
             'propagate': True,
             'level': "INFO",
         },
