@@ -5,12 +5,10 @@ services:
     build: ./stationbook/
     depends_on:
       - sbpostgres
-      - sbredis
     expose:
       - "8080"
     links:
       - sbpostgres:postgres
-      - sbredis:redis
     env_file: .env
     volumes:
       - /data/stationbook/stationbook/static
@@ -31,27 +29,11 @@ services:
   sbpostgres:
     restart: always
     image: postgres:latest
-    depends_on:
-      - sbdata
-    volumes_from:
-      - sbdata
     volumes:
       - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-      - ./backups/postgresql:/backup
+      - ./docker/postgresql/data:/var/lib/postgresql/data
+      - ./docker/postgresql/backups:/backup
     env_file:
       - .env
     expose:
       - "5432"
-    
-  sbredis:
-    restart: always
-    image: redis:latest
-    expose:
-      - "6379"
-    
-  sbdata:
-    restart: always
-    image: alpine
-    volumes:
-      - /var/lib/postgresql
-    command: "true"
