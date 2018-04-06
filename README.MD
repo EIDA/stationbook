@@ -60,7 +60,7 @@
 1. Make sure PostgreSQL is configured as the default database in `src/stationbook/stationbook/settings.py`
 1. Build and run the images
     ```
-    (env) [usr@host src]$ docker-compose up
+    (env) [usr@host src]$ docker-compose -p 'stationbook' up
     ```
 1. Migrating the database, loading the fixtures, creating super user and synchronizing with the FDSN can be done after connecting to the image containing the Station Book code.
     ```

@@ -13,7 +13,7 @@ services:
     volumes:
       - /data/stationbook/stationbook/static
     networks:
-      - sb
+      - sb_net
     command: gunicorn stationbook.wsgi:application -w 2 -b :8080
     
   sbnginx:
@@ -28,7 +28,7 @@ services:
     links:
       - sbweb:sbweb
     networks:
-      - sb
+      - sb_net
     
   sbpostgres:
     restart: always
@@ -42,10 +42,10 @@ services:
     expose:
       - "5432"
     networks:
-      - sb
+      - sb_net
 
 volumes:
   sbpostgresql:
 
 networks:
-  sb:
+  sb_net:
