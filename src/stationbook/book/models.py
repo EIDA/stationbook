@@ -178,7 +178,7 @@ class ExtBoreholeData(ExtEntityBase):
 
 class ExtBoreholeLayerData(ExtEntityBase):
     borehole_data = models.ForeignKey(
-        ExtBoreholeData, related_name='borehole_layers', 
+        ExtBoreholeData, related_name='borehole_layers',
         null=True, on_delete=models.SET_NULL)
     description = models.CharField(
         max_length=STRING_LENGTH_SHORT, default='', blank=True)
@@ -190,7 +190,7 @@ class ExtBoreholeLayerData(ExtEntityBase):
 
 
 class FdsnNode(models.Model):
-    code = code = models.CharField(
+    code = models.CharField(
         primary_key=True, max_length=STRING_LENGTH_SHORT, unique=True)
     description = models.CharField(
         max_length=STRING_LENGTH_SHORT, default='', blank=True)
@@ -202,7 +202,7 @@ class FdsnNode(models.Model):
         max_length=STRING_LENGTH_MEDIUM, default='', blank=True)
     url_wfcatalog = models.CharField(
         max_length=STRING_LENGTH_MEDIUM, default='', blank=True)
-    
+
     def __str__(self):
         return self.code
 
@@ -229,13 +229,13 @@ class FdsnNetwork(models.Model):
             self.fdsn_node.code,
             self.code,
             self.start_date.year)
-    
+
     def has_stations(self):
         return self.fdsn_stations.count > 0
-    
+
     def get_code_year(self):
         return '{0} {1}'.format(self.code, self.start_date.year)
-    
+
     def get_start_date(self):
         return '{0}/{1}/{2}'.format(
             self.start_date.year,
@@ -284,14 +284,14 @@ class FdsnStation(models.Model):
 
     def __str__(self):
         return 'Station {0}'.format(self.code)
-    
+
     def get_start_date(self):
         return '{0}/{1}/{2}'.format(
             self.start_date.year,
             self.start_date.month,
             self.start_date.day
         )
-    
+
     def get_end_date(self):
         if self.end_date:
             return '{0}/{1}/{2}'.format(
@@ -301,7 +301,7 @@ class FdsnStation(models.Model):
             )
         else:
             return None
-    
+
     def get_created_date(self):
         return '{0}/{1}/{2}'.format(
             self.creation_date.year,
