@@ -12,6 +12,7 @@
     DATABASE_PASS='passwd'
     DATABASE_PORT=5432
     EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+    CACHE_BACKEND=django.core.cache.backends.db.DatabaseCache
     ```
     SECRET_KEY should be a 50-characters long string of random characters from the following set: `abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)`
 1. Make sure SQLite is configured as the default database in `src/stationbook/stationbook/settings.py`
@@ -43,6 +44,10 @@
 1. Load the fixtures into the database:
     ```
     (env) [usr@host stationbook]$ python3 manage.py loaddata book.json
+    ```
+1. Create the cache table in the database
+    ```
+    (env) [usr@host stationbook]$ python3 manage.py createcachetable
     ```
 1. Run the test server:
     ```

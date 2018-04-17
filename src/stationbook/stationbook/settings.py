@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'stationbook.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'not-default': {
         'ENGINE': config('DATABASE_ENGINE'),
         'NAME': config('DATABASE_NAME'),
         'USER': config('DATABASE_USER'),
@@ -95,9 +95,16 @@ DATABASES = {
         'HOST': config('DATABASE_HOST'),
         'PORT': config('DATABASE_PORT'),
     },
-    'not-default': dj_database_url.config(
+    'default': dj_database_url.config(
         default=config('DATABASE_URL')
     )
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': config('CACHE_BACKEND'),
+        'LOCATION': 'sb_cache',
+    }
 }
 
 # Password validation
