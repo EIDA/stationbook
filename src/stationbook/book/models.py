@@ -14,6 +14,7 @@ STRING_LENGTH_SHORT = 256
 STRING_LENGTH_MEDIUM = 1024
 STRING_LENGTH_LONG = 16384
 
+
 class ExtEntityBase(models.Model):
     # TODO: entities should not be removed. It is more mature to set 'removed'
     # flag to true and filter them out in the queries.
@@ -128,7 +129,7 @@ class ExtMorphologyData(ExtEntityBase):
     vs_30 = models.IntegerField(default=0)
     f0 = models.IntegerField(default=0)
     amp_f0 = models.IntegerField(default=0)
-    basin_flag =  models.BooleanField(default=False)
+    basin_flag = models.BooleanField(default=False)
     bedrock_depth = models.IntegerField(default=0)
 
     def __str__(self):
@@ -222,7 +223,7 @@ class FdsnNetwork(models.Model):
 
     class Meta:
         unique_together = (('fdsn_node', 'code', 'start_date'),)
-        ordering = ['fdsn_node__code', 'code',]
+        ordering = ['fdsn_node__code', 'code', ]
 
     def __str__(self):
         return 'Node {0} Network {1} Year {2}'.format(
@@ -267,20 +268,42 @@ class FdsnStation(models.Model):
     creation_date = models.DateTimeField(
         max_length=STRING_LENGTH_SHORT, blank=True)
     # Ext data
-    ext_basic_data = models.OneToOneField(ExtBasicData,
-        related_name='station', null=True, on_delete=models.SET_NULL)
-    ext_owner_data = models.OneToOneField(ExtOwnerData,
-        related_name='station', null=True, on_delete=models.SET_NULL)
-    ext_morphology_data = models.OneToOneField(ExtMorphologyData,
-        related_name='station', null=True, on_delete=models.SET_NULL)
-    ext_housing_data = models.OneToOneField(ExtHousingData,
-        related_name='station', null=True, on_delete=models.SET_NULL)
-    ext_borehole_data = models.OneToOneField(ExtBoreholeData,
-        related_name='station', null=True, on_delete=models.SET_NULL)
+    ext_basic_data = models.OneToOneField(
+        ExtBasicData,
+        related_name='station',
+        null=True,
+        on_delete=models.SET_NULL
+    )
+    ext_owner_data = models.OneToOneField(
+        ExtOwnerData,
+        related_name='station',
+        null=True,
+        on_delete=models.SET_NULL
+    )
+    ext_morphology_data = models.OneToOneField(
+        ExtMorphologyData,
+        related_name='station',
+        null=True,
+        on_delete=models.SET_NULL
+    )
+    ext_housing_data = models.OneToOneField(
+        ExtHousingData,
+        related_name='station',
+        null=True,
+        on_delete=models.SET_NULL
+    )
+    ext_borehole_data = models.OneToOneField(
+        ExtBoreholeData,
+        related_name='station',
+        null=True,
+        on_delete=models.SET_NULL
+    )
 
     class Meta:
         unique_together = (('fdsn_network', 'code', 'start_date'),)
-        ordering = ['fdsn_network__fdsn_node__code', 'fdsn_network__code', 'code',]
+        ordering = [
+            'fdsn_network__fdsn_node__code', 'fdsn_network__code', 'code',
+        ]
 
     def __str__(self):
         return 'Station {0}'.format(self.code)
@@ -311,8 +334,9 @@ class FdsnStation(models.Model):
 
 
 class ExtAccessData(ExtEntityBase):
-    fdsn_station = models.ForeignKey(FdsnStation,
-        related_name='access_data', on_delete=models.CASCADE)
+    fdsn_station = models.ForeignKey(
+        FdsnStation, related_name='access_data', on_delete=models.CASCADE
+    )
     updated_by = models.ForeignKey(
         User, null=True, related_name='+', on_delete=models.SET_NULL)
     updated_at = models.DateTimeField(null=True)
@@ -320,7 +344,7 @@ class ExtAccessData(ExtEntityBase):
         max_length=STRING_LENGTH_SHORT, default='Change', blank=True)
 
     class Meta:
-        ordering = ['-updated_at',]
+        ordering = ['-updated_at', ]
 
     def __str__(self):
         return '{0} has been updated at {1} by {2}: {3}'.format(
@@ -347,7 +371,7 @@ class Photo(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['uploaded_at',]
+        ordering = ['uploaded_at', ]
 
     def __str__(self):
         return 'Station {0}, photo description: {1}'.format(
@@ -359,7 +383,9 @@ class Photo(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(
         User, related_name='profile', on_delete=models.CASCADE)
-    fdsn_networks = models.ManyToManyField(FdsnNetwork, blank=True, related_name='editors')
+    fdsn_networks = models.ManyToManyField(
+        FdsnNetwork, blank=True, related_name='editors'
+    )
     about = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
     location = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
     agency = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
@@ -373,9 +399,15 @@ class Profile(models.Model):
 
 
 class Link(models.Model):
-    url = models.CharField(max_length=STRING_LENGTH_MEDIUM, null=True, blank=True)
-    category = models.CharField(max_length=STRING_LENGTH_MEDIUM, null=True, blank=True)
-    description = models.CharField(max_length=STRING_LENGTH_MEDIUM, null=True, blank=True)
+    url = models.CharField(
+        max_length=STRING_LENGTH_MEDIUM, null=True, blank=True
+    )
+    category = models.CharField(
+        max_length=STRING_LENGTH_MEDIUM, null=True, blank=True
+    )
+    description = models.CharField(
+        max_length=STRING_LENGTH_MEDIUM, null=True, blank=True
+    )
 
     def __str__(self):
         return '{0} - {1}'.format(

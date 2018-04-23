@@ -6,7 +6,7 @@ from functools import reduce
 
 from django.http import Http404
 from django.shortcuts import \
-get_object_or_404, redirect, render, render_to_response
+    get_object_or_404, redirect, render, render_to_response
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
@@ -17,19 +17,20 @@ from django.db.models import Q, Count
 
 from .fdsn.fdsn_manager import FdsnManager, FdsnStationChannelsManager
 from .models import \
-FdsnNode, FdsnNetwork, FdsnStation, ExtBasicData, ExtOwnerData, \
-ExtMorphologyData, ExtHousingData, ExtAccessData, ExtBoreholeData, \
-ExtBoreholeLayerData, Photo, Link
+    FdsnNode, FdsnNetwork, FdsnStation, ExtBasicData, ExtOwnerData, \
+    ExtMorphologyData, ExtHousingData, ExtAccessData, ExtBoreholeData, \
+    ExtBoreholeLayerData, Photo, Link
 
 from .base_classes import \
-StationBookHelpers, StationUpdateViewBase, StationAccessManager
+    StationBookHelpers, StationUpdateViewBase, StationAccessManager
 
 from .fdsn.base_classes import NodeWrapper
 
 from .forms import \
-UserForm, ProfileForm, AddBoreholeLayerForm, EditBoreholeLayerForm, \
-RemoveBoreholeLayerForm, StationPhotoForm, StationPhotoEditForm, \
-StationPhotoRemoveForm
+    UserForm, ProfileForm, AddBoreholeLayerForm, EditBoreholeLayerForm, \
+    RemoveBoreholeLayerForm, StationPhotoForm, StationPhotoEditForm, \
+    StationPhotoRemoveForm
+
 
 # Stations list view is used as a home screen for the Station Book
 class HomeListView(ListView):
@@ -48,7 +49,7 @@ class SearchListView(ListView):
     template_name = 'search.html'
 
     def get_queryset(self):
-        if self._get_search_phrase() == None:
+        if self._get_search_phrase() is None:
             queryset = None
         else:
             queryset = FdsnStation.objects.all()
@@ -58,8 +59,8 @@ class SearchListView(ListView):
             query_list = query.split()
             queryset = queryset.filter(
                 reduce(operator.and_, (
-                    Q(code__icontains=q) for q in query_list)) | 
-                reduce(operator.and_,(
+                    Q(code__icontains=q) for q in query_list)) |
+                reduce(operator.and_, (
                     Q(site_name__icontains=q) for q in query_list)))
         return queryset
 
@@ -82,6 +83,7 @@ class NodesListView(ListView):
         queryset = FdsnNode.objects.all().order_by('code')
         return queryset
 
+
 class NodeDetailsListView(ListView):
     model = FdsnNode
     context_object_name = 'node'
@@ -94,12 +96,12 @@ class NodeDetailsListView(ListView):
             raise Http404("Node does not exist!")
         return queryset
 
+
 class NetworksListView(ListView):
     model = FdsnNetwork
     context_object_name = 'data'
     template_name = 'networks.html'
-    
-    
+
     def get_queryset(self):
         queryset = FdsnNetwork.objects.annotate(
             num_stations=Count('fdsn_stations')).filter(
@@ -140,12 +142,13 @@ class NetworkDetailsListView(ListView):
         except FdsnNetwork.DoesNotExist:
             raise Http404("Network does not exist!")
         return queryset
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['stations'] = FdsnStation.objects.filter(
             fdsn_network__pk=self.kwargs.get('network_pk'))
         return context
+
 
 class StationDetailsListView(ListView):
     model = FdsnStation
@@ -160,7 +163,7 @@ class StationDetailsListView(ListView):
         except FdsnStation.DoesNotExist:
             raise Http404("Station does not exist!")
         return self.station
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -176,11 +179,11 @@ class StationDetailsListView(ListView):
             network_pk=self.station.fdsn_network.pk,
             station_pk=self.station.pk)
         context['station_channels'] = scg.channels
-            
-        user_is_network_editor = \
-        StationAccessManager.user_is_network_editor(
+
+        user_is_network_editor = StationAccessManager.user_is_network_editor(
             user=self.request.user,
-            network=self.station.fdsn_network)
+            network=self.station.fdsn_network
+        )
         context['user_is_network_editor'] = user_is_network_editor
         return context
 
@@ -192,36 +195,43 @@ class StationGalleryListView(ListView):
 
     def get_queryset(self):
         try:
-            queryset = FdsnStation.objects.\
-            get(fdsn_network__pk=self.kwargs['network_pk'],
-                pk=self.kwargs.get('station_pk'))
+            queryset = FdsnStation.objects.get(
+                fdsn_network__pk=self.kwargs['network_pk'],
+                pk=self.kwargs.get('station_pk')
+            )
         except FdsnStation.DoesNotExist:
             raise Http404("Station does not exist!")
         return queryset
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        user_is_network_editor = \
-        StationAccessManager.user_is_network_editor(
+        user_is_network_editor = StationAccessManager.user_is_network_editor(
             user=self.request.user,
             network=FdsnNetwork.objects.get(
-                pk=self.kwargs.get('network_pk')))
+                pk=self.kwargs.get('network_pk')
+            )
+        )
         context['user_is_network_editor'] = user_is_network_editor
         return context
+
 
 @method_decorator(login_required, name='dispatch')
 class ExtBasicDataUpdateView(StationUpdateViewBase):
     def __init__(self):
-        StationUpdateViewBase.__init__(self, 
-        model=ExtBasicData,
-        fields=('description', 'start', 'end',))
+        StationUpdateViewBase.__init__(
+            self,
+            model=ExtBasicData,
+            fields=('description', 'start', 'end', )
+        )
 
     def get_object(self):
         self.ensure_user_access_right()
-        obj = get_object_or_404(self.model, \
-        station__fdsn_network__pk=self.kwargs['network_pk'],
-        station__pk=self.kwargs['station_pk'])
+        obj = get_object_or_404(
+            self.model,
+            station__fdsn_network__pk=self.kwargs['network_pk'],
+            station__pk=self.kwargs['station_pk']
+        )
         return obj
 
     @transaction.atomic
@@ -233,24 +243,32 @@ class ExtBasicDataUpdateView(StationUpdateViewBase):
         StationBookHelpers.add_ext_access_data(
             self.request.user, data.station, 'Updated basic data')
 
-        return redirect('station_details', \
-        network_pk=data.station.fdsn_network.pk, \
-        station_pk=data.station.pk)
+        return redirect(
+            'station_details',
+            network_pk=data.station.fdsn_network.pk,
+            station_pk=data.station.pk
+        )
 
 
 @method_decorator(login_required, name='dispatch')
 class ExtOwnerDataUpdateView(StationUpdateViewBase):
     def __init__(self):
-        StationUpdateViewBase.__init__(self, 
-        model=ExtOwnerData,
-        fields=('name_first', 'name_last', 'department', 'agency',
-        'city', 'street', 'country', 'phone', 'email',))
+        StationUpdateViewBase.__init__(
+            self,
+            model=ExtOwnerData,
+            fields=(
+                'name_first', 'name_last', 'department', 'agency', 'city',
+                'street', 'country', 'phone', 'email',
+            )
+        )
 
     def get_object(self):
         self.ensure_user_access_right()
-        obj = get_object_or_404(self.model, \
-        station__fdsn_network__pk=self.kwargs['network_pk'],
-        station__pk=self.kwargs['station_pk'])
+        obj = get_object_or_404(
+            self.model,
+            station__fdsn_network__pk=self.kwargs['network_pk'],
+            station__pk=self.kwargs['station_pk']
+        )
         return obj
 
     @transaction.atomic
@@ -261,25 +279,33 @@ class ExtOwnerDataUpdateView(StationUpdateViewBase):
         StationBookHelpers.add_ext_access_data(
             self.request.user, data.station, 'Updated owner data')
 
-        return redirect('station_details', \
-        network_pk=data.station.fdsn_network.pk, \
-        station_pk=data.station.pk)
+        return redirect(
+            'station_details',
+            network_pk=data.station.fdsn_network.pk,
+            station_pk=data.station.pk
+        )
 
 
 @method_decorator(login_required, name='dispatch')
 class ExtMorphologyDataUpdateView(StationUpdateViewBase):
     def __init__(self):
-        StationUpdateViewBase.__init__(self, 
-        model=ExtMorphologyData,
-        fields=('description', 'geological_unit', 'morphology_class',
-        'ground_type_ec8', 'groundwater_depth', 'vs_30', 'f0', 'amp_f0',
-        'basin_flag', 'bedrock_depth',))
+        StationUpdateViewBase.__init__(
+            self,
+            model=ExtMorphologyData,
+            fields=(
+                'description', 'geological_unit', 'morphology_class',
+                'ground_type_ec8', 'groundwater_depth', 'vs_30', 'f0',
+                'amp_f0', 'basin_flag', 'bedrock_depth',
+            )
+        )
 
     def get_object(self):
         self.ensure_user_access_right()
-        obj = get_object_or_404(self.model, \
-        station__fdsn_network__pk=self.kwargs['network_pk'],
-        station__pk=self.kwargs['station_pk'])
+        obj = get_object_or_404(
+            self.model,
+            station__fdsn_network__pk=self.kwargs['network_pk'],
+            station__pk=self.kwargs['station_pk']
+        )
         return obj
 
     @transaction.atomic
@@ -290,24 +316,32 @@ class ExtMorphologyDataUpdateView(StationUpdateViewBase):
         StationBookHelpers.add_ext_access_data(
             self.request.user, data.station, 'Updated morphology data')
 
-        return redirect('station_details', \
-        network_pk=data.station.fdsn_network.pk, \
-        station_pk=data.station.pk)
+        return redirect(
+            'station_details',
+            network_pk=data.station.fdsn_network.pk,
+            station_pk=data.station.pk
+        )
 
 
 @method_decorator(login_required, name='dispatch')
 class ExtHousingDataUpdateView(StationUpdateViewBase):
     def __init__(self):
-        StationUpdateViewBase.__init__(self, 
+        StationUpdateViewBase.__init__(
+            self,
             model=ExtHousingData,
-            fields=('description', 'housing_class', 'in_building',
-            'numer_of_storeys', 'distance_to_building',))
+            fields=(
+                'description', 'housing_class', 'in_building',
+                'numer_of_storeys', 'distance_to_building',
+            )
+        )
 
     def get_object(self):
         self.ensure_user_access_right()
-        obj = get_object_or_404(self.model, \
-        station__fdsn_network__pk=self.kwargs['network_pk'],
-        station__pk=self.kwargs['station_pk'])
+        obj = get_object_or_404(
+            self.model,
+            station__fdsn_network__pk=self.kwargs['network_pk'],
+            station__pk=self.kwargs['station_pk']
+        )
         return obj
 
     @transaction.atomic
@@ -318,23 +352,29 @@ class ExtHousingDataUpdateView(StationUpdateViewBase):
         StationBookHelpers.add_ext_access_data(
             self.request.user, data.station, 'Updated housing data')
 
-        return redirect('station_details', \
-        network_pk=data.station.fdsn_network.pk, \
-        station_pk=data.station.pk)
+        return redirect(
+            'station_details',
+            network_pk=data.station.fdsn_network.pk,
+            station_pk=data.station.pk
+        )
 
 
 @method_decorator(login_required, name='dispatch')
 class ExtBoreholeDataUpdateView(StationUpdateViewBase):
     def __init__(self):
-        StationUpdateViewBase.__init__(self, 
+        StationUpdateViewBase.__init__(
+            self,
             model=ExtBoreholeData,
-            fields=('depth',))
+            fields=('depth', )
+        )
 
     def get_object(self):
         self.ensure_user_access_right()
-        obj = get_object_or_404(self.model, \
-        station__fdsn_network__pk=self.kwargs['network_pk'],
-        station__pk=self.kwargs['station_pk'])
+        obj = get_object_or_404(
+            self.model,
+            station__fdsn_network__pk=self.kwargs['network_pk'],
+            station__pk=self.kwargs['station_pk']
+        )
         return obj
 
     @transaction.atomic
@@ -345,9 +385,11 @@ class ExtBoreholeDataUpdateView(StationUpdateViewBase):
         StationBookHelpers.add_ext_access_data(
             self.request.user, data.station, 'Updated borehole data')
 
-        return redirect('station_details', \
-        network_pk=data.station.fdsn_network.pk, \
-        station_pk=data.station.pk)
+        return redirect(
+            'station_details',
+            network_pk=data.station.fdsn_network.pk,
+            station_pk=data.station.pk
+        )
 
 
 @login_required
@@ -355,7 +397,7 @@ class ExtBoreholeDataUpdateView(StationUpdateViewBase):
 def station_borehole_layer_add(request, network_pk, station_pk):
     station = get_object_or_404(
         FdsnStation, fdsn_network__pk=network_pk, pk=station_pk)
-    
+
     if not StationAccessManager.user_is_station_editor(request.user, station):
         raise Http404("Write access to this network not granted!")
 
@@ -371,9 +413,11 @@ def station_borehole_layer_add(request, network_pk, station_pk):
                 'Added borehole layer ({0})'.format(
                     borehole_layer.description))
 
-            return redirect('station_details', \
-                network_pk=network_pk, \
-                station_pk=station_pk)
+            return redirect(
+                'station_details',
+                network_pk=network_pk,
+                station_pk=station_pk
+            )
     else:
         form = AddBoreholeLayerForm()
         return render(
@@ -387,7 +431,7 @@ def station_borehole_layer_edit(request, network_pk, station_pk, layer_pk):
     station = get_object_or_404(
         FdsnStation, fdsn_network__pk=network_pk, pk=station_pk)
     borehole_layer = get_object_or_404(ExtBoreholeLayerData, pk=layer_pk)
-    
+
     if not StationAccessManager.user_is_station_editor(request.user, station):
         raise Http404("Write access to this network not granted!")
 
@@ -400,9 +444,11 @@ def station_borehole_layer_edit(request, network_pk, station_pk, layer_pk):
             'Edited borehole layer ({0})'.format(
                 borehole_layer.description))
 
-        return redirect('station_details', \
-            network_pk=network_pk, \
-            station_pk=station_pk)
+        return redirect(
+            'station_details',
+            network_pk=network_pk,
+            station_pk=station_pk
+        )
     else:
         form = EditBoreholeLayerForm(instance=borehole_layer)
         return render(
@@ -417,7 +463,7 @@ def station_borehole_layer_remove(request, network_pk, station_pk, layer_pk):
         FdsnStation, fdsn_network__pk=network_pk, pk=station_pk)
     borehole_layer = get_object_or_404(
         ExtBoreholeLayerData, pk=layer_pk)
-    
+
     if not StationAccessManager.user_is_station_editor(request.user, station):
         raise Http404("Write access to this network not granted!")
 
@@ -430,15 +476,17 @@ def station_borehole_layer_remove(request, network_pk, station_pk, layer_pk):
             'Removed borehole layer ({0})'.format(
                 borehole_layer.description))
 
-        return redirect('station_details', \
-            network_pk=network_pk, \
-            station_pk=station_pk)
+        return redirect(
+            'station_details',
+            network_pk=network_pk,
+            station_pk=station_pk
+        )
     else:
         form = RemoveBoreholeLayerForm()
         return render(
             request, 'station_borehole_layer_remove.html', {
-                'station': station, 
-                'layer': borehole_layer, 
+                'station': station,
+                'layer': borehole_layer,
                 'form': form
                 })
 
@@ -448,7 +496,7 @@ def station_borehole_layer_remove(request, network_pk, station_pk, layer_pk):
 def station_photo_upload(request, network_pk, station_pk):
     station = get_object_or_404(
         FdsnStation, fdsn_network__pk=network_pk, pk=station_pk)
-    
+
     if not StationAccessManager.user_is_station_editor(request.user, station):
         raise Http404("Write access to this network not granted!")
 
@@ -463,9 +511,11 @@ def station_photo_upload(request, network_pk, station_pk):
                 request.user, station,
                 'Added photo ({0})'.format(photo.description))
 
-            return redirect('station_gallery', \
-                network_pk=network_pk, \
-                station_pk=station_pk)
+            return redirect(
+                'station_gallery',
+                network_pk=network_pk,
+                station_pk=station_pk
+            )
     else:
         form = StationPhotoForm()
         return render(request, 'upload_photo.html', {
@@ -490,13 +540,15 @@ def station_photo_edit(request, network_pk, station_pk, photo_pk):
             request.user, station,
             'Photo edited ({0})'.format(
                 photo.description))
-        
-        return redirect('station_gallery',
+
+        return redirect(
+            'station_gallery',
             network_pk=network_pk,
-            station_pk=station_pk)
+            station_pk=station_pk
+        )
     else:
         form = StationPhotoEditForm(instance=photo)
-        return render(request, 'station_gallery_photo_edit.html', { 
+        return render(request, 'station_gallery_photo_edit.html', {
             'station': station, 'img': photo, 'form': form
             })
 
@@ -519,10 +571,12 @@ def station_photo_remove(request, network_pk, station_pk, photo_pk):
             request.user, station,
             'Removed photo ({0})'.format(
                 photo.description))
-        
-        return redirect('station_gallery',
+
+        return redirect(
+            'station_gallery',
             network_pk=network_pk,
-            station_pk=station_pk)
+            station_pk=station_pk
+        )
     else:
         form = StationPhotoRemoveForm(instance=photo)
         return render(request, 'station_gallery_photo_remove.html', {
@@ -547,7 +601,8 @@ class UserDetailsListView(ListView):
         context = super().get_context_data(**kwargs)
         context['activity'] = \
             ExtAccessData.objects.order_by('-updated_at').filter(
-                updated_by__username=self.kwargs.get('username'))[:25]
+                updated_by__username=self.kwargs.get('username')
+            )[:25]
         return context
 
 
@@ -588,7 +643,7 @@ def update_profile(request):
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
         return render(request, 'my_account.html', {
-            'user_profile' : request.user.profile,
+            'user_profile': request.user.profile,
             'user_form': user_form,
             'profile_form': profile_form
             })
