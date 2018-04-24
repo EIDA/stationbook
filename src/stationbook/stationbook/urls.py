@@ -12,19 +12,23 @@ from django.views.decorators.cache import cache_page
 from accounts import views as accounts_views
 from book import views as book_view
 
+CACHE_TIME_SHORT = int(getattr(settings, "CACHE_TIME_SHORT", 0))
+CACHE_TIME_MEDIUM = int(getattr(settings, "CACHE_TIME_MEDIUM", 0))
+CACHE_TIME_LONG = int(getattr(settings, "CACHE_TIME_LONG", 0))
+
 urlpatterns = [
     path('', book_view.HomeListView.as_view(), name='home'),
     path('search/', book_view.SearchListView.as_view(), name='search'),
-    path('nodes/', cache_page(60*60)(book_view.NodesListView.as_view()), name='nodes'),
-    path('networks/', cache_page(60*60)(book_view.NetworksListView.as_view()), name='networks'),
+    path('nodes/', cache_page(CACHE_TIME_LONG)(book_view.NodesListView.as_view()), name='nodes'),
+    path('networks/', cache_page(CACHE_TIME_MEDIUM)(book_view.NetworksListView.as_view()), name='networks'),
     path('recent_changes/', book_view.RecentChangesListView.as_view(), name='recent_changes'),
     path('links/', book_view.LinksListView.as_view(), name='links'),
     re_path(r'^nodes/(?P<node_pk>\w+)/$',
-        cache_page(60*60)(book_view.NodeDetailsListView.as_view()), name='node_details'),
+        cache_page(CACHE_TIME_LONG)(book_view.NodeDetailsListView.as_view()), name='node_details'),
     re_path(r'^networks/(?P<network_pk>\w+)/$',
-        cache_page(60*60)(book_view.NetworkDetailsListView.as_view()), name='network_details'),
+        cache_page(CACHE_TIME_MEDIUM)(book_view.NetworkDetailsListView.as_view()), name='network_details'),
     re_path(r'^networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/$',
-        cache_page(60*5)(book_view.StationDetailsListView.as_view()), name='station_details'),
+        book_view.StationDetailsListView.as_view(), name='station_details'),
     re_path(r'^networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/gallery/$',
         book_view.StationGalleryListView.as_view(), name='station_gallery'),
     re_path(r'^networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/edit_basic/$',
