@@ -26,44 +26,49 @@
 <div id="map" class="map">
     <div id="popup"></div>
 </div>
+<script src="{% static 'js/openlayers/ol.js' %}"></script>
+<script src="{% static 'js/openlayers/olStationbook.js' %}"></script>
 
-<div class="btn-group mt-2 float-right" role="group">
-    <div class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">Media</button>
-        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a class="dropdown-item" href="{% url 'station_gallery' station.fdsn_network.pk station.pk %}">Show station gallery ({{ station.photos.count }})</a>
-            {% if user.is_authenticated and user_is_network_editor %}
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{% url 'station_photo_upload' station.fdsn_network.pk station.pk %}">Quick photo upload</a>
-            {% endif %}
-        </div>
-    </div>
+<div class="mt-2">
+<div class="container mb-2">
+    <div class="row">
+        <div class="btn-group" role="group">
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">Media</button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <a class="dropdown-item" href="{% url 'station_gallery' station.fdsn_network.pk station.pk %}">Show station gallery ({{ station.photos.count }})</a>
+                    {% if user.is_authenticated and user_is_network_editor %}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'station_photo_upload' station.fdsn_network.pk station.pk %}">Quick photo upload</a>
+                    {% endif %}
+                </div>
+            </div>
 
-    <div class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">This page</button>
-        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a class="dropdown-item" href="#fdsnws_station">Go to FDSNWS-Station Data</a>
-            <a class="dropdown-item" href="#fdsnws_channels">Go to FDSNWS-Station Channels Data</a>
-            <a class="dropdown-item" href="#fdsnws_instrumentation">Go to FDSNWS-Station Instrumentation Data</a>
-            <a class="dropdown-item" href="#basic_data">Go to basic data</a>
-            <a class="dropdown-item" href="#owner_data">Go to owner data</a>
-            <a class="dropdown-item" href="#morphology_data">Go to morphology data</a>
-            <a class="dropdown-item" href="#housing_data">Go to housing data</a>
-            <a class="dropdown-item" href="#borehole_data">Go to borehole data</a>
-        </div>
-    </div>
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">This page</button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <a class="dropdown-item" href="#fdsnws_station">Go to FDSNWS-Station Data</a>
+                    <a class="dropdown-item" href="#fdsnws_channels">Go to FDSNWS-Station Channels Data</a>
+                    <a class="dropdown-item" href="#fdsnws_instrumentation">Go to FDSNWS-Station Instrumentation Data</a>
+                    <a class="dropdown-item" href="#basic_data">Go to basic data</a>
+                    <a class="dropdown-item" href="#owner_data">Go to owner data</a>
+                    <a class="dropdown-item" href="#morphology_data">Go to morphology data</a>
+                    <a class="dropdown-item" href="#housing_data">Go to housing data</a>
+                    <a class="dropdown-item" href="#borehole_data">Go to borehole data</a>
+                </div>
+            </div>
 
-    <div class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">Data sources</button>
-        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a target="_blank" class="dropdown-item" href="{{ fdsn_station_link }}">FDSNWS-Station Channels and Instrumentation</a>
-        </div>
-    </div>
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">Data sources</button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <a target="_blank" class="dropdown-item" href="{{ fdsn_station_link }}">FDSNWS-Station Channels and Instrumentation</a>
+                </div>
+            </div>
 
-    <!-- <div class="btn-group" role="group">
+            <!-- <div class="btn-group" role="group">
         <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">Export data</button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
@@ -73,19 +78,21 @@
         </div>
     </div> -->
 
-    {% if user.is_authenticated and user_is_network_editor %}
-    <div class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">Edit data</button>
-        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a class="dropdown-item" href="{% url 'station_edit_basic' station.fdsn_network.pk station.pk %}">Edit basic station data</a>
-            <a class="dropdown-item" href="{% url 'station_edit_owner' station.fdsn_network.pk station.pk %}">Edit owner station data</a>
-            <a class="dropdown-item" href="{% url 'station_edit_morphology' station.fdsn_network.pk station.pk %}">Edit morphology station data</a>
-            <a class="dropdown-item" href="{% url 'station_edit_housing' station.fdsn_network.pk station.pk %}">Edit housing station data</a>
-            <a class="dropdown-item" href="{% url 'station_edit_borehole' station.fdsn_network.pk station.pk %}">Edit borehole station data</a>
+            {% if user.is_authenticated and user_is_network_editor %}
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">Edit data</button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <a class="dropdown-item" href="{% url 'station_edit_basic' station.fdsn_network.pk station.pk %}">Edit basic station data</a>
+                    <a class="dropdown-item" href="{% url 'station_edit_owner' station.fdsn_network.pk station.pk %}">Edit owner station data</a>
+                    <a class="dropdown-item" href="{% url 'station_edit_morphology' station.fdsn_network.pk station.pk %}">Edit morphology station data</a>
+                    <a class="dropdown-item" href="{% url 'station_edit_housing' station.fdsn_network.pk station.pk %}">Edit housing station data</a>
+                    <a class="dropdown-item" href="{% url 'station_edit_borehole' station.fdsn_network.pk station.pk %}">Edit borehole station data</a>
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
-    {% endif %}
 </div>
 
 <div id="fdsnws_station" class="table-responsive">
@@ -389,9 +396,8 @@
 </table>
 </div>
 <a href="#" class="float-right">Top of the page</a>
-
-<script src="{% static 'js/openlayers/ol.js' %}"></script>
-<script src="{% static 'js/openlayers/olStationbook.js' %}"></script>
+</div>
+</div>
 
 <script type="text/javascript">
 var latitude=parseFloat("{{ station.latitude }}"),longitude=parseFloat("{{ station.longitude }}"),siteCode="{{ station.code }}",markerPath="{% static 'img/markers/marker-red.png' %}";if(map.getView().setCenter(ol.proj.transform([longitude,latitude],"EPSG:4326","EPSG:3857")),map.getView().setZoom(10),!isNaN(latitude)&&!isNaN(longitude)){var point=new ol.Feature({geometry:new ol.geom.Point(ol.proj.fromLonLat([longitude,latitude])),name:`<b>Site code: </b>${siteCode}\n<br><b>Latitude: </b>${latitude}\n<br><b>Longitude: </b>${longitude}`});point.setStyle(new ol.style.Style({image:new ol.style.Icon({anchor:[.5,46],anchorXUnits:"fraction",anchorYUnits:"pixels",src:markerPath})})),vectorSource.addFeature(point)}
