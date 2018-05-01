@@ -1,4 +1,6 @@
-import sys, os, django
+import sys
+import os
+import django
 proj_path = '../stationbook/'
 sys.path.append(proj_path)
 os.chdir(proj_path)
@@ -6,8 +8,9 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "stationbook.settings")
 django.setup()
 
 from book.models import \
-FdsnStation, ExtOwnerData, ExtMorphologyData, ExtHousingData
+    FdsnStation, ExtOwnerData, ExtMorphologyData, ExtHousingData
 import xml.etree.ElementTree as ET
+
 
 class SB1XMLProcessor(object):
     xml_root = None
@@ -17,7 +20,7 @@ class SB1XMLProcessor(object):
             self.xml_root = ET.parse('../scripts/data/sb_export.xml').getroot()
         except:
             raise
-    
+
     def get_housing_class_code(self, hc):
         if not hc: return ''
         elif hc.lower() == 'free field': return 'free_field'
@@ -39,7 +42,7 @@ class SB1XMLProcessor(object):
         elif mc.lower() == 't3': return 't3'
         elif mc.lower() == 't4': return 't4'
         else: return 'unknown'
-    
+
     def get_ground_type_ec8(self, gt):
         if not gt: return 'unknown'
         elif gt.lower() == 'a': return ''
@@ -73,18 +76,18 @@ class SB1XMLProcessor(object):
         elif gu.lower() == 'thin loess above triassic limestone': return 'limestone'
         elif gu.lower() == 'volcanic rocks': return 'volcanic_rocks'
         else: return 'unknown'
-    
+
     def yes_no_to_bool(self, yn):
         if not yn: return False
         elif yn.lower() == 'yes': return True
         else: return False
-    
+
     def float_to_int(self, i):
         try:
             return int(i)
         except:
             return 0
-    
+
     def process_entries(self):
         try:
             for e in self.xml_root.findall('.//DATA_RECORD'):
@@ -136,7 +139,7 @@ class SB1XMLProcessor(object):
                             code=station_code)
                     except:
                         continue
-                
+
                 owner = ExtOwnerData.objects.get(station__pk=stat.pk)
                 owner.street = owner_address or 'n/a'
                 owner.agency = owner_agency or 'n/a'

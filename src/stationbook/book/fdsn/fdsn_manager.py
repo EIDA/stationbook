@@ -9,19 +9,20 @@ from django.db import transaction
 from django.shortcuts import get_object_or_404
 
 from .base_classes import \
-NO_FDSNWS_DATA, NSMAP, \
-RouteWrapper, RouteDatacenterWrapper, RouteParamWrapper, \
-NodeWrapper, NetworkWrapper, StationWrapper, \
-StationChannels, StationChannel, StationChannelSampleRateRatio, \
-StationChannelSensor, StationChannelDataLogger, StationChannelResponse, \
-StationChannelResponseInstrumentSensitivity, \
-StationChannelResponseInputUnits, StationChannelResponseOutputUnits
+    NO_FDSNWS_DATA, NSMAP, \
+    RouteWrapper, RouteDatacenterWrapper, RouteParamWrapper, \
+    NodeWrapper, NetworkWrapper, StationWrapper, \
+    StationChannels, StationChannel, StationChannelSampleRateRatio, \
+    StationChannelSensor, StationChannelDataLogger, StationChannelResponse, \
+    StationChannelResponseInstrumentSensitivity, \
+    StationChannelResponseInputUnits, StationChannelResponseOutputUnits
 
 from ..logger import StationBookLoggerMixin
 from ..models import \
-FdsnNode, FdsnNetwork, FdsnStation, ExtBasicData, ExtOwnerData, \
-ExtMorphologyData, ExtHousingData, ExtAccessData, ExtBoreholeData, \
-ExtBoreholeLayerData
+    FdsnNode, FdsnNetwork, FdsnStation, ExtBasicData, ExtOwnerData, \
+    ExtMorphologyData, ExtHousingData, ExtAccessData, ExtBoreholeData, \
+    ExtBoreholeLayerData
+
 
 class FdsnHttpBase(StationBookLoggerMixin):
     def __init__(self):
@@ -39,7 +40,7 @@ class FdsnHttpBase(StationBookLoggerMixin):
                 return response.read()
         except Exception:
             self.log_exception(url)
-            raise
+            return None
 
     def _get_fdsn_nodes(self):
         try:
@@ -97,7 +98,7 @@ class FdsnHttpBase(StationBookLoggerMixin):
             raise
 
     def validate_string(self, string):
-        if not string or len(string)<=0:
+        if not string or len(string) <= 0:
             return NO_FDSNWS_DATA
         else:
             return string
@@ -105,7 +106,7 @@ class FdsnHttpBase(StationBookLoggerMixin):
 
 class FdsnNetworkManager(FdsnHttpBase):
     def __init__(self):
-         super(FdsnNetworkManager, self).__init__()
+        super(FdsnNetworkManager, self).__init__()
 
     def _discover_node_networks(self, node_wrapper):
         try:
@@ -359,8 +360,11 @@ class FdsnRoutingManager(FdsnHttpBase):
                 self.routing_node_wrapper.build_url_routing_network_level(
                     network_code)))
 
-            response = self.fdsn_request(self.routing_node_wrapper.\
-                build_url_routing_network_level(network_code))
+            response = self.fdsn_request(
+                self.routing_node_wrapper.build_url_routing_network_level(
+                    network_code
+                )
+            )
 
             if not response:
                 return
@@ -596,6 +600,7 @@ class FdsnRoutingManager(FdsnHttpBase):
         except Exception:
             self.log_exception()
             raise
+
 
 class FdsnManager(StationBookLoggerMixin):
     def __init__(self):
