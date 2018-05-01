@@ -47,7 +47,7 @@
       <p><b>{{ access.updated_at|naturaltime }}:</b> <br> {{ access.description }}<br> 
       Station <a href="{% url 'station_details' access.fdsn_station.fdsn_network.pk access.fdsn_station.pk %}">
           {{ access.fdsn_station.code }} ({{ access.fdsn_station.site_name }})</a>
-      in network <a href="{% url 'network_details' access.fdsn_station.fdsn_network.pk %}">{{ access.fdsn_station.fdsn_network.code }}</a></p>
+      in network <a href="{% url 'network_details' access.fdsn_station.fdsn_network.pk %}">{{ access.fdsn_station.fdsn_network.get_code_year }}</a></p>
       {% endfor %}
   </div>
   </div>
