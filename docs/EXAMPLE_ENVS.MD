@@ -18,10 +18,12 @@
     DATABASE_PORT=5432
     EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
     CACHE_BACKEND=django.core.cache.backends.db.DatabaseCache
-    # CACHE_BACKENDS
-    # django.core.cache.backends.dummy.DummyCache (dev)
-    # django.core.cache.backends.db.DatabaseCache
-    # django.core.cache.backends.memcached.MemcachedCache
+    CACHE_LOCATION='sb_cache'
     CACHE_TIME_SHORT=1800
     CACHE_TIME_MEDIUM=3600
     CACHE_TIME_LONG=43200
+
+# Cache backends
+* `django.core.cache.backends.dummy.DummyCache` (development)
+* `django.core.cache.backends.db.DatabaseCache`
+* `django.core.cache.backends.memcached.MemcachedCache`

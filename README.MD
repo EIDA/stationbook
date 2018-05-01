@@ -13,6 +13,7 @@
     DATABASE_PORT=5432
     EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
     CACHE_BACKEND=django.core.cache.backends.db.DatabaseCache
+    CACHE_LOCATION='sb_cache'
     ```
     SECRET_KEY should be a 50-characters long string of random characters from the following set: `abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)`
 1. Make sure SQLite is configured as the default database in `src/stationbook/stationbook/settings.py`

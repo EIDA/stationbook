@@ -103,7 +103,7 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': config('CACHE_BACKEND'),
-        'LOCATION': 'sb_cache',
+        'LOCATION': config('CACHE_LOCATION'),
     }
 }
 
