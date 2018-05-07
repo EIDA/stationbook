@@ -1,7 +1,7 @@
 # Quick start guide
 1. Create the .env configuration file in `/src/stationbook/.env`. Example test server configuration:
     ```
-    SECRET_KEY='#ps1ib&=v%zsgzi5q*qp-ei*b1bg19dxv&861m@4@x+2ww6nx^'
+    SECRET_KEY='abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
     DEBUG=True
     ALLOWED_HOSTS=.localhost,127.0.0.1
     DATABASE_URL=sqlite:///db.sqlite3
@@ -14,8 +14,17 @@
     EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
     CACHE_BACKEND=django.core.cache.backends.db.DatabaseCache
     CACHE_LOCATION='sb_cache'
+    CACHE_TIME_SHORT=1800
+    CACHE_TIME_MEDIUM=3600
+    CACHE_TIME_LONG=43200
     ```
-    SECRET_KEY should be a 50-characters long string of random characters from the following set: `abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)`
+    * SECRET_KEY should be a 50-characters long string of random characters from the following set: `abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)`
+    * `CACHE_BACKEND` can be set to:
+        * `django.core.cache.backends.memcached.MemcachedCache` with location `127.0.0.1:11211` (default for python-memcached) 
+        * `django.core.cache.backends.filebased.FileBasedCache` with location e.g. `/data/sb_cache/`
+        * `django.core.cache.backends.db.DatabaseCache` with location e.g. `sb_cache_table`
+        * `django.core.cache.backends.dummy.DummyCache` can be used during development 
+    * `CACHE_TIME_SHORT`, `CACHE_TIME_MEDIUM` and `CACHE_TIME_LONG` are timers (in seconds) used for cache validation assigned to pages depending on how often their content changes
 1. Make sure SQLite is configured as the default database in `src/stationbook/stationbook/settings.py`
 1. Create the virtual environment:
     ```
