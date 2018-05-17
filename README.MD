@@ -17,6 +17,7 @@
     CACHE_TIME_SHORT=1800
     CACHE_TIME_MEDIUM=3600
     CACHE_TIME_LONG=43200
+    SB_URL_BASE='sb2/'
     ```
     * SECRET_KEY should be a 50-characters long string of random characters from the following set: `abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)`
     * `CACHE_BACKEND` can be set to:
@@ -25,6 +26,7 @@
         * `django.core.cache.backends.db.DatabaseCache` with location e.g. `sb_cache_table`
         * `django.core.cache.backends.dummy.DummyCache` can be used during development 
     * `CACHE_TIME_SHORT`, `CACHE_TIME_MEDIUM` and `CACHE_TIME_LONG` are timers (in seconds) used for cache validation assigned to pages depending on how often their content changes
+    * `SB_URL_BASE` allows adding a URL prefix to all Station Book URLs
 1. Make sure SQLite is configured as the default database in `src/stationbook/stationbook/settings.py`
 1. Create the virtual environment:
     ```
