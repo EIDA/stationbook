@@ -22,6 +22,7 @@
     CACHE_TIME_SHORT=1800
     CACHE_TIME_MEDIUM=3600
     CACHE_TIME_LONG=43200
+    SB_URL_BASE='sb2/'
 
 # Cache backends
 * `django.core.cache.backends.dummy.DummyCache` (development)

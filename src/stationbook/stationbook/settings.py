@@ -144,11 +144,11 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
-STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static_sb')
+STATIC_URL = '/static_sb/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static_sb'),
 ]
 
 LOGOUT_REDIRECT_URL = 'home'
@@ -202,3 +202,12 @@ LOGGING = {
         },
     },
 }
+
+# Cache
+CACHE_TIME_SHORT = config('CACHE_TIME_SHORT')
+CACHE_TIME_MEDIUM = config('CACHE_TIME_MEDIUM')
+CACHE_TIME_LONG = config('CACHE_TIME_LONG')
+CACHE_TIME_LONG = config('CACHE_TIME_LONG')
+
+# URL base
+SB_URL_BASE = config('SB_URL_BASE')
