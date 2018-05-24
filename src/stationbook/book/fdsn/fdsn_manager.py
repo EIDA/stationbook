@@ -7,6 +7,7 @@ from .background import BackgroundThread
 
 from django.db import transaction
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 
 from .base_classes import \
     NO_FDSNWS_DATA, NSMAP, \
@@ -518,6 +519,7 @@ class FdsnRoutingManager(FdsnHttpBase):
                 stat.end_date = station_wrapper.end_date
                 stat.creation_date = station_wrapper.creation_date
                 stat.site_name = station_wrapper.site_name
+                stat.last_synced = timezone.now()
                 stat.save()
             else:
                 self.log_information(
@@ -546,6 +548,7 @@ class FdsnRoutingManager(FdsnHttpBase):
                 stat.end_date = station_wrapper.end_date
                 stat.creation_date = station_wrapper.creation_date
                 stat.site_name = station_wrapper.site_name
+                stat.last_synced = timezone.now()
                 # Create ext entities
                 ext_basic = ExtBasicData()
                 ext_owner = ExtOwnerData()

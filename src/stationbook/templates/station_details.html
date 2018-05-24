@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/openlayers/ol.css' %}" type="text/css">
@@ -97,7 +98,7 @@
 
 <div id="fdsnws_station" class="table-responsive">
 <p><h1>FDSNWS-Station Data:</h1></p>
-<table class="table table">
+<table class="table">
     <thead class="thead-inverse">
         <tr>
             <th>Network</th>
@@ -132,7 +133,7 @@
 
 <div id="fdsnws_channels" class="table-responsive">
 <p><h1>FDSNWS-Station Channels Data:</h1></p>
-<table class="table table">
+<table class="table">
     <thead class="thead-inverse">
         <tr>
             <th>Channel</th>
@@ -175,7 +176,7 @@
 
 <div id="fdsnws_instrumentation" class="table-responsive">
 <p><h1>FDSNWS-Station Instrumentation Data:</h1></p>
-<table class="table table">
+<table class="table">
     <thead class="thead-inverse">
         <tr>
             <th>Channel</th>
@@ -212,7 +213,7 @@
 
 <div id="basic_data" class="table-responsive">
 <p><h1>Basic Data:</h1></p>
-<table class="table table">
+<table class="table">
     <thead class="thead-inverse">
         <tr>
             <th>Description</th>
@@ -224,7 +225,7 @@
         </tr>
     </tbody>
 </table>
-<table class="table table">
+<table class="table">
     <thead class="thead-inverse">
         <tr>
             <th>Start</th>
@@ -238,12 +239,24 @@
         </tr>
     </tbody>
 </table>
+<table class="table">
+    <thead class="thead-inverse">
+        <tr>
+            <th>Last synchronization with FDSN</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ station.ext_basic_data.last_synced|naturaltime }}</td>
+        </tr>
+    </tbody>
+</table>
 </div>
 <a href="#" class="float-right">Top of the page</a>
 
 <div id="owner_data" class="table-responsive">
 <p><h1>Owner Data:</h1></p>
-<table class="table table">
+<table class="table">
     <thead class="thead-inverse">
         <tr>
             <th>Firstname</th>
@@ -276,7 +289,7 @@
 
 <div id="morphology_data" class="table-responsive">
 <p><h1>Morphology Data:</h1></p>
-<table class="table table">
+<table class="table">
     <thead class="thead-inverse">
         <tr>
             <th>Description</th>
@@ -321,7 +334,7 @@
 
 <div id="housing_data" class="table-responsive">
 <p><h1>Housing Data:</h1></p>
-<table class="table table">
+<table class="table">
     <thead class="thead-inverse">
         <tr>
             <th>Description</th>
@@ -333,7 +346,7 @@
         </tr>
     </tbody>
 </table>
-<table class="table table">
+<table class="table">
     <thead class="thead-inverse">
         <tr>
             <th>Housing Class</th>
@@ -356,7 +369,7 @@
 
 <div id="borehole_data" class="table-responsive">
 <p><h1>Borehole Data:</h1></p>
-<table class="table table">
+<table class="table">
     <thead class="thead-inverse">
         <tr>
             <th>Depth [m]</th>
@@ -370,7 +383,7 @@
 </table>
 
 <p><h2>Borehole Layers: {% if user.is_authenticated and user_is_network_editor %}(<a href="{% url 'station_borehole_layer_add' station.fdsn_network.pk station.pk %}">Add</a>){% endif %}</h2></p>
-<table class="table table">
+<table class="table">
     <thead class="thead-inverse">
         <tr>
             <th>Description</th>

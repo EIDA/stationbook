@@ -123,6 +123,7 @@ class ExtBasicAdmin(admin.ModelAdmin):
                     'start',
                     'end',
                     'imported_from_fdsn',
+                    'last_synced',
                 ]
             }
         ),
@@ -134,6 +135,7 @@ class ExtBasicAdmin(admin.ModelAdmin):
         'start',
         'end',
         'imported_from_fdsn',
+        'last_synced',
     )
 
     list_filter = [

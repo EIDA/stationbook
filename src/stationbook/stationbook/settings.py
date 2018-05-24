@@ -173,7 +173,7 @@ LOGGING = {
     'formatters': {
         'simple': {
             'format': '%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
-            'datefmt': '%d-%m-%Y:%H:%M:%S'
+            'datefmt': '%d-%m-%Y %H:%M:%S'
         },
     },
     'handlers': {

@@ -27,6 +27,7 @@ class ExtBasicData(ExtEntityBase):
     start = models.DateField(blank=True, null=True)
     end = models.DateField(blank=True, null=True)
     imported_from_fdsn = models.DateTimeField(default=timezone.now)
+    last_synced = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return 'Basic data for station {0}'.format(self.station.code)
