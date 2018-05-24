@@ -11,7 +11,7 @@ services:
       - sbpostgres:postgres
     env_file: .env
     volumes:
-      - /data/stationbook/stationbook/static
+      - /data/stationbook/stationbook/static_sb
     networks:
       - sb_net
     command: gunicorn stationbook.wsgi:application -w 2 -b :8080

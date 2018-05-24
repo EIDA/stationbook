@@ -3,8 +3,8 @@ server {
     server_name not.configured.example.com;
     charset utf-8;
 
-    location /static/ {
-        alias /data/stationbook/stationbook/static/;
+    location /static_sb/ {
+        alias /data/stationbook/stationbook/static_sb/;
     }
 
     location / {
