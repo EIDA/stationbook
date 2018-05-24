@@ -519,8 +519,9 @@ class FdsnRoutingManager(FdsnHttpBase):
                 stat.end_date = station_wrapper.end_date
                 stat.creation_date = station_wrapper.creation_date
                 stat.site_name = station_wrapper.site_name
-                stat.last_synced = timezone.now()
                 stat.save()
+                stat.ext_basic_data.last_synced = timezone.now()
+                stat.ext_basic_data.save()
             else:
                 self.log_information(
                     'Adding: node {0} Network {1} Year {2} Station {3} Year {4}'.format(
@@ -548,7 +549,7 @@ class FdsnRoutingManager(FdsnHttpBase):
                 stat.end_date = station_wrapper.end_date
                 stat.creation_date = station_wrapper.creation_date
                 stat.site_name = station_wrapper.site_name
-                stat.last_synced = timezone.now()
+
                 # Create ext entities
                 ext_basic = ExtBasicData()
                 ext_owner = ExtOwnerData()
