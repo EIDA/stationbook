@@ -90,6 +90,12 @@ Below code can be used to synchronize with the EIDA nodes. EIDA nodes can be con
 >>> from book.fdsn.fdsn_manager import FdsnManager
 >>> FdsnManager().process_fdsn()
 ```
+To automate the synchronization process, `/stationbook/src/scripts/fdsn_sync.py` can be executed via crontab:
+```
+min   hour    day     month   weekday   command
+0       *       *       *       *       cd /data/stationbook && python3 fdsn_sync.py
+```
+
 # Logs
 Tail can be used to follow the app logs:
 ```
