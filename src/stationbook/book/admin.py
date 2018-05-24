@@ -138,7 +138,6 @@ class ExtBasicAdmin(admin.ModelAdmin):
 
     list_filter = [
         'station__fdsn_network__code',
-        'station__code',
     ]
 
     search_fields = [
