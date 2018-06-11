@@ -61,8 +61,26 @@ class SearchAdvancedForm(forms.ModelForm):
         fields = (
             'network_code',
             'station_code',
+            'site_name',
+            'latitude_min',
+            'latitude_max',
+            'longitude_min',
+            'longitude_max',
+            'start_year_from',
+            'start_year_to',
+            'end_year_from',
+            'end_year_to',
         )
         labels = {
-            'network_code': 'FDSN Network Code',
-            'station_code': 'FDSN Station Code',
+            'network_code': 'Network Code',
+            'station_code': 'Station Code',
+            'site_name': 'Site name',
+            'latitude_min': 'Latitude minimum',
+            'latitude_max': 'Latitude maximum',
+            'longitude_min': 'Longitude minimum',
+            'longitude_max': 'Longitude maximum',
+            'start_year_from': 'Start year from',
+            'start_year_to': 'Start year to',
+            'end_year_from': 'End year from',
+            'end_year_to': 'End year to',
         }

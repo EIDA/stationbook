@@ -615,31 +615,69 @@ def search_advanced(request):
         if form.is_valid():
             net_code = form.cleaned_data['network_code'].upper()
             stat_code = form.cleaned_data['station_code'].upper()
+            site_name = form.cleaned_data['site_name']
+            latitude_min = form.cleaned_data['latitude_min']
+            latitude_max = form.cleaned_data['latitude_max']
+            longitude_min = form.cleaned_data['longitude_min']
+            longitude_max = form.cleaned_data['longitude_max']
+            start_date_from = form.cleaned_data['start_year_from']
+            start_date_to = form.cleaned_data['start_year_to']
+            end_date_from = form.cleaned_data['end_year_from']
+            end_date_to = form.cleaned_data['end_year_to']
 
-            if len(net_code) <= 0 and len(stat_code) <= 0:
-                return render(
-                    request,
-                    'search_advanced.html',
-                    {
-                        'form': form,
-                        'empty_search': True
-                    }
-                )
+            data = FdsnStation.objects.all()
+            search_phrase = ''
 
-            data = FdsnStation.objects.filter(
-                    fdsn_network__code__icontains=net_code,
-                    code__icontains=stat_code
-                )
+            if net_code:
+                data = data.filter(fdsn_network__code__icontains=net_code)
+                search_phrase += 'Network: {}, '.format(net_code)
+
+            if stat_code:
+                data = data.filter(code__icontains=stat_code)
+                search_phrase += 'Station: {}, '.format(stat_code)
+
+            if site_name:
+                data = data.filter(site_name__icontains=site_name)
+                search_phrase += 'Site: {}, '.format(site_name)
+
+            if latitude_min:
+                data = data.filter(latitude__gte=latitude_min)
+                search_phrase += 'Lat min: {}, '.format(latitude_min)
+
+            if latitude_max:
+                data = data.filter(latitude__lte=latitude_max)
+                search_phrase += 'Lat max: {}, '.format(latitude_max)
+
+            if longitude_min:
+                data = data.filter(longitude__gte=longitude_min)
+                search_phrase += 'Lon min: {}, '.format(longitude_min)
+
+            if longitude_max:
+                data = data.filter(longitude__lte=longitude_max)
+                search_phrase += 'Lon max: {}, '.format(longitude_max)
+
+            if start_date_from:
+                data = data.filter(start_date__year__gte=start_date_from)
+                search_phrase += 'Start from: {}, '.format(start_date_from)
+
+            if start_date_to:
+                data = data.filter(start_date__year__lte=start_date_to)
+                search_phrase += 'Start to: {}, '.format(start_date_to)
+
+            if end_date_from:
+                data = data.filter(end_date__year__gte=end_date_from)
+                search_phrase += 'End from: {}, '.format(end_date_from)
+
+            if end_date_to:
+                data = data.filter(end_date__year__lte=end_date_to)
+                search_phrase += 'End to: {}, '.format(end_date_to)
 
             return render(
                 request,
                 'search_results.html',
                 {
                     'data': data,
-                    'search_phrase': 'network: {}, station: {}'.format(
-                        net_code,
-                        stat_code
-                    )
+                    'search_phrase': search_phrase
                 }
             )
         else:

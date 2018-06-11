@@ -653,12 +653,16 @@ class SearchFdsnStationModel(models.Model):
         decimal_places=COORD_DECIMALS,
         blank=True
     )
-    start_date = models.DateTimeField(
-        max_length=STRING_LENGTH_SHORT,
+    start_year_from = models.IntegerField(
         blank=True
     )
-    end_date = models.DateTimeField(
-        max_length=STRING_LENGTH_SHORT,
+    start_year_to = models.IntegerField(
+        blank=True
+    )
+    end_year_from = models.IntegerField(
+        blank=True
+    )
+    end_year_to = models.IntegerField(
         blank=True
     )
 
