@@ -13,6 +13,10 @@ from markdown import markdown
 STRING_LENGTH_SHORT = 256
 STRING_LENGTH_MEDIUM = 1024
 STRING_LENGTH_LONG = 16384
+COORD_INTEGERS = 3
+COORD_DECIMALS = 6
+ELEV_INTEGERS = 4
+ELEV_DECIMALS = 2
 
 
 class ExtEntityBase(models.Model):
@@ -23,11 +27,24 @@ class ExtEntityBase(models.Model):
 
 class ExtBasicData(ExtEntityBase):
     description = models.TextField(
-        max_length=STRING_LENGTH_LONG, default='', blank=True)
-    start = models.DateField(blank=True, null=True)
-    end = models.DateField(blank=True, null=True)
-    imported_from_fdsn = models.DateTimeField(default=timezone.now)
-    last_synced = models.DateTimeField(default=timezone.now)
+        max_length=STRING_LENGTH_LONG,
+        default='',
+        blank=True
+    )
+    start = models.DateField(
+        blank=True,
+        null=True
+    )
+    end = models.DateField(
+        blank=True,
+        null=True
+    )
+    imported_from_fdsn = models.DateTimeField(
+        default=timezone.now
+    )
+    last_synced = models.DateTimeField(
+        default=timezone.now
+    )
 
     def __str__(self):
         return 'Basic data for station {0}'.format(self.station.code)
@@ -38,23 +55,50 @@ class ExtBasicData(ExtEntityBase):
 
 class ExtOwnerData(ExtEntityBase):
     name_first = models.CharField(
-        max_length=STRING_LENGTH_SHORT, blank=True, default='n/a')
+        max_length=STRING_LENGTH_SHORT,
+        blank=True,
+        default='n/a'
+    )
     name_last = models.CharField(
-        max_length=STRING_LENGTH_SHORT, blank=True, default='n/a')
+        max_length=STRING_LENGTH_SHORT,
+        blank=True,
+        default='n/a'
+    )
     department = models.CharField(
-        max_length=STRING_LENGTH_SHORT, blank=True, default='n/a')
+        max_length=STRING_LENGTH_SHORT,
+        blank=True,
+        default='n/a'
+    )
     agency = models.CharField(
-        max_length=STRING_LENGTH_SHORT, blank=True, default='n/a')
+        max_length=STRING_LENGTH_SHORT,
+        blank=True,
+        default='n/a'
+    )
     city = models.CharField(
-        max_length=STRING_LENGTH_SHORT, blank=True, default='n/a')
+        max_length=STRING_LENGTH_SHORT,
+        blank=True,
+        default='n/a'
+    )
     street = models.CharField(
-        max_length=STRING_LENGTH_SHORT, blank=True, default='n/a')
+        max_length=STRING_LENGTH_SHORT,
+        blank=True,
+        default='n/a'
+    )
     country = models.CharField(
-        max_length=STRING_LENGTH_SHORT, blank=True, default='n/a')
+        max_length=STRING_LENGTH_SHORT,
+        blank=True,
+        default='n/a'
+    )
     phone = models.CharField(
-        max_length=STRING_LENGTH_SHORT, blank=True, default='n/a')
+        max_length=STRING_LENGTH_SHORT,
+        blank=True,
+        default='n/a'
+    )
     email = models.CharField(
-        max_length=STRING_LENGTH_SHORT, blank=True, default='n/a')
+        max_length=STRING_LENGTH_SHORT,
+        blank=True,
+        default='n/a'
+    )
 
     def __str__(self):
         return 'Owner data for station {0}'.format(self.station.code)
@@ -113,25 +157,46 @@ class ExtMorphologyData(ExtEntityBase):
     )
 
     description = models.TextField(
-        max_length=STRING_LENGTH_LONG, default='', blank=True)
+        max_length=STRING_LENGTH_LONG,
+        default='',
+        blank=True
+    )
     geological_unit = models.CharField(
         max_length=STRING_LENGTH_SHORT,
         choices=GEOLOGICAL_UNIT_CHOICES,
-        default='', blank=True)
+        default='',
+        blank=True
+    )
     morphology_class = models.CharField(
         max_length=STRING_LENGTH_SHORT,
         choices=MORPHOLOGY_CLASS_CHOICES,
-        default='', blank=True)
+        default='',
+        blank=True
+    )
     ground_type_ec8 = models.CharField(
         max_length=STRING_LENGTH_SHORT,
         choices=GROUND_TYPE_EC8_CHOICES,
-        default='', blank=True)
-    groundwater_depth = models.IntegerField(default=0)
-    vs_30 = models.IntegerField(default=0)
-    f0 = models.IntegerField(default=0)
-    amp_f0 = models.IntegerField(default=0)
-    basin_flag = models.BooleanField(default=False)
-    bedrock_depth = models.IntegerField(default=0)
+        default='',
+        blank=True
+    )
+    groundwater_depth = models.IntegerField(
+        default=0
+    )
+    vs_30 = models.IntegerField(
+        default=0
+    )
+    f0 = models.IntegerField(
+        default=0
+    )
+    amp_f0 = models.IntegerField(
+        default=0
+    )
+    basin_flag = models.BooleanField(
+        default=False
+    )
+    bedrock_depth = models.IntegerField(
+        default=0
+    )
 
     def __str__(self):
         return 'Morphology data for station {0}'.format(self.station.code)
@@ -155,14 +220,25 @@ class ExtHousingData(ExtEntityBase):
     )
 
     description = models.TextField(
-        max_length=STRING_LENGTH_LONG, default='', blank=True)
+        max_length=STRING_LENGTH_LONG,
+        default='',
+        blank=True
+    )
     housing_class = models.CharField(
         max_length=STRING_LENGTH_SHORT,
         choices=HOUSING_CLASS_CHOICES,
-        default='', blank=True)
-    in_building = models.BooleanField(default=True)
-    numer_of_storeys = models.IntegerField(default=0)
-    distance_to_building = models.IntegerField(default=0)
+        default='',
+        blank=True
+    )
+    in_building = models.BooleanField(
+        default=True
+    )
+    numer_of_storeys = models.IntegerField(
+        default=0
+    )
+    distance_to_building = models.IntegerField(
+        default=0
+    )
 
     def __str__(self):
         return 'Housing data for station {0}'.format(self.station.code)
@@ -172,7 +248,9 @@ class ExtHousingData(ExtEntityBase):
 
 
 class ExtBoreholeData(ExtEntityBase):
-    depth = models.IntegerField(default=0)
+    depth = models.IntegerField(
+        default=0
+    )
 
     def __str__(self):
         return 'Borehole data for station {0}'.format(self.station.code)
@@ -180,30 +258,54 @@ class ExtBoreholeData(ExtEntityBase):
 
 class ExtBoreholeLayerData(ExtEntityBase):
     borehole_data = models.ForeignKey(
-        ExtBoreholeData, related_name='borehole_layers',
-        null=True, on_delete=models.SET_NULL)
+        ExtBoreholeData,
+        related_name='borehole_layers',
+        null=True,
+        on_delete=models.SET_NULL
+    )
     description = models.CharField(
-        max_length=STRING_LENGTH_SHORT, default='', blank=True)
-    depth_top = models.IntegerField(default=0)
-    depth_bottom = models.IntegerField(default=0)
+        max_length=STRING_LENGTH_SHORT,
+        default='',
+        blank=True
+    )
+    depth_top = models.IntegerField(
+        default=0
+    )
+    depth_bottom = models.IntegerField(
+        default=0
+    )
 
     def __str__(self):
         return self.borehole_data.station.code
 
 
 class FdsnNode(models.Model):
-    code = models.CharField(
-        primary_key=True, max_length=STRING_LENGTH_SHORT, unique=True)
+    code = models.CharField(primary_key=True, max_length=STRING_LENGTH_SHORT, unique=True)
     description = models.CharField(
-        max_length=STRING_LENGTH_SHORT, default='', blank=True)
+        max_length=STRING_LENGTH_SHORT,
+        default='',
+        blank=True
+    )
     url_dataselect = models.CharField(
-        max_length=STRING_LENGTH_MEDIUM, default='', blank=True)
+        max_length=STRING_LENGTH_MEDIUM,
+        default='',
+        blank=True
+    )
     url_station = models.CharField(
-        max_length=STRING_LENGTH_MEDIUM, default='', blank=True)
+        max_length=STRING_LENGTH_MEDIUM,
+        default='',
+        blank=True
+    )
     url_routing = models.CharField(
-        max_length=STRING_LENGTH_MEDIUM, default='', blank=True)
+        max_length=STRING_LENGTH_MEDIUM,
+        default='',
+        blank=True
+    )
     url_wfcatalog = models.CharField(
-        max_length=STRING_LENGTH_MEDIUM, default='', blank=True)
+        max_length=STRING_LENGTH_MEDIUM,
+        default='',
+        blank=True
+    )
 
     def __str__(self):
         return self.code
@@ -211,20 +313,42 @@ class FdsnNode(models.Model):
 
 class FdsnNetwork(models.Model):
     fdsn_node = models.ForeignKey(
-        FdsnNode, related_name='fdsn_networks',
-        on_delete=models.CASCADE, default=None)
+        FdsnNode,
+        related_name='fdsn_networks',
+        on_delete=models.CASCADE,
+        default=None
+    )
     code = models.CharField(
-        max_length=STRING_LENGTH_SHORT)
+        max_length=STRING_LENGTH_SHORT
+    )
     description = models.CharField(
-        max_length=STRING_LENGTH_SHORT, default='', blank=True)
+        max_length=STRING_LENGTH_SHORT,
+        default='',
+        blank=True
+    )
     start_date = models.DateTimeField(
-        max_length=STRING_LENGTH_SHORT, default='', blank=True)
+        max_length=STRING_LENGTH_SHORT,
+        default='',
+        blank=True
+    )
     restricted_status = models.CharField(
-        max_length=STRING_LENGTH_SHORT, default='', blank=True)
+        max_length=STRING_LENGTH_SHORT,
+        default='',
+        blank=True
+    )
 
     class Meta:
-        unique_together = (('fdsn_node', 'code', 'start_date'),)
-        ordering = ['fdsn_node__code', 'code', ]
+        unique_together = (
+            (
+                'fdsn_node',
+                'code',
+                'start_date',
+            ),
+        )
+        ordering = [
+            'fdsn_node__code',
+            'code', 
+        ]
 
     def __str__(self):
         return 'Node {0} Network {1} Year {2}'.format(
@@ -247,27 +371,44 @@ class FdsnNetwork(models.Model):
 
 
 class FdsnStation(models.Model):
-    fdsn_network = models.ForeignKey(
-        FdsnNetwork, related_name='fdsn_stations',
-        on_delete=models.CASCADE, default=None)
-    code = models.CharField(
-        max_length=STRING_LENGTH_SHORT)
+    fdsn_network = models.ForeignKey(FdsnNetwork, related_name='fdsn_stations',on_delete=models.CASCADE, default=None)
+    code = models.CharField(max_length=STRING_LENGTH_SHORT)
     site_name = models.CharField(
-        max_length=STRING_LENGTH_SHORT, blank=True)
+        max_length=STRING_LENGTH_SHORT,
+        blank=True
+    )
     latitude = models.DecimalField(
-        max_digits=9, decimal_places=6, blank=True)
+        max_digits=COORD_INTEGERS + COORD_DECIMALS,
+        decimal_places=COORD_DECIMALS,
+        blank=True
+    )
     longitude = models.DecimalField(
-        max_digits=9, decimal_places=6, blank=True)
+        max_digits=COORD_INTEGERS + COORD_DECIMALS,
+        decimal_places=COORD_DECIMALS,
+        blank=True
+    )
     elevation = models.DecimalField(
-        max_digits=8, decimal_places=2, blank=True)
+        max_digits=ELEV_INTEGERS + ELEV_DECIMALS,
+        decimal_places=ELEV_DECIMALS,
+        blank=True
+    )
     restricted_status = models.CharField(
-        max_length=STRING_LENGTH_SHORT, blank=True)
+        max_length=STRING_LENGTH_SHORT,
+        blank=True
+    )
     start_date = models.DateTimeField(
-        max_length=STRING_LENGTH_SHORT, blank=True)
+        max_length=STRING_LENGTH_SHORT,
+        blank=True
+    )
     end_date = models.DateTimeField(
-        max_length=STRING_LENGTH_SHORT, null=True, blank=True)
+        max_length=STRING_LENGTH_SHORT,
+        null=True,
+        blank=True
+    )
     creation_date = models.DateTimeField(
-        max_length=STRING_LENGTH_SHORT, blank=True)
+        max_length=STRING_LENGTH_SHORT,
+        blank=True
+    )
     # Ext data
     ext_basic_data = models.OneToOneField(
         ExtBasicData,
@@ -301,9 +442,17 @@ class FdsnStation(models.Model):
     )
 
     class Meta:
-        unique_together = (('fdsn_network', 'code', 'start_date'),)
+        unique_together = (
+            (
+                'fdsn_network',
+                'code',
+                'start_date',
+            ),
+        )
         ordering = [
-            'fdsn_network__fdsn_node__code', 'fdsn_network__code', 'code',
+            'fdsn_network__fdsn_node__code',
+            'fdsn_network__code',
+            'code',
         ]
 
     def __str__(self):
@@ -336,13 +485,24 @@ class FdsnStation(models.Model):
 
 class ExtAccessData(ExtEntityBase):
     fdsn_station = models.ForeignKey(
-        FdsnStation, related_name='access_data', on_delete=models.CASCADE
+        FdsnStation,
+        related_name='access_data',
+        on_delete=models.CASCADE
     )
     updated_by = models.ForeignKey(
-        User, null=True, related_name='+', on_delete=models.SET_NULL)
-    updated_at = models.DateTimeField(null=True)
+        User,
+        null=True,
+        related_name='+',
+        on_delete=models.SET_NULL
+    )
+    updated_at = models.DateTimeField(
+        null=True
+    )
     description = models.CharField(
-        max_length=STRING_LENGTH_SHORT, default='Change', blank=True)
+        max_length=STRING_LENGTH_SHORT,
+        default='Change',
+        blank=True
+    )
 
     class Meta:
         ordering = ['-updated_at', ]
@@ -366,10 +526,20 @@ class Photo(models.Model):
             )
 
     fdsn_station = models.ForeignKey(
-        FdsnStation, related_name='photos', on_delete=models.CASCADE)
-    description = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
-    photo = models.ImageField(upload_to=path_file_name)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+        FdsnStation,
+        related_name='photos',
+        on_delete=models.CASCADE
+    )
+    description = models.CharField(
+        max_length=STRING_LENGTH_MEDIUM,
+        blank=True
+    )
+    photo = models.ImageField(
+        upload_to=path_file_name
+    )
+    uploaded_at = models.DateTimeField(
+        auto_now_add=True
+    )
 
     class Meta:
         ordering = ['uploaded_at', ]
@@ -383,17 +553,43 @@ class Photo(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(
-        User, related_name='profile', on_delete=models.CASCADE)
-    fdsn_networks = models.ManyToManyField(
-        FdsnNetwork, blank=True, related_name='editors'
+        User,
+        related_name='profile',
+        on_delete=models.CASCADE
     )
-    about = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
-    location = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
-    agency = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
-    department = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
-    telephone = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
-    skype = models.CharField(max_length=STRING_LENGTH_MEDIUM, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
+    fdsn_networks = models.ManyToManyField(
+        FdsnNetwork,
+        blank=True,
+        related_name='editors'
+    )
+    about = models.CharField(
+        max_length=STRING_LENGTH_MEDIUM,
+        blank=True
+    )
+    location = models.CharField(
+        max_length=STRING_LENGTH_MEDIUM,
+        blank=True
+    )
+    agency = models.CharField(
+        max_length=STRING_LENGTH_MEDIUM,
+        blank=True
+    )
+    department = models.CharField(
+        max_length=STRING_LENGTH_MEDIUM,
+        blank=True
+    )
+    telephone = models.CharField(
+        max_length=STRING_LENGTH_MEDIUM,
+        blank=True
+    )
+    skype = models.CharField(
+        max_length=STRING_LENGTH_MEDIUM,
+        blank=True
+    )
+    birth_date = models.DateField(
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return 'Profile of: {0}'.format(self.user)
@@ -401,13 +597,19 @@ class Profile(models.Model):
 
 class Link(models.Model):
     url = models.CharField(
-        max_length=STRING_LENGTH_MEDIUM, null=True, blank=True
+        max_length=STRING_LENGTH_MEDIUM,
+        null=True,
+        blank=True
     )
     category = models.CharField(
-        max_length=STRING_LENGTH_MEDIUM, null=True, blank=True
+        max_length=STRING_LENGTH_MEDIUM,
+        null=True,
+        blank=True
     )
     description = models.CharField(
-        max_length=STRING_LENGTH_MEDIUM, null=True, blank=True
+        max_length=STRING_LENGTH_MEDIUM,
+        null=True,
+        blank=True
     )
 
     def __str__(self):
@@ -415,3 +617,50 @@ class Link(models.Model):
             self.url,
             self.description
         )
+
+
+# Search helper models
+class SearchFdsnStationModel(models.Model):
+    network_code = models.CharField(
+        max_length=STRING_LENGTH_SHORT,
+        blank=True
+    )
+    station_code = models.CharField(
+        max_length=STRING_LENGTH_SHORT,
+        blank=True
+    )
+    site_name = models.CharField(
+        max_length=STRING_LENGTH_SHORT,
+        blank=True
+    )
+    latitude_min = models.DecimalField(
+        max_digits=COORD_INTEGERS + COORD_DECIMALS,
+        decimal_places=COORD_DECIMALS,
+        blank=True
+    )
+    latitude_max = models.DecimalField(
+        max_digits=COORD_INTEGERS + COORD_DECIMALS,
+        decimal_places=COORD_DECIMALS,
+        blank=True
+    )
+    longitude_min = models.DecimalField(
+        max_digits=COORD_INTEGERS + COORD_DECIMALS,
+        decimal_places=COORD_DECIMALS,
+        blank=True
+    )
+    longitude_max = models.DecimalField(
+        max_digits=COORD_INTEGERS + COORD_DECIMALS,
+        decimal_places=COORD_DECIMALS,
+        blank=True
+    )
+    start_date = models.DateTimeField(
+        max_length=STRING_LENGTH_SHORT,
+        blank=True
+    )
+    end_date = models.DateTimeField(
+        max_length=STRING_LENGTH_SHORT,
+        blank=True
+    )
+
+    class Meta:
+        managed = False

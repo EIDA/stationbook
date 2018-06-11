@@ -19,7 +19,7 @@ from .fdsn.fdsn_manager import FdsnManager, FdsnStationChannelsManager
 from .models import \
     FdsnNode, FdsnNetwork, FdsnStation, ExtBasicData, ExtOwnerData, \
     ExtMorphologyData, ExtHousingData, ExtAccessData, ExtBoreholeData, \
-    ExtBoreholeLayerData, Photo, Link
+    ExtBoreholeLayerData, Photo, Link, SearchFdsnStationModel
 
 from .base_classes import \
     StationBookHelpers, StationUpdateViewBase, StationAccessManager
@@ -29,7 +29,7 @@ from .fdsn.base_classes import NodeWrapper
 from .forms import \
     UserForm, ProfileForm, AddBoreholeLayerForm, EditBoreholeLayerForm, \
     RemoveBoreholeLayerForm, StationPhotoForm, StationPhotoEditForm, \
-    StationPhotoRemoveForm
+    StationPhotoRemoveForm, SearchAdvancedForm
 
 
 # Stations list view is used as a home screen for the Station Book
@@ -46,7 +46,7 @@ class HomeListView(ListView):
 class SearchListView(ListView):
     model = FdsnStation
     context_object_name = 'data'
-    template_name = 'search.html'
+    template_name = 'search_results.html'
 
     def get_queryset(self):
         if self._get_search_phrase() is None:
@@ -70,8 +70,11 @@ class SearchListView(ListView):
         return context
 
     def _get_search_phrase(self):
-        return ((lambda x: x if len(x) > 0 else None)(
-            self.request.GET.get('search_text', '')))
+        return (
+            (lambda x: x if len(x) > 0 else None)(
+                self.request.GET.get('search_text', '')
+            )
+        )
 
 
 class NodesListView(ListView):
@@ -604,6 +607,58 @@ class UserDetailsListView(ListView):
                 updated_by__username=self.kwargs.get('username')
             )[:25]
         return context
+
+
+def search_advanced(request):
+    if request.method == 'POST':
+        form = SearchAdvancedForm(request.POST)
+        if form.is_valid():
+            net_code = form.cleaned_data['network_code'].upper()
+            stat_code = form.cleaned_data['station_code'].upper()
+
+            if len(net_code) <= 0 and len(stat_code) <= 0:
+                return render(
+                    request,
+                    'search_advanced.html',
+                    {
+                        'form': form,
+                        'empty_search': True
+                    }
+                )
+
+            data = FdsnStation.objects.filter(
+                    fdsn_network__code__icontains=net_code,
+                    code__icontains=stat_code
+                )
+
+            return render(
+                request,
+                'search_results.html',
+                {
+                    'data': data,
+                    'search_phrase': 'network: {}, station: {}'.format(
+                        net_code,
+                        stat_code
+                    )
+                }
+            )
+        else:
+            return render(
+                request,
+                'search_advanced.html',
+                {
+                    'form': form
+                }
+            )
+    else:
+        form = SearchAdvancedForm(instance=SearchFdsnStationModel())
+        return render(
+            request,
+            'search_advanced.html',
+            {
+                'form': form
+            }
+        )
 
 
 def custom_404(request, exception=None):
