@@ -620,10 +620,13 @@ def search_advanced(request):
             latitude_max = form.cleaned_data['latitude_max']
             longitude_min = form.cleaned_data['longitude_min']
             longitude_max = form.cleaned_data['longitude_max']
-            start_date_from = form.cleaned_data['start_year_from']
-            start_date_to = form.cleaned_data['start_year_to']
-            end_date_from = form.cleaned_data['end_year_from']
-            end_date_to = form.cleaned_data['end_year_to']
+            start_year_from = form.cleaned_data['start_year_from']
+            start_year_to = form.cleaned_data['start_year_to']
+            end_year_from = form.cleaned_data['end_year_from']
+            end_year_to = form.cleaned_data['end_year_to']
+            geological_unit = form.cleaned_data['geological_unit']
+            morphology_class = form.cleaned_data['morphology_class']
+            ground_type_ec8 = form.cleaned_data['ground_type_ec8']
 
             data = FdsnStation.objects.all()
             search_phrase = ''
@@ -656,21 +659,33 @@ def search_advanced(request):
                 data = data.filter(longitude__lte=longitude_max)
                 search_phrase += 'Lon max: {}, '.format(longitude_max)
 
-            if start_date_from:
-                data = data.filter(start_date__year__gte=start_date_from)
-                search_phrase += 'Start from: {}, '.format(start_date_from)
+            if start_year_from:
+                data = data.filter(start_date__year__gte=start_year_from)
+                search_phrase += 'Start from: {}, '.format(start_year_from)
 
-            if start_date_to:
-                data = data.filter(start_date__year__lte=start_date_to)
-                search_phrase += 'Start to: {}, '.format(start_date_to)
+            if start_year_to:
+                data = data.filter(start_date__year__lte=start_year_to)
+                search_phrase += 'Start to: {}, '.format(start_year_to)
 
-            if end_date_from:
-                data = data.filter(end_date__year__gte=end_date_from)
-                search_phrase += 'End from: {}, '.format(end_date_from)
+            if end_year_from:
+                data = data.filter(end_date__year__gte=end_year_from)
+                search_phrase += 'End from: {}, '.format(end_year_from)
 
-            if end_date_to:
-                data = data.filter(end_date__year__lte=end_date_to)
-                search_phrase += 'End to: {}, '.format(end_date_to)
+            if end_year_to:
+                data = data.filter(end_date__year__lte=end_year_to)
+                search_phrase += 'End to: {}, '.format(end_year_to)
+
+            if geological_unit:
+                data = data.filter(ext_morphology_data__geological_unit=geological_unit)
+                search_phrase += 'Geological unit: {}, '.format(geological_unit)
+
+            if morphology_class:
+                data = data.filter(ext_morphology_data__morphology_class=morphology_class)
+                search_phrase += 'Morphology class: {}, '.format(morphology_class)
+
+            if ground_type_ec8:
+                data = data.filter(ext_morphology_data__ground_type_ec8=ground_type_ec8)
+                search_phrase += 'Ground type EC8: {}, '.format(ground_type_ec8)
 
             return render(
                 request,

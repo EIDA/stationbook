@@ -70,6 +70,9 @@ class SearchAdvancedForm(forms.ModelForm):
             'start_year_to',
             'end_year_from',
             'end_year_to',
+            'geological_unit',
+            'morphology_class',
+            'ground_type_ec8',
         )
         labels = {
             'network_code': 'Network Code',
@@ -83,4 +86,7 @@ class SearchAdvancedForm(forms.ModelForm):
             'start_year_to': 'Start year to',
             'end_year_from': 'End year from',
             'end_year_to': 'End year to',
+            'geological_unit': 'Geological unit',
+            'morphology_class': 'Morphology class',
+            'ground_type_ec8': 'Ground type EC8',
         }

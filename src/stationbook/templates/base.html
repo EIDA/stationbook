@@ -8,7 +8,8 @@
   <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/app/app.css' %}">
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Bangers'>
-  {% block stylesheet %} {% endblock %}
+  {% block stylesheet %}
+  {% endblock %}
 </head>
 
 <body>
@@ -45,8 +46,6 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'search_advanced' %}">Search</a>
           </li>
-          {% block menu_injection %}
-          {% endblock menu_injection %}
         </ul>
         {% if user.is_authenticated %}
         <ul class="navbar-nav p-1">
@@ -70,6 +69,7 @@
         </ul>
         {% endif %}
         <ul class="navbar-nav ml-auto">
+          {% block menu_injection %}{% endblock menu_injection %}
           <li class="nav-item p-1">
             <div class="input-group">
               <form class="form-inline" action="{% url 'search' %}" method="get" accept-charset="utf-8">
@@ -93,9 +93,31 @@
 
   <div class="container mb-5">
     <ol class="breadcrumb my-3">
-      {% block breadcrumb %}{% endblock %}
+      {% block breadcrumb %}
+      {% endblock %}
     </ol>
-    {% block content %}{% endblock %}
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <!-- The Modal -->
+  <div class="modal fade" id="pageInfo">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Page information</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          {% block modal %}
+          {% endblock modal %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
   {% endblock body %}
 

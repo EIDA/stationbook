@@ -10,6 +10,10 @@ from django.contrib.auth.models import User
 
 from markdown import markdown
 
+from .model_data.models_enums import \
+    GEOLOGICAL_UNIT_CHOICES, GROUND_TYPE_EC8_CHOICES, \
+    HOUSING_CLASS_CHOICES, MORPHOLOGY_CLASS_CHOICES
+
 STRING_LENGTH_SHORT = 256
 STRING_LENGTH_MEDIUM = 1024
 STRING_LENGTH_LONG = 16384
@@ -105,57 +109,6 @@ class ExtOwnerData(ExtEntityBase):
 
 
 class ExtMorphologyData(ExtEntityBase):
-    GEOLOGICAL_UNIT_CHOICES = (
-        ('unknown', 'Unknown'),
-        ('alluvial_deposits', 'Alluvial deposits'),
-        ('ancient_alluvialterraces', 'Ancient alluvial terraces'),
-        ('argillite', 'Argillite'),
-        ('breccias', 'Breccias'),
-        ('clay', 'Clay'),
-        ('conglomerate', 'Conglomerate'),
-        ('debris', 'Debris'),
-        ('diabase', 'Diabase'),
-        ('dolomite', 'Dolomite'),
-        ('fillade', 'Fillade'),
-        ('fluvial_deposits', 'Fluvial deposits'),
-        ('gneiss', 'Gneiss'),
-        ('granite', 'Granite'),
-        ('jasper', 'Jasper'),
-        ('lacustrine_deposits', 'Lacustrine deposits'),
-        ('limestone', 'Limestone'),
-        ('marls', 'Marls'),
-        ('metamorphic_rock', 'Metamorphic rock'),
-        ('micaschist', 'Micaschist'),
-        ('morainic_deposits', 'Morainic deposits'),
-        ('ophiolite', 'Ophiolite'),
-        ('rhyolitic_ignimbrite', 'Rhyolitic ignimbrite'),
-        ('sand_deposits', 'Sand deposits'),
-        ('sandstone', 'Sandstone'),
-        ('schist', 'Schist'),
-        ('torbidite', 'Torbidite'),
-        ('volcanic_deposits', 'Volcanic deposits'),
-        ('volcanic_rocks', 'Volcanic rocks'),
-    )
-
-    MORPHOLOGY_CLASS_CHOICES = (
-        ('unknown', 'Unknown'),
-        ('t1', 'T1'),
-        ('t2', 'T2'),
-        ('t3', 'T3'),
-        ('t4', 'T4'),
-    )
-
-    GROUND_TYPE_EC8_CHOICES = (
-        ('unknown', 'Unknown'),
-        ('a', 'A'),
-        ('b', 'B'),
-        ('c', 'C'),
-        ('d', 'D'),
-        ('e', 'E'),
-        ('s1', 'S1'),
-        ('s2', 'S2'),
-    )
-
     description = models.TextField(
         max_length=STRING_LENGTH_LONG,
         default='',
@@ -206,19 +159,6 @@ class ExtMorphologyData(ExtEntityBase):
 
 
 class ExtHousingData(ExtEntityBase):
-    HOUSING_CLASS_CHOICES = (
-        ('borehole', 'Borehole'),
-        ('bridge', 'Bridge'),
-        ('building', 'Building'),
-        ('cave', 'Cave'),
-        ('dam', 'Dam'),
-        ('free_field', 'Free field'),
-        ('other_structure', 'Other structure'),
-        ('tunnel', 'Tunnel'),
-        ('underground_shelter', 'Underground shelter'),
-        ('urban_free_field', 'Urban free field'),
-    )
-
     description = models.TextField(
         max_length=STRING_LENGTH_LONG,
         default='',
@@ -663,6 +603,24 @@ class SearchFdsnStationModel(models.Model):
         blank=True
     )
     end_year_to = models.IntegerField(
+        blank=True
+    )
+    geological_unit = models.CharField(
+        max_length=STRING_LENGTH_SHORT,
+        choices=GEOLOGICAL_UNIT_CHOICES,
+        default='',
+        blank=True
+    )
+    morphology_class = models.CharField(
+        max_length=STRING_LENGTH_SHORT,
+        choices=MORPHOLOGY_CLASS_CHOICES,
+        default='',
+        blank=True
+    )
+    ground_type_ec8 = models.CharField(
+        max_length=STRING_LENGTH_SHORT,
+        choices=GROUND_TYPE_EC8_CHOICES,
+        default='',
         blank=True
     )
 

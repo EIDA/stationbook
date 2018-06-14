@@ -6,6 +6,14 @@
 <li class="breadcrumb-item active">Search</li>
 {% endblock %}
 
+{% block menu_injection %}
+<li class="nav-item p-1"><a href class="btn btn-info" data-toggle="modal" data-target="#pageInfo">ℹ️</a></li>
+{% endblock %}
+
+{% block modal %}
+  {% include "station_legend.html" %}
+{% endblock modal %}
+
 {% block content %}
 
 {% if empty_search %}
