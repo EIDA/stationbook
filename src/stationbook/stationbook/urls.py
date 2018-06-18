@@ -53,6 +53,11 @@ urlpatterns = [
         book_view.LinksListView.as_view(),
         name='links'
     ),
+    path(
+        '{}about/'.format(SB_URL_BASE),
+        book_view.AboutListView.as_view(),
+        name='about'
+    ),
     re_path(
         r'^{}nodes/(?P<node_pk>\w+)/$'.format(SB_URL_BASE),
         book_view.NodeDetailsListView.as_view(),

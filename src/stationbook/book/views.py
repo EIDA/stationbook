@@ -132,6 +132,15 @@ class LinksListView(ListView):
         return queryset
 
 
+class AboutListView(ListView):
+    model = None
+    context_object_name = 'data'
+    template_name = 'about.html'
+
+    def get_queryset(self):
+        return None
+
+
 class NetworkDetailsListView(ListView):
     model = FdsnStation
     context_object_name = 'network'

@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About{% endblock %}
+
+{% block stylesheet %}
+<style type="text/css">
+    .box {
+        display: inline-block;
+    }
+
+    .box:hover {
+        box-shadow: 0 0 5px #ccc;
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item active">About</li>
+{% endblock %}
+
+{% block content %}
+<h1>Introduction</h1>
+<p>The aim of the European Station Book portal is to set up a unique and reliable international registry of broadband and strong
+    motion stations. Such a registry does not exist so far and has an important role to serve the accelerometric data community,
+    seismologists and engineers. The information can range from basic details such as location and names to acquisition chain
+    description, morphology of the installation site or velocity profiles.</p>
+<h1>Data collecting and editing</h1>
+<p>The Station Book interface provides information of all stations that are part of the European Integrated Data Archive (EIDA).
+    This information is gathered from two different sources:
+    <ul>
+        <li>Common network and station metadata: collected automatically from EIDA.</li>
+        <li>Station and site characterisation: edited by network operators.</li>
+    </ul>
+</p>
+<p>Specifically, the following data is shown in the Station Book interface:
+    <table class="table table-sm table-striped" width="100%">
+        <thead>
+            <tr>
+                <th>EIDA Standard Metadata</th>
+                <th>Edited by Network Operators</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>Network</b></td>
+                <td><b>Network</b></td>
+            </tr>
+            <tr>
+                <td>Code</td>
+                <td>Ownership</td>
+            </tr>
+            <tr>
+                <td>Time Frame</td>
+                <td><b>Station</b></td>
+            </tr>
+            <tr>
+                <td>Region, Institutions, Archive and Description</td>
+                <td>Ownership</td>
+            </tr>
+            <tr>
+                <td>Type, Class and Restriction</td>
+                <td>Pictures</td>
+            </tr>
+            <tr>
+                <td><b>Station</b></td>
+                <td>Geological Unit</td>
+            </tr>
+            <tr>
+                <td>Code</td>
+                <td>Morphology</td>
+            </tr>
+            <tr>
+                <td>Location</td>
+                <td>Ground type EC8</td>
+            </tr>
+            <tr>
+                <td>Time Frame</td>
+                <td>Vs 30</td>
+            </tr>
+            <tr>
+                <td>Name, Affiliation, Country and Description</td>
+                <td>f<sub>0</sub> and Amp(f<sub>0</sub>)</td>
+            </tr>
+            <tr>
+                <td>Class and Restriction</td>
+                <td>Basin Flag</td>
+            </tr>
+            <tr>
+                <td><b>Sensor Location</b></td>
+                <td>Groundwater Depth</td>
+            </tr>
+            <tr>
+                <td>Code</td>
+                <td>Bedrock Depth</td>
+            </tr>
+            <tr>
+                <td>Location</td>
+                <td>Borehole Depth and Bedrock Depth</td>
+            </tr>
+            <tr>
+                <td>Time frame</td>
+                <td>Geology of Borehole Layers</td>
+            </tr>
+            <tr>
+                <td><b>Stream</b></td>
+                <td><b>Sensor location</b></td>
+            </tr>
+            <tr>
+                <td>Code</td>
+                <td>Housing details</td>
+            </tr>
+            <tr>
+                <td>Time Frame</td>
+                <td>Building details</td>
+            </tr>
+            <tr>
+                <td>Instrumentation History</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</p>
+<h1>Disclaimer</h1>
+<p>The Station Book interface is a beta version and the contained data has not been verified. ORFEUS declines any responsibility
+    from any improper use of the information therein represented.</p>
+<p>All data within the European Station Book are subject to the EIDA
+    <a href="http://www.orfeus-eu.org/eida/eida_acknowledgement.html"
+        target="_blank">disclaimer</a>.</p>
+<h1>Acknowledgments</h1>
+<p>The Station Book interface was designed and implemented by ORFEUS Data Center (ODC) and ETH Zurich, using funding from NERA.
+    The schema of the SeisComP3's database extension for Station Book was designed by ETH Zurich. The UML data model of this
+    extension can be downloaded here:
+    <a href="https://www.orfeus-eu.org/opencms/export/sites/default/stationbook/information/stationCharacterization.pdf"
+        target="_blank">Station Characterization</a> /
+    <a href="https://www.orfeus-eu.org/opencms/export/sites/default/stationbook/information/siteCharacterization.pdf"
+        target="_blank">Site Characterization</a>.</p>
+<p>SeisComP3 is an earthquake monitoring software developed by GFZ Potsdam and Gempa GmbH, largely used in Europe and worldwide.</p>
+<p>The EIDA data access portal (WebDC3) is developed at GFZ Potsdam.</p>
+<p>The data user is kindly requested to provide proper reference to the data suppliers:
+    <a href="http://www.orfeus-eu.org/eida/eida_acknowledgement.html"
+        target="_blank">http://www.orfeus-eu.org/eida/eida_acknowledgement.html</a>
+</p>
+<h1>Links</h1>
+<p>Other websites related to the Station Book interface.</p>
+<p><b>Engineering Strong Motion (ESM) interface:</b> <a target="_blank" href="http://esm.mi.ingv.it/processing/">http://esm.mi.ingv.it/processing/</a></p>
+<p><b>WebDC3 (EIDA data access portal):</b> <a target="_blank" href="http://145.23.252.222/eida/webdc3/">http://145.23.252.222/eida/webdc3/</a></p>
+<p><b>SeisComP3 scwfparam module:</b> <a target="_blank" href="http://www.seiscomp3.org/doc/seattle/current/apps/scwfparam.html">http://www.seiscomp3.org/doc/seattle/current/apps/scwfparam.html</a></p>
+<p><b>SeismicPortal:</b> <a target="_blank" href="http://www.seismicportal.eu/">http://www.seismicportal.eu/</a></p>
+<hr>
+<div class="container">
+    <div class="row">
+        <div class="col box">
+            <a href="http://www.knmi.nl/" target="_blank">
+                <img src="{% static 'img/logo/knmi.png' %}" width="100%" alt="KNMI">
+            </a>
+        </div>
+        <div class="col box">
+            <a href="https://www.orfeus-eu.org/" target="_blank">
+                <img src="{% static 'img/logo/orfeus.png' %}" width="100%" alt="Orfeus">
+            </a>
+        </div>
+        <div class="col box">
+            <a href="http://www.seismo.ethz.ch/" target="_blank">
+                <img src="{% static 'img/logo/sed.png' %}" width="100%" alt="SED">
+            </a>
+        </div>
+        <div class="col box">
+            <a href="https://www.ethz.ch/" target="_blank">
+                <img src="{% static 'img/logo/eth.png' %}" width="100%" alt="ETH">
+            </a>
+        </div>
+    </div>
+</div>
+<hr>
+<small>
+    <b>Disclaimer</b> This Station Book interface is a beta version and the contained data has not been verified. Please help
+    us clearing severe mistakes if any, by sending your feedback at stationbook@knmi.nl
+    <br> RRSM Interface ©2018 ODC/ETH
+</small>
+
+{% endblock %}
