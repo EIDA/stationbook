@@ -65,6 +65,7 @@
     ```
     (env) [usr@host stationbook]$ python3 manage.py runserver 0.0.0.0:8080
     ```
+
 # Docker
 1. Create the .env configuration file in `/src/.env`. Example test server configuration:
     ```
@@ -83,6 +84,7 @@
     ```
     [usr@host ~]$ docker exec -it <CONTAINER ID> sh
     ```
+
 # FDSN data synchronization
 Below code can be used to synchronize with the EIDA nodes. EIDA nodes can be configured manually using admin panel or loaded from the fixtures.
 ```
