@@ -16,6 +16,7 @@
 
 {% block menu_injection %}
 <li class="nav-item p-1"><a href class="btn btn-info" data-toggle="modal" data-target="#pageInfo">ℹ️</a></li>
+<li class="nav-item p-1"><a href class="btn btn-info" data-toggle="modal" data-target="#changeLog">📒</a></li>
 {% endblock %}
 
 {% block modal %}
@@ -417,6 +418,41 @@
 </table>
 </div>
 <a href="#" class="float-right">Top of the page</a>
+</div>
+</div>
+
+<div class="modal fade" id="changeLog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Station change log</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table id="recent_changes_table" class="display compact" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Info</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for access in station.access_data.all|slice:":20" %}
+                        <tr>
+                            <td>Updated {{ access.updated_at|naturaltime }} by
+                                <a href="{% url 'user_details' access.updated_by %}">{{ access.updated_by }}</a>
+                            </td>
+                            <td>{{ access.description }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 </div>
 
