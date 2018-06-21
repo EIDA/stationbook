@@ -425,10 +425,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Station change log</h4>
+                <h4 class="modal-title">Station change log (last 20 events)</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
+                {% if station.access_data.all %}
                 <table id="recent_changes_table" class="display compact" cellspacing="0" width="100%">
                     <thead>
                         <tr>
@@ -447,6 +448,9 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% else %}
+                <p>Station has not been edited yet!</p>
+                {% endif %}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Close</button>
