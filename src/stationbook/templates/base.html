@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/app/app.css' %}">
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Bangers'>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+    crossorigin="anonymous"> 
   {% block stylesheet %}
   {% endblock %}
 </head>
@@ -29,7 +31,7 @@
         <ul class="navbar-nav p-1">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Menu
+              <i class="fas fa-compass" style="color:tomato"></i> Menu
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
               <h6 class="dropdown-header">Infrastructure</h6>
@@ -45,14 +47,14 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'search_advanced' %}">Search</a>
+            <a class="nav-link" href="{% url 'search_advanced' %}"><i class="fas fa-search" style="color:lightblue"></i> Search</a>
           </li>
         </ul>
         {% if user.is_authenticated %}
         <ul class="navbar-nav p-1">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Settings ({{ user.username }})
+              <i class="fas fa-cog" style="color:tan"></i> Settings ({{ user.username }})
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
               <h6 class="dropdown-header">Account</h6>
