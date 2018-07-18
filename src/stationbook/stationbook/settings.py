@@ -34,6 +34,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
 
+FILE_UPLOAD_PERMISSIONS = 0o644
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -181,22 +183,14 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'simple',
         },
-        'file': {
-            'class': 'logging.handlers.RotatingFileHandler',
-            'formatter': 'simple',
-            'maxBytes': 1024*1024*5,  # 5 Megabytes
-            'backupCount': 25,
-            'filename': os.path.join(BASE_DIR, 'logs', 'station_book.log'),
-            'filters': ['require_debug_true'],
-        },
     },
     'loggers': {
         '': {
-            'handlers': ['file'],
+            'handlers': ['console'],
             'level': "INFO",
         },
         'book': {
-            'handlers': ['file', ],
+            'handlers': ['console', ],
             'propagate': True,
             'level': "INFO",
         },

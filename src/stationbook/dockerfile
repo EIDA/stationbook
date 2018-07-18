@@ -17,4 +17,9 @@ RUN apk del -r python3-dev postgresql
 
 # Prepare
 COPY . /data/stationbook/
-RUN python3 manage.py collectstatic
+
+RUN addgroup -g 1019 -S orfeus && \
+    adduser -u 994 -S orfeus -G orfeus
+
+RUN chown -R orfeus:orfeus /data
+USER orfeus

@@ -3,32 +3,19 @@ services:
   sbweb:
     restart: always
     build: ./stationbook/
+    user: "994:1019"
     depends_on:
       - sbpostgres
-    expose:
-      - "8080"
+    ports:
+      - "8001:8001"
     links:
       - sbpostgres:postgres
     env_file: .env
     volumes:
-      - /data/stationbook/stationbook/static_sb
+      - /data/seismo/www/stationbook_media:/data/stationbook/media
     networks:
       - sb_net
-    command: gunicorn stationbook.wsgi:application -w 2 -b :8080
-    
-  sbnginx:
-    restart: always
-    build: ./nginx/
-    depends_on:
-      - sbweb
-    ports:
-      - "8080:8080"
-    volumes_from:
-      - sbweb
-    links:
-      - sbweb:sbweb
-    networks:
-      - sb_net
+    command: gunicorn stationbook.wsgi:application -w 2 -b :8001
     
   sbpostgres:
     restart: always
