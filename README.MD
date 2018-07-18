@@ -2,8 +2,8 @@
 1. Create the .env configuration file in `/src/stationbook/.env`. Example test server configuration:
     ```
     SECRET_KEY='abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
-    DEBUG=True
-    ALLOWED_HOSTS=.localhost,127.0.0.1
+    DEBUG=False
+    ALLOWED_HOSTS=.localhost,127.0.0.1,knmi-orweb-l02p.knmi.ssc-campus.nl
     DATABASE_URL=sqlite:///db.sqlite3
     DATABASE_ENGINE='django.db.backends.postgresql'
     DATABASE_HOST='postgres'
