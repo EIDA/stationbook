@@ -99,18 +99,6 @@
     "model": "book.fdsnnode",
     "pk": 9,
     "fields": {
-        "code": "IPGP",
-        "description": "L'Institut de Physique du Globe de Paris",
-        "url_dataselect": "",
-        "url_station": "http://eida.ipgp.fr/fdsnws/station/1/query",
-        "url_routing": "",
-        "url_wfcatalog": ""
-    }
-},
-{
-    "model": "book.fdsnnode",
-    "pk": 10,
-    "fields": {
         "code": "LMU",
         "description": "Ludwig Maximilians Universitat Munchen",
         "url_dataselect": "",
@@ -121,7 +109,7 @@
 },
 {
     "model": "book.fdsnnode",
-    "pk": 11,
+    "pk": 10,
     "fields": {
         "code": "NOA",
         "description": "National Observatory of Athens",

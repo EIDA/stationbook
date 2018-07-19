@@ -29,14 +29,24 @@ urlpatterns = [
         name='search'
     ),
     path(
-        '{}search-advanced/'.format(SB_URL_BASE),
-        book_view.search_advanced,
-        name='search_advanced'
+        '{}search-networks/'.format(SB_URL_BASE),
+        book_view.search_advanced_networks,
+        name='search_advanced_networks'
+    ),
+    path(
+        '{}search-stations/'.format(SB_URL_BASE),
+        book_view.search_advanced_stations,
+        name='search_advanced_stations'
     ),
     path(
         '{}nodes/'.format(SB_URL_BASE),
         book_view.NodesListView.as_view(),
         name='nodes'
+    ),
+    path(
+        '{}nodes-networks/'.format(SB_URL_BASE),
+        book_view.NodesNetworksListView.as_view(),
+        name='nodes_networks'
     ),
     path(
         '{}networks/'.format(SB_URL_BASE),
@@ -66,6 +76,11 @@ urlpatterns = [
     re_path(
         r'^{}networks/(?P<network_pk>\w+)/$'.format(SB_URL_BASE),
         book_view.NetworkDetailsListView.as_view(),
+        name='network_details'
+    ),
+    re_path(
+        r'^{}networks/(?P<network_code>\w+)/(?P<network_start_year>\w+)/$'.format(SB_URL_BASE),
+        book_view.NetworkYearDetailsListView.as_view(),
         name='network_details'
     ),
     re_path(

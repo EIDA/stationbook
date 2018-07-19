@@ -1,12 +1,20 @@
-{% extends 'base.html' %} {% load static %} {% block stylesheet %}
-<link rel="stylesheet" href="{% static 'css/datatable/dataTables.bootstrap4.min.css' %}"> {% endblock %} {% block breadcrumb %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/datatable/dataTables.bootstrap4.min.css' %}">
+{% endblock %} 
+
+{% block breadcrumb %}
 <li class="breadcrumb-item">
     <a href="{% url 'home' %}">Home</a>
 </li>
 <li class="breadcrumb-item active">Networks</li>
-{% endblock %} {% block content %}
+{% endblock %}
+
+{% block content %}
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('#networks_table').DataTable({
             stateSave: true
         });
@@ -16,22 +24,29 @@
 <table id="networks_table" class="table" cellspacing="0" width="100%">
     <thead>
         <tr>
+            <th>Node</th>
             <th>Network</th>
             <th>Start Date</th>
             <th>Status</th>
         </tr>
     </thead>
     <tbody>
-        {% for e in data %}
+        {% for network in data %}
         <tr>
             <td>
-                <a href="#">{{ e.0 }} {{ e.1.year }}</a>
+                {{ network.fdsn_node }}
             </td>
             <td>
-                {{ e.1.year }}/{{ e.1.month }}/{{ e.1.day }}
+                <a href="{% url 'network_details' network.pk %}">{{ network.get_code_year }}</a>
+                <small class="text-muted d-block">
+                    {{ network.description }}
+                </small>
             </td>
             <td>
-                {{ e.2 }}
+                {{ network.get_start_date }}
+            </td>
+            <td>
+                {{ network.restricted_status }}
             </td>
         </tr>
         {% endfor %}
@@ -41,4 +56,5 @@
 {% block javascript %}
 <script src="{% static 'js/datatable/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'js/datatable/dataTables.bootstrap4.min.js' %}"></script>
-{% endblock %} {% endblock %}
+{% endblock %}
+{% endblock %}
