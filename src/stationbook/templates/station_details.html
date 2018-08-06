@@ -56,36 +56,11 @@
 
             <div class="btn-group" role="group">
                 <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">This page</button>
-                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                    <a class="dropdown-item" href="#fdsnws_station">Go to FDSNWS-Station Data</a>
-                    <a class="dropdown-item" href="#fdsnws_channels">Go to FDSNWS-Station Channels Data</a>
-                    <a class="dropdown-item" href="#fdsnws_instrumentation">Go to FDSNWS-Station Instrumentation Data</a>
-                    <a class="dropdown-item" href="#basic_data">Go to basic data</a>
-                    <a class="dropdown-item" href="#owner_data">Go to owner data</a>
-                    <a class="dropdown-item" href="#morphology_data">Go to morphology data</a>
-                    <a class="dropdown-item" href="#housing_data">Go to housing data</a>
-                    <a class="dropdown-item" href="#borehole_data">Go to borehole data</a>
-                </div>
-            </div>
-
-            <div class="btn-group" role="group">
-                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">Data sources</button>
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                     <a target="_blank" class="dropdown-item" href="{{ fdsn_station_link }}">FDSNWS-Station Channels and Instrumentation</a>
                 </div>
             </div>
-
-            <!-- <div class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">Export data</button>
-        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a class="dropdown-item disabled" href="#">Export to PDF</a>
-            <a class="dropdown-item disabled" href="#">Export to HTML</a>
-            <a class="dropdown-item disabled" href="#">Export to CSV</a>
-        </div>
-    </div> -->
 
             {% if user.is_authenticated and user_is_network_editor %}
             <div class="btn-group" role="group">
@@ -104,9 +79,9 @@
     </div>
 </div>
 
-<div id="fdsnws_station" class="table-responsive">
-<p><h1>FDSNWS-Station Data:</h1></p>
-<table class="table">
+<div id="fdsnws_station">
+<p><h5 class="bg-dark text-white pl-2">FDSNWS-Station Data:</h5></p>
+<table class="table table-sm">
     <thead class="thead-inverse">
         <tr>
             <th>Network</th>
@@ -137,54 +112,10 @@
     </tbody>
 </table>
 </div>
-<a href="#" class="float-right">Top of the page</a>
 
-<div id="fdsnws_channels" class="table-responsive">
-<p><h1>FDSNWS-Station Channels Data:</h1></p>
-<table class="table">
-    <thead class="thead-inverse">
-        <tr>
-            <th>Channel</th>
-            <th>Start</th>
-            <th>Status</th>
-            <th>Location</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-            <th>Elevation</th>
-            <th>Depth</th>
-            <th>Azimuth</th>
-            <th>Dip</th>
-            <th>Sample rate</th>
-            <th>Storage format</th>
-            <th>Clock drift</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for sch in station_channels %}
-        <tr>
-            <td>{{ sch.code }}</td>
-            <td>{{ sch.start_date }}</td>
-            <td>{{ sch.restricted_status }}</td>
-            <td>{{ sch.location_code }}</td>
-            <td>{{ sch.latitude }}</td>
-            <td>{{ sch.longitude }}</td>
-            <td>{{ sch.elevation }}</td>
-            <td>{{ sch.depth }}</td>
-            <td>{{ sch.azimuth }}</td>
-            <td>{{ sch.dip }}</td>
-            <td>{{ sch.sample_rate }}</td>
-            <td>{{ sch.storage_format }}</td>
-            <td>{{ sch.clock_drift }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-</div>
-<a href="#" class="float-right">Top of the page</a>
-
-<div id="fdsnws_instrumentation" class="table-responsive">
-<p><h1>FDSNWS-Station Instrumentation Data:</h1></p>
-<table class="table">
+<div id="fdsnws_instrumentation">
+<p><h5 class="bg-dark text-white pl-2">FDSNWS-Station Instrumentation Data:</h5></p>
+<table class="table table-sm">
     <thead class="thead-inverse">
         <tr>
             <th>Channel</th>
@@ -217,11 +148,10 @@
     </tbody>
 </table>
 </div>
-<a href="#" class="float-right">Top of the page</a>
 
-<div id="basic_data" class="table-responsive">
-<p><h1>Basic Data:</h1></p>
-<table class="table">
+<div id="basic_data">
+<p><h5 class="bg-dark text-white pl-2">Basic Data:</h5></p>
+<table class="table table-sm">
     <thead class="thead-inverse">
         <tr>
             <th>Description</th>
@@ -233,7 +163,7 @@
         </tr>
     </tbody>
 </table>
-<table class="table">
+<table class="table table-sm">
     <thead class="thead-inverse">
         <tr>
             <th>Start</th>
@@ -247,24 +177,11 @@
         </tr>
     </tbody>
 </table>
-<table class="table">
-    <thead class="thead-inverse">
-        <tr>
-            <th>Last synchronization with FDSN</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>{{ station.ext_basic_data.last_synced|naturaltime }}</td>
-        </tr>
-    </tbody>
-</table>
 </div>
-<a href="#" class="float-right">Top of the page</a>
 
-<div id="owner_data" class="table-responsive">
-<p><h1>Owner Data:</h1></p>
-<table class="table">
+<div id="owner_data">
+<p><h5 class="bg-dark text-white pl-2">Owner Data:</h5></p>
+<table class="table table-sm">
     <thead class="thead-inverse">
         <tr>
             <th>Firstname</th>
@@ -293,11 +210,10 @@
     </tbody>
 </table>
 </div>
-<a href="#" class="float-right">Top of the page</a>
 
-<div id="morphology_data" class="table-responsive">
-<p><h1>Morphology Data:</h1></p>
-<table class="table">
+<div id="morphology_data">
+<p><h5 class="bg-dark text-white pl-2">Morphology Data:</h5></p>
+<table class="table table-sm">
     <thead class="thead-inverse">
         <tr>
             <th>Description</th>
@@ -309,7 +225,7 @@
         </tr>
     </tbody>
 </table>
-<table class="table">
+<table class="table table-sm">
     <thead class="thead-inverse">
         <tr>
             <th>Geological Unit</th>
@@ -338,11 +254,10 @@
     </tbody>
 </table>
 </div>
-<a href="#" class="float-right">Top of the page</a>
 
-<div id="housing_data" class="table-responsive">
-<p><h1>Housing Data:</h1></p>
-<table class="table">
+<div id="housing_data">
+<p><h5 class="bg-dark text-white pl-2">Housing Data:</h5></p>
+<table class="table table-sm">
     <thead class="thead-inverse">
         <tr>
             <th>Description</th>
@@ -354,7 +269,7 @@
         </tr>
     </tbody>
 </table>
-<table class="table">
+<table class="table table-sm">
     <thead class="thead-inverse">
         <tr>
             <th>Housing Class</th>
@@ -373,11 +288,10 @@
     </tbody>
 </table>
 </div>
-<a href="#" class="float-right">Top of the page</a>
 
-<div id="borehole_data" class="table-responsive">
-<p><h1>Borehole Data:</h1></p>
-<table class="table">
+<div id="borehole_data">
+<p><h5 class="bg-dark text-white pl-2">Borehole Data:</h5></p>
+<table class="table table-sm">
     <thead class="thead-inverse">
         <tr>
             <th>Depth [m]</th>
@@ -390,8 +304,8 @@
     </tbody>
 </table>
 
-<p><h2>Borehole Layers: {% if user.is_authenticated and user_is_network_editor %}(<a href="{% url 'station_borehole_layer_add' station.fdsn_network.pk station.pk %}">Add</a>){% endif %}</h2></p>
-<table class="table">
+<p><h6 class="bg-dark text-white pl-2">Borehole Layers: {% if user.is_authenticated and user_is_network_editor %}(<a href="{% url 'station_borehole_layer_add' station.fdsn_network.pk station.pk %}">Add</a>){% endif %}</h6></p>
+<table class="table table-sm">
     <thead class="thead-inverse">
         <tr>
             <th>Description</th>
@@ -415,9 +329,6 @@
     </tbody>
     {% endfor %}
 </table>
-</div>
-<a href="#" class="float-right">Top of the page</a>
-</div>
 </div>
 
 <div class="modal fade" id="changeLog">
