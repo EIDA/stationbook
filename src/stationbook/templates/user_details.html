@@ -29,7 +29,7 @@
     <div id="editable_networks" class="collapse">
       {% if user_data.profile.fdsn_networks.count > 0 %}
       {% for net in user_data.profile.fdsn_networks.all %}
-      <a href="{% url 'network_details' net.pk %}">Node: {{ net.fdsn_node.code }}, Network: {{ net.get_code_year }}</a><br>
+      <a href="{% url 'network_details' net.code net.start_date.year %}">{{ net.get_code_year }}</a> | 
       {% endfor %}
       {% else %}
       None
@@ -47,7 +47,7 @@
       <p><b>{{ access.updated_at|naturaltime }}:</b> <br> {{ access.description }}<br> 
       Station <a href="{% url 'station_details' access.fdsn_station.fdsn_network.pk access.fdsn_station.pk %}">
           {{ access.fdsn_station.code }} ({{ access.fdsn_station.site_name }})</a>
-      in network <a href="{% url 'network_details' access.fdsn_station.fdsn_network.pk %}">{{ access.fdsn_station.fdsn_network.get_code_year }}</a></p>
+      in network <a href="{% url 'network_details' access.fdsn_station.fdsn_network.code access.fdsn_station.fdsn_network.start_date.year %}">{{ access.fdsn_station.fdsn_network.get_code_year }}</a></p>
       {% endfor %}
   </div>
   </div>

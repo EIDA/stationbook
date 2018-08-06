@@ -8,7 +8,9 @@ class UserDetailsTests(NetworkStationTest):
         NetworkStationTest.__init__(
             self, *args,
             url='user_details',
-            arguments={'username': 'admin' })
+            arguments={
+                'username': 'admin'
+            })
     
     def test_user_details_view_status_code_authenticated(self):
         self.login_and_refresh()

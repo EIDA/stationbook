@@ -100,26 +100,13 @@ class NodeDetailsListView(ListView):
         return queryset
 
 
-class NodesNetworksListView(ListView):
-    model = FdsnNetwork
-    context_object_name = 'data'
-    template_name = 'nodes_networks.html'
-
-    def get_queryset(self):
-        queryset = FdsnNetwork.objects.annotate(
-            num_stations=Count('fdsn_stations')).filter(
-                num_stations__gt=0).order_by('code')
-        return queryset
-
-
 class NetworksListView(ListView):
     model = None
     context_object_name = 'data'
     template_name = 'networks.html'
 
     def get_queryset(self):
-        queryset = FdsnNetwork.objects.values_list(
-            'code', 'start_date', 'restricted_status').distinct().order_by()
+        queryset = StationBookHelpers.get_networks_by_year()
         return queryset
 
 
@@ -159,28 +146,7 @@ class NetworkDetailsListView(ListView):
 
     def get_queryset(self):
         try:
-            queryset = FdsnNetwork.objects.get(
-                pk=self.kwargs.get('network_pk')
-            )
-        except FdsnNetwork.DoesNotExist:
-            raise Http404("Network does not exist!")
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['stations'] = FdsnStation.objects.filter(
-            fdsn_network__pk=self.kwargs.get('network_pk'))
-        return context
-
-
-class NetworkYearDetailsListView(ListView):
-    model = FdsnStation
-    context_object_name = 'network'
-    template_name = 'network_details.html'
-
-    def get_queryset(self):
-        try:
-            queryset = FdsnNetwork.objects.all(
+            queryset = FdsnNetwork.objects.filter(
                 code=self.kwargs.get('network_code'),
                 start_date__year=self.kwargs.get('network_start_year')
             )[:1].get()
@@ -656,7 +622,7 @@ class UserDetailsListView(ListView):
 def search_advanced_networks(request):
     pass
 
-def search_advanced_stations(request):
+def search_advanced(request):
     if request.method == 'POST':
         form = SearchAdvancedForm(request.POST)
         if form.is_valid():
@@ -745,7 +711,7 @@ def search_advanced_stations(request):
         else:
             return render(
                 request,
-                'search_advanced_stations.html',
+                'search_advanced.html',
                 {
                     'form': form
                 }
@@ -754,7 +720,7 @@ def search_advanced_stations(request):
         form = SearchAdvancedForm(instance=SearchFdsnStationModel())
         return render(
             request,
-            'search_advanced_stations.html',
+            'search_advanced.html',
             {
                 'form': form
             }

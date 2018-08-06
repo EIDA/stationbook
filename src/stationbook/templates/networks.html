@@ -7,9 +7,7 @@
 {% endblock %} {% block content %}
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#networks_table').DataTable({
-            stateSave: true
-        });
+        $('#networks_table').DataTable();
     });
 </script>
 
@@ -25,10 +23,10 @@
         {% for e in data %}
         <tr>
             <td>
-                <a href="#">{{ e.0 }} {{ e.1.year }}</a>
+                <a href="{% url 'network_details' e.0 e.1 %}">{{ e.0 }} {{ e.1 }}</a>
             </td>
             <td>
-                {{ e.1.year }}/{{ e.1.month }}/{{ e.1.day }}
+                {{ e.1 }}
             </td>
             <td>
                 {{ e.2 }}

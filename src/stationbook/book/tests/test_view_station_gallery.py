@@ -5,7 +5,15 @@ from ..views import StationGalleryListView
 
 class StationGalleryTests(NetworkStationTest):
     def __init__(self, *args):
-        NetworkStationTest.__init__(self, *args, url='station_gallery')
+        NetworkStationTest.__init__(
+            self,
+            *args,
+            url='station_gallery',
+            arguments={
+                'network_pk': '1',
+                'station_pk': '1'
+            }
+        )
 
     def test_station_gallery_view_status_code_authenticated(self):
         self.login_and_refresh()

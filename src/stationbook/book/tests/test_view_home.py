@@ -5,7 +5,12 @@ from ..views import HomeListView
 
 class HomeTests(NetworkStationTest):
     def __init__(self, *args):
-        NetworkStationTest.__init__(self, *args, url='home', arguments={})
+        NetworkStationTest.__init__(
+            self,
+            *args,
+            url='home',
+            arguments={}
+        )
 
     def test_home_view_status_code_authenticated(self):
         self.login_and_refresh()

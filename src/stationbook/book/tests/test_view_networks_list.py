@@ -6,7 +6,11 @@ from ..views import NetworksListView
 class NetworksListTests(NetworkStationTest):
     def __init__(self, *args):
         NetworkStationTest.__init__(
-            self, *args, url='networks', arguments={})
+            self,
+            *args,
+            url='networks',
+            arguments={}
+        )
 
     def test_network_list_view_status_code_authenticated(self):
         self.login_and_refresh()

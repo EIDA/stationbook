@@ -13,9 +13,7 @@
 {% block content %}
 <script type="text/javascript">
   $(document).ready(function() {
-      $('#search_table').DataTable({
-          stateSave: true
-      });
+      $('#search_table').DataTable();
   });
 </script>
 
@@ -23,7 +21,6 @@
 <table id="search_table" class="table" cellspacing="0" width="100%">
   <thead>
     <tr>
-      <th>Node</th>
       <th>Network</th>
       <th>Station code</th>
       <th>Site name</th>
@@ -34,10 +31,7 @@
     {% for station in data %}
     <tr>
       <td>
-        <a href="{% url 'node_details' station.fdsn_network.fdsn_node.pk %}">{{ station.fdsn_network.fdsn_node.code }}</a>
-      </td>
-      <td>
-        <a href="{% url 'network_details' station.fdsn_network.pk %}">{{ station.fdsn_network.get_code_year }}</a>
+        <a href="{% url 'network_details' station.fdsn_network.code station.fdsn_network.start_date.year %}">{{ station.fdsn_network.get_code_year }}</a>
         <small class="text-muted d-block">
           {{ station.fdsn_network.description }}
         </small>

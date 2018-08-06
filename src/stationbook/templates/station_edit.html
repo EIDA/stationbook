@@ -14,9 +14,8 @@
 
 {% block breadcrumb %}
 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-<li class="breadcrumb-item"><a href="{% url 'node_details' data.station.fdsn_network.fdsn_node.pk %}">{{ data.station.fdsn_network.fdsn_node.code }}</a></li>
 <li class="breadcrumb-item"><a href="{% url 'networks' %}">Networks</a></li>
-<li class="breadcrumb-item"><a href="{% url 'network_details' data.station.fdsn_network.pk %}">{{ data.station.fdsn_network.get_code_year }}</a></li>
+<li class="breadcrumb-item"><a href="{% url 'network_details' data.station.fdsn_network.code data.station.fdsn_network.start_date.year %}">{{ data.station.fdsn_network.get_code_year }}</a></li>
 <li class="breadcrumb-item"><a href="{% url 'station_details' data.station.fdsn_network.pk data.station.pk %}">{{ data.station.code }}</a></li>
 <li class="breadcrumb-item active">Edit</li>
 {% endblock %}

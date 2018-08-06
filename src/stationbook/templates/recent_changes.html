@@ -32,7 +32,7 @@
         <tr>
             <td>Updated {{ access.updated_at|naturaltime }} by <a href="{% url 'user_details' access.updated_by %}">{{ access.updated_by }}</a></td>
             <td>
-                <a href="{% url 'network_details' access.fdsn_station.fdsn_network.pk %}">
+                <a href="{% url 'network_details' access.fdsn_station.fdsn_network.code access.fdsn_station.fdsn_network.start_date.year %}">
                     {{ access.fdsn_station.fdsn_network.get_code_year }}
                 </a>
                 /

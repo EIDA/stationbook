@@ -29,24 +29,14 @@ urlpatterns = [
         name='search'
     ),
     path(
-        '{}search-networks/'.format(SB_URL_BASE),
-        book_view.search_advanced_networks,
-        name='search_advanced_networks'
-    ),
-    path(
-        '{}search-stations/'.format(SB_URL_BASE),
-        book_view.search_advanced_stations,
-        name='search_advanced_stations'
+        '{}search-advanced/'.format(SB_URL_BASE),
+        book_view.search_advanced,
+        name='search_advanced'
     ),
     path(
         '{}nodes/'.format(SB_URL_BASE),
         book_view.NodesListView.as_view(),
         name='nodes'
-    ),
-    path(
-        '{}nodes-networks/'.format(SB_URL_BASE),
-        book_view.NodesNetworksListView.as_view(),
-        name='nodes_networks'
     ),
     path(
         '{}networks/'.format(SB_URL_BASE),
@@ -74,13 +64,8 @@ urlpatterns = [
         name='node_details'
     ),
     re_path(
-        r'^{}networks/(?P<network_pk>\w+)/$'.format(SB_URL_BASE),
-        book_view.NetworkDetailsListView.as_view(),
-        name='network_details'
-    ),
-    re_path(
         r'^{}networks/(?P<network_code>\w+)/(?P<network_start_year>\w+)/$'.format(SB_URL_BASE),
-        book_view.NetworkYearDetailsListView.as_view(),
+        book_view.NetworkDetailsListView.as_view(),
         name='network_details'
     ),
     re_path(
@@ -94,57 +79,57 @@ urlpatterns = [
         name='station_gallery'
     ),
     re_path(
-        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/edit_basic/$'.format(SB_URL_BASE),
+        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/edit-basic/$'.format(SB_URL_BASE),
         book_view.ExtBasicDataUpdateView.as_view(),
         name='station_edit_basic'
     ),
     re_path(
-        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/edit_owner/$'.format(SB_URL_BASE),
+        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/edit-owner/$'.format(SB_URL_BASE),
         book_view.ExtOwnerDataUpdateView.as_view(),
         name='station_edit_owner'
     ),
     re_path(
-        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/edit_morphology/$'.format(SB_URL_BASE),
+        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/edit-morphology/$'.format(SB_URL_BASE),
         book_view.ExtMorphologyDataUpdateView.as_view(),
         name='station_edit_morphology'
     ),
     re_path(
-        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/edit_housing/$'.format(SB_URL_BASE),
+        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/edit-housing/$'.format(SB_URL_BASE),
         book_view.ExtHousingDataUpdateView.as_view(),
         name='station_edit_housing'
     ),
     re_path(
-        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/edit_borehole/$'.format(SB_URL_BASE),
+        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/edit-borehole/$'.format(SB_URL_BASE),
         book_view.ExtBoreholeDataUpdateView.as_view(),
         name='station_edit_borehole'
     ),
     re_path(
-        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/add_borehole_layer/$'.format(SB_URL_BASE),
+        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/add-borehole-layer/$'.format(SB_URL_BASE),
         book_view.station_borehole_layer_add,
         name='station_borehole_layer_add'
     ),
     re_path(
-        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/edit_borehole_layer/(?P<layer_pk>\w+)/$'.format(SB_URL_BASE),
+        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/edit-borehole-layer/(?P<layer_pk>\w+)/$'.format(SB_URL_BASE),
         book_view.station_borehole_layer_edit,
         name='station_borehole_layer_edit'
     ),
     re_path(
-        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/remove_borehole_layer/(?P<layer_pk>\w+)/$'.format(SB_URL_BASE),
+        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/remove-borehole-layer/(?P<layer_pk>\w+)/$'.format(SB_URL_BASE),
         book_view.station_borehole_layer_remove,
         name='station_borehole_layer_remove'
     ),
     re_path(
-        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/upload_photo/$'.format(SB_URL_BASE),
+        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/upload-photo/$'.format(SB_URL_BASE),
         book_view.station_photo_upload,
         name='station_photo_upload'
     ),
     re_path(
-        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/edit_photo/(?P<photo_pk>\w+)/$'.format(SB_URL_BASE),
+        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/edit-photo/(?P<photo_pk>\w+)/$'.format(SB_URL_BASE),
         book_view.station_photo_edit,
         name='station_photo_edit'
     ),
     re_path(
-        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/remove_photo/(?P<photo_pk>\w+)/$'.format(SB_URL_BASE),
+        r'^{}networks/(?P<network_pk>\w+)/station/(?P<station_pk>\w+)/remove-photo/(?P<photo_pk>\w+)/$'.format(SB_URL_BASE),
         book_view.station_photo_remove,
         name='station_photo_remove'
     ),

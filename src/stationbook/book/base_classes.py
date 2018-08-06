@@ -18,6 +18,25 @@ class StationBookHelpers(StationBookLoggerMixin):
         except:
             log_exception(StationBookHelpers.__name__)
 
+    @staticmethod
+    def get_networks_by_year():
+        try:
+            result = set()
+            networks = FdsnNetwork.objects.all()
+            
+            for n in networks:
+                result.add(
+                    (
+                        n.code,
+                        n.start_date.year,
+                        n.restricted_status
+                    )
+                )
+            return result
+        except:
+            log_exception(StationBookHelpers.__name__)
+            return result
+
 
 class StationUpdateViewBaseMixin(object):
     def __init__(self):

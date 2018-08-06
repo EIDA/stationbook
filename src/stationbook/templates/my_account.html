@@ -14,7 +14,7 @@ Networks assigned: (<a href="" data-toggle="collapse" data-target="#editable_net
 <div id="editable_networks" class="collapse">
   {% if user_profile.fdsn_networks.count > 0 %}
   {% for net in user_profile.fdsn_networks.all %}
-  <a href="{% url 'network_details' net.pk %}">Node: {{ net.fdsn_node.code }}, Network: {{ net.get_code_year }}</a><br>
+  <a href="{% url 'network_details' net.code net.start_date.year %}">{{ net.get_code_year }}</a> | 
   {% endfor %}
   {% else %}
   None

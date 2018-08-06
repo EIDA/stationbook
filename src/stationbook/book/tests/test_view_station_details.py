@@ -5,7 +5,15 @@ from ..views import StationDetailsListView
 
 class HomeTests(NetworkStationTest):
     def __init__(self, *args):
-        NetworkStationTest.__init__(self, *args, url='station_details')
+        NetworkStationTest.__init__(
+            self,
+            *args,
+            url='station_details',
+            arguments={
+                'network_pk': '1',
+                'station_pk': '1'
+            }
+        )
 
     def test_station_details_view_status_code_authenticated(self):
         self.login_and_refresh()

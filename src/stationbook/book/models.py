@@ -299,6 +299,9 @@ class FdsnNetwork(models.Model):
     def has_stations(self):
         return self.fdsn_stations.count > 0
 
+    def get_start_year(self):
+        return '{0}'.format(self.start_date.year)
+
     def get_code_year(self):
         return '{0} {1}'.format(self.code, self.start_date.year)
 

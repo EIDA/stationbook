@@ -11,8 +11,13 @@ ExtBoreholeData, ExtBoreholeLayerData, Photo
 
 class NetworkStationTest(TestCase):
     def __init__(
-        self, *args, 
-        url, arguments={'network_pk': '1', 'station_pk': '1'}):
+        self,
+        *args,
+        url,
+        arguments={
+            'network_code': 'NET',
+            'network_start_year': '1990'
+        }):
 
         TestCase.__init__(self, *args)
         self.url = url
