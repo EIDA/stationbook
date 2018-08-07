@@ -1,24 +1,28 @@
-{% extends 'base.html' %} {% load static %} {% block stylesheet %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/datatable/dataTables.bootstrap4.min.css' %}">
-<link rel="stylesheet" href="{% static 'css/openlayers/ol.css' %}" type="text/css"> {% endblock %} {% block breadcrumb %}
+<link rel="stylesheet" href="{% static 'css/openlayers/ol.css' %}" type="text/css">
 <style>
   .map {
     height: 500px;
     width: 100%;
   }
 </style>
+{% endblock %}
+
+{% block breadcrumb %}
 <li class="breadcrumb-item active">Home</li>
-{% endblock %} {% block content %} {% if stations.count > 0 %}
+{% endblock %}
+
+{% block content %}
+
+{% if stations.count > 0 %}
 <div id="map" class="map">
   <div id="popup"></div>
 </div>
 {% endif %}
-
-<script type="text/javascript">
-  $(document).ready(function () {
-    $('#stations_table').DataTable();
-  });
-</script>
 
 <script src="{% static 'js/openlayers/ol.js' %}"></script>
 <script src="{% static 'js/openlayers/olStationbook.js' %}"></script>
@@ -34,6 +38,9 @@
       </tr>
     </thead>
     <tbody>
+      <script type="text/javascript">
+        var stations = []
+      </script>
       {% for station in stations %}
       <tr>
         <td>
@@ -53,32 +60,51 @@
         var latitude = parseFloat("{{ station.latitude }}"),
           longitude = parseFloat("{{ station.longitude }}"),
           siteCode = "{{ station.code }}",
-          markerPath = "{% static 'img/markers/triangle-green.png' %}";
-        if (!isNaN(latitude) && !isNaN(longitude)) {
-          var point = new ol.Feature({
-            geometry: new ol.geom.Point(ol.proj.fromLonLat([longitude, latitude])),
-            name: `<b>Site code: </b>${siteCode}\n<br><b>Latitude: </b>${latitude}\n<br><b>Longitude: </b>${longitude}\n<br><a href="{% url 'station_details' station.fdsn_network.pk station.pk %}">Station details</a>`
-          });
-          point.setStyle(new ol.style.Style({
-            image: new ol.style.Icon({
-              anchor: [0.5, 1],
-              anchorXUnits: "fraction",
-              anchorYUnits: "fraction",
-              src: markerPath
-            })
-          })), vectorSource.addFeature(point)
-        }
+          networkCodeYear = "{{ station.fdsn_network.get_code_year }}",
+          isOpen = "{{ station.is_open }}",
+          marker = "{% static 'img/markers/triangle-green.png' %}"
+
+          if (isOpen.toLowerCase() != 'true'){
+            marker = "{% static 'img/markers/triangle-red.png' %}"
+          }
+
+        stations.push({
+          lat: latitude,
+          lon: longitude,
+          code: siteCode,
+          txt: `<b>Network: </b>${networkCodeYear}<br><b>Site code: </b>${siteCode}\n<br><b>Latitude: </b>${latitude}\n<br><b>Longitude: </b>${longitude}\n<br><a href="{% url 'station_details' station.fdsn_network.pk station.pk %}">Station details</a>`,
+          markerPath: marker
+        });
       </script>
       {% endfor %}
     </tbody>
   </table>
 </div>
 
-<!-- <script type="text/javascript">
-var latitude=parseFloat("{{ stations.0.latitude }}"),longitude=parseFloat("{{ stations.0.longitude }}");map.getView().setCenter(ol.proj.transform([longitude,latitude],"EPSG:4326","EPSG:3857")),map.getView().setZoom(8);
-</script> -->
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('#stations_table').DataTable();
+    stations.forEach(function (s) {
+      var
+        point = new ol.Feature({
+          geometry: new ol.geom.Point(ol.proj.fromLonLat([s.lon, s.lat])),
+          name: s.txt
+        });
+      point.setStyle(new ol.style.Style({
+        image: new ol.style.Icon({
+          anchor: [0.5, 1],
+          anchorXUnits: "fraction",
+          anchorYUnits: "fraction",
+          src: s.markerPath
+        })
+      })), vectorSource.addFeature(point)
+    })
+  })
+</script>
 
 {% block javascript %}
 <script src="{% static 'js/datatable/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'js/datatable/dataTables.bootstrap4.min.js' %}"></script>
-{% endblock %} {% endblock %}
+{% endblock %}
+
+{% endblock %}

@@ -425,6 +425,9 @@ class FdsnStation(models.Model):
             self.creation_date.day
         )
 
+    def is_open(self):
+        return self.end_date is None
+
 
 class ExtAccessData(ExtEntityBase):
     fdsn_station = models.ForeignKey(
