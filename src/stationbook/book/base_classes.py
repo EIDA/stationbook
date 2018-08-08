@@ -30,7 +30,19 @@ class StationBookHelpers(StationBookLoggerMixin):
                 )
 
                 for s in stations:
-                    result.append(model_to_dict(s))
+                    result.append({
+                        'network_pk': s.fdsn_network.pk,
+                        'station_pk': s.pk,
+                        'network_code': s.fdsn_network.code,
+                        'network_code_year': s.fdsn_network.get_code_year,
+                        'network_start_year': s.fdsn_network.start_date.year,
+                        'code': s.code,
+                        'site_name': s.site_name,
+                        'start_date': s.get_start_date,
+                        'latitude': s.latitude,
+                        'longitude': s.longitude,
+                        'is_open': s.is_open
+                    })
                 cache.set('stations', result, 86400)
             return cache.get('stations')
         except:
