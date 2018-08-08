@@ -18,7 +18,7 @@
 
 {% block content %}
 
-{% if stations.count > 0 %}
+{% if stations %}
 <div id="map" class="map">
   <div id="popup"></div>
 </div>
@@ -39,7 +39,7 @@
     </thead>
     <tbody>
       <script type="text/javascript">
-        var stations = []
+        var stations_array = []
       </script>
       {% for station in stations %}
       <tr>
@@ -68,7 +68,7 @@
             marker = "{% static 'img/markers/triangle-red.png' %}"
           }
 
-        stations.push({
+        stations_array.push({
           lat: latitude,
           lon: longitude,
           code: siteCode,
@@ -84,9 +84,8 @@
 <script type="text/javascript">
   $(document).ready(function () {
     $('#stations_table').DataTable();
-    stations.forEach(function (s) {
-      var
-        point = new ol.Feature({
+    stations_array.forEach(function (s) {
+      var point = new ol.Feature({
           geometry: new ol.geom.Point(ol.proj.fromLonLat([s.lon, s.lat])),
           name: s.txt
         });

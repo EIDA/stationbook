@@ -39,7 +39,7 @@ class HomeListView(ListView):
     template_name = 'home.html'
 
     def get_queryset(self):
-        queryset = FdsnStation.objects.all
+        queryset = StationBookHelpers.get_stations()
         return queryset
 
 

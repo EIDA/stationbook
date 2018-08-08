@@ -1,8 +1,10 @@
 from django.views.generic import UpdateView
 from django.utils import timezone
 from django.http import Http404
+from django.core.cache import cache
+from django.forms.models import model_to_dict
 
-from .models import FdsnNetwork, ExtAccessData
+from .models import FdsnNetwork, FdsnStation, ExtAccessData
 from .logger import StationBookLoggerMixin
 
 class StationBookHelpers(StationBookLoggerMixin):
@@ -16,26 +18,43 @@ class StationBookHelpers(StationBookLoggerMixin):
             access.description = desc
             access.save()
         except:
-            log_exception(StationBookHelpers.__name__)
+            raise
+
+    @staticmethod
+    def get_stations():
+        try:
+            if not cache.get('stations'):
+                result = []
+                stations = FdsnStation.objects.all().select_related(
+                    'fdsn_network'
+                )
+
+                for s in stations:
+                    result.append(model_to_dict(s))
+                cache.set('stations', result, 86400)
+            return cache.get('stations')
+        except:
+            raise
 
     @staticmethod
     def get_networks_by_year():
         try:
-            result = set()
-            networks = FdsnNetwork.objects.all()
-            
-            for n in networks:
-                result.add(
-                    (
-                        n.code,
-                        n.start_date.year,
-                        n.restricted_status
+            if not cache.get('networks_by_year'):
+                result = set()
+                networks = FdsnNetwork.objects.all()
+                
+                for n in networks:
+                    result.add(
+                        (
+                            n.code,
+                            n.start_date.year,
+                            n.restricted_status
+                        )
                     )
-                )
-            return result
+                cache.set('networks_by_year', result, 86400)
+            return cache.get('networks_by_year')
         except:
-            log_exception(StationBookHelpers.__name__)
-            return result
+            raise
 
 
 class StationUpdateViewBaseMixin(object):
