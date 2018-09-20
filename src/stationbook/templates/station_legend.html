@@ -1,3 +1,24 @@
+{% load static %}
+
+<h1>Station markers</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Icon</th>
+            <th>Station status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><img src="{% static 'img/markers/triangle-green.png' %}"></td>
+            <td>Station open</td>
+        </tr>
+        <tr>
+            <td><img src="{% static 'img/markers/triangle-red.png' %}"></td>
+            <td>Station closed</td>
+        </tr>
+    </tbody>
+</table>
 <h1>Morphology class</h1>
 <p>Based on the Italian Building Code</p>
 <ul>

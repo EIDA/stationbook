@@ -6,6 +6,10 @@
 <link rel="stylesheet" href="{% static 'css/openlayers/ol.css' %}" type="text/css">
 {% endblock %}
 
+{% block modal %}
+    {% include "station_legend.html" %}
+{% endblock modal %}
+
 {% block breadcrumb %}
 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
 <li class="breadcrumb-item"><a href="{% url 'node_details' network.fdsn_node.pk %}">{{ network.fdsn_node.code }}</a></li>
@@ -26,7 +30,20 @@
     });
 </script>
 
-<h1>Network details</h1>
+<div class="mt-2">
+<div class="container mb-2">
+  <div class="row">
+    <div class="btn-group" role="group">
+      <div class="btn-group" role="group">
+        <div class="btn-group" role="group">
+          <button class="btn btn-primary" data-toggle="modal" data-target="#pageInfo">Legend</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p><h5 class="bg-dark text-white pl-2">Network details</h5></p>
 <p><b>Network Code:</b> {{ network.get_code_year }}</p>
 <p><b>Network Start Date:</b> {{ network.get_start_date }}</p>
 <p><b>Network Description:</b> {{ network.description }}</p>
@@ -35,7 +52,7 @@
 <script src="{% static 'js/openlayers/ol.js' %}"></script>
 <script src="{% static 'js/openlayers/olStationbook.js' %}"></script>
 
-<h1>List of stations</h1>
+<p><h5 class="bg-dark text-white pl-2">List of stations</h5></p>
 <table id="stations_table" class="table" cellspacing="0" width="100%">
     <thead>
         <tr>
