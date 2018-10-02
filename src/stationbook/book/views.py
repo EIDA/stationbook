@@ -833,12 +833,13 @@ def search_advanced(request):
                 data = data.filter(
                     ext_morphology_data__vs_30__lte=vs30_to
                 )
-                search_phrase += 'Vs 30 max: {}, '.format()
-                vs30_to
+                search_phrase += 'Vs 30 max: {}, '.format(
+                    vs30_to
+                )
 
             if f0_from:
                 data = data.filter(
-                    ext_morphology_data__f0__gte=vs30_from
+                    ext_morphology_data__f0__gte=f0_from
                 )
                 search_phrase += 'f0 min: {}, '.format(
                     f0_from
@@ -846,7 +847,7 @@ def search_advanced(request):
 
             if f0_to:
                 data = data.filter(
-                    ext_morphology_data__f0__lte=vs30_to
+                    ext_morphology_data__f0__lte=f0_to
                 )
                 search_phrase += 'f0 max: {}, '.format(
                     f0_to
