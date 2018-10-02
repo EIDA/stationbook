@@ -61,3 +61,55 @@ HOUSING_CLASS_CHOICES = (
     ('underground_shelter', 'Underground shelter'),
     ('urban_free_field', 'Urban free field'),
 )
+
+NETWORK_CLASS_CHOICES = (
+    ('all', 'All'),
+    ('permanent', 'Permanent'),
+    ('temporary', 'Temporary'),
+)
+
+NETWORK_ACCESS_CHOICES = (
+    ('all', 'All'),
+    ('unrestricted', 'Unrestricted'),
+    ('restricted', 'Restricted'),
+)
+
+STATION_STATUS_CHOICES = (
+    ('all', 'All'),
+    ('open', 'Open'),
+    ('closed', 'Closed'),
+)
+
+STATION_ACCESS_CHOICES = (
+    ('all', 'All'),
+    ('unrestricted', 'Unrestricted'),
+    ('restricted', 'Restricted'),
+)
+
+SENSOR_UNIT_CHOICES = (
+    ('all', 'All'),
+    ('m', 'M'),
+    ('ms', 'M/S'),
+    ('mss', 'M/S^2'),
+    ('pa', 'PA'),
+    ('c', 'C'),
+    ('deg', 'DEG'),
+    ('undefined', 'Undefined'),
+)
+
+SENSOR_TYPE_CHOICES = (
+    ('all', 'All'),
+    ('vbb', 'VBB'),
+    ('bb', 'BB'),
+    ('sp', 'SP'),
+    ('sm', 'SM'),
+    ('obs', 'OBS'),
+    ('undefined', 'Undefined'),
+)
+
+BASIN_FLAG_CHOICES = (
+    ('all', 'All'),
+    ('yes', 'Yes'),
+    ('no', 'No'),
+    ('undefined', 'Undefined'),
+)

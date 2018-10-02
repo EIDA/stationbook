@@ -12,7 +12,10 @@ from markdown import markdown
 
 from .model_data.models_enums import \
     GEOLOGICAL_UNIT_CHOICES, GROUND_TYPE_EC8_CHOICES, \
-    HOUSING_CLASS_CHOICES, MORPHOLOGY_CLASS_CHOICES
+    HOUSING_CLASS_CHOICES, MORPHOLOGY_CLASS_CHOICES, \
+    NETWORK_CLASS_CHOICES, NETWORK_ACCESS_CHOICES, \
+    STATION_STATUS_CHOICES, STATION_ACCESS_CHOICES, \
+    SENSOR_UNIT_CHOICES, SENSOR_TYPE_CHOICES, BASIN_FLAG_CHOICES
 
 STRING_LENGTH_SHORT = 256
 STRING_LENGTH_MEDIUM = 1024
@@ -21,6 +24,10 @@ COORD_INTEGERS = 3
 COORD_DECIMALS = 6
 ELEV_INTEGERS = 4
 ELEV_DECIMALS = 2
+VS30_INTEGERS = 6
+VS30_DECIMALS = 6
+F0_INTEGERS = 6
+F0_DECIMALS = 6
 
 
 class ExtEntityBase(models.Model):
@@ -571,62 +578,148 @@ class SearchFdsnStationModel(models.Model):
         max_length=STRING_LENGTH_SHORT,
         blank=True
     )
+
     station_code = models.CharField(
         max_length=STRING_LENGTH_SHORT,
         blank=True
     )
+
     site_name = models.CharField(
         max_length=STRING_LENGTH_SHORT,
         blank=True
     )
+
+    network_class = models.CharField(
+        max_length=STRING_LENGTH_SHORT,
+        choices=NETWORK_CLASS_CHOICES,
+        default='',
+        blank=True
+    )
+
+    network_access = models.CharField(
+        max_length=STRING_LENGTH_SHORT,
+        choices=NETWORK_ACCESS_CHOICES,
+        default='',
+        blank=True
+    )
+
+    station_status = models.CharField(
+        max_length=STRING_LENGTH_SHORT,
+        choices=STATION_STATUS_CHOICES,
+        default='',
+        blank=True
+    )
+
+    station_access = models.CharField(
+        max_length=STRING_LENGTH_SHORT,
+        choices=STATION_ACCESS_CHOICES,
+        default='',
+        blank=True
+    )
+
+    sensor_unit = models.CharField(
+        max_length=STRING_LENGTH_SHORT,
+        choices=SENSOR_UNIT_CHOICES,
+        default='',
+        blank=True
+    )
+
+    sensor_type = models.CharField(
+        max_length=STRING_LENGTH_SHORT,
+        choices=SENSOR_TYPE_CHOICES,
+        default='',
+        blank=True
+    )
+
+    basin_flag = models.CharField(
+        max_length=STRING_LENGTH_SHORT,
+        choices=BASIN_FLAG_CHOICES,
+        default='',
+        blank=True
+    )
+
     latitude_min = models.DecimalField(
         max_digits=COORD_INTEGERS + COORD_DECIMALS,
         decimal_places=COORD_DECIMALS,
         blank=True
     )
+
     latitude_max = models.DecimalField(
         max_digits=COORD_INTEGERS + COORD_DECIMALS,
         decimal_places=COORD_DECIMALS,
         blank=True
     )
+
     longitude_min = models.DecimalField(
         max_digits=COORD_INTEGERS + COORD_DECIMALS,
         decimal_places=COORD_DECIMALS,
         blank=True
     )
+
     longitude_max = models.DecimalField(
         max_digits=COORD_INTEGERS + COORD_DECIMALS,
         decimal_places=COORD_DECIMALS,
         blank=True
     )
+
     start_year_from = models.IntegerField(
         blank=True
     )
+
     start_year_to = models.IntegerField(
         blank=True
     )
+
     end_year_from = models.IntegerField(
         blank=True
     )
+
     end_year_to = models.IntegerField(
         blank=True
     )
+
     geological_unit = models.CharField(
         max_length=STRING_LENGTH_SHORT,
         choices=GEOLOGICAL_UNIT_CHOICES,
         default='',
         blank=True
     )
+
     morphology_class = models.CharField(
         max_length=STRING_LENGTH_SHORT,
         choices=MORPHOLOGY_CLASS_CHOICES,
         default='',
         blank=True
     )
+
     ground_type_ec8 = models.CharField(
         max_length=STRING_LENGTH_SHORT,
         choices=GROUND_TYPE_EC8_CHOICES,
         default='',
+        blank=True
+    )
+
+    vs30_from = models.DecimalField(
+        max_digits=VS30_INTEGERS + VS30_DECIMALS,
+        decimal_places=COORD_DECIMALS,
+        blank=True
+    )
+
+    vs30_to = models.DecimalField(
+        max_digits=VS30_INTEGERS + VS30_DECIMALS,
+        decimal_places=COORD_DECIMALS,
+        blank=True
+    )
+
+    f0_from = models.DecimalField(
+        max_digits=F0_INTEGERS + F0_DECIMALS,
+        decimal_places=COORD_DECIMALS,
+        blank=True
+    )
+
+    f0_to = models.DecimalField(
+        max_digits=F0_INTEGERS + F0_DECIMALS,
+        decimal_places=COORD_DECIMALS,
         blank=True
     )
 

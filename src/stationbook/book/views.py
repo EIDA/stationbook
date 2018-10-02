@@ -622,6 +622,7 @@ class UserDetailsListView(ListView):
 def search_advanced_networks(request):
     pass
 
+
 def search_advanced(request):
     if request.method == 'POST':
         form = SearchAdvancedForm(request.POST)
