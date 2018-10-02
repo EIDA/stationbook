@@ -628,7 +628,10 @@ def search_advanced(request):
         form = SearchAdvancedForm(request.POST)
         if form.is_valid():
             net_code = form.cleaned_data['network_code'].upper()
+            network_access = form.cleaned_data['network_access']
             stat_code = form.cleaned_data['station_code'].upper()
+            station_status = form.cleaned_data['station_status']
+            station_access = form.cleaned_data['station_access']
             site_name = form.cleaned_data['site_name']
             latitude_min = form.cleaned_data['latitude_min']
             latitude_max = form.cleaned_data['latitude_max']
@@ -641,65 +644,213 @@ def search_advanced(request):
             geological_unit = form.cleaned_data['geological_unit']
             morphology_class = form.cleaned_data['morphology_class']
             ground_type_ec8 = form.cleaned_data['ground_type_ec8']
+            basin_flag = form.cleaned_data['basin_flag']
+            vs30_from = form.cleaned_data['vs30_from']
+            vs30_to = form.cleaned_data['vs30_to']
+            f0_from = form.cleaned_data['f0_from']
+            f0_to = form.cleaned_data['f0_to']
 
             data = FdsnStation.objects.all()
             search_phrase = ''
 
             if net_code:
-                data = data.filter(fdsn_network__code__icontains=net_code)
-                search_phrase += 'Network: {}, '.format(net_code)
+                data = data.filter(
+                    fdsn_network__code__icontains=net_code
+                )
+                search_phrase += 'Network: {}, '.format(
+                    net_code
+                )
+
+            if (network_access and network_access == 'restricted'):
+                data = data.filter(
+                    fdsn_network__restricted_status='closed'
+                )
+                search_phrase += 'Network access: {}, '.format(
+                    network_access
+                )
+
+            if (network_access and network_access == 'unrestricted'):
+                data = data.filter(
+                    fdsn_network__restricted_status='open'
+                )
+                search_phrase += 'Network access: {}, '.format(
+                    network_access
+                )
 
             if stat_code:
-                data = data.filter(code__icontains=stat_code)
-                search_phrase += 'Station: {}, '.format(stat_code)
+                data = data.filter(
+                    code__icontains=stat_code
+                )
+                search_phrase += 'Station: {}, '.format(
+                    stat_code
+                )
+
+            if (station_status and station_status == 'open'):
+                data = data.filter(
+                    end_date__isnull=True
+                )
+                search_phrase += 'Station status: {}, '.format(
+                    station_status
+                )
+
+            if (station_status and station_status == 'closed'):
+                data = data.filter(
+                    end_date__isnull=False
+                )
+                search_phrase += 'Station status: {}, '.format(
+                    station_status
+                )
+
+            if (station_access and station_access == 'restricted'):
+                data = data.filter(
+                    restricted_status='closed'
+                )
+                search_phrase += 'Station access: {}, '.format(
+                    network_access
+                )
+
+            if (station_access and station_access == 'unrestricted'):
+                data = data.filter(
+                    restricted_status='open'
+                )
+                search_phrase += 'Station access: {}, '.format(
+                    network_access
+                )
 
             if site_name:
-                data = data.filter(site_name__icontains=site_name)
-                search_phrase += 'Site: {}, '.format(site_name)
+                data = data.filter(
+                    site_name__icontains=site_name
+                )
+                search_phrase += 'Site: {}, '.format(
+                    site_name
+                )
 
             if latitude_min:
-                data = data.filter(latitude__gte=latitude_min)
-                search_phrase += 'Lat min: {}, '.format(latitude_min)
+                data = data.filter(
+                    latitude__gte=latitude_min
+                )
+                search_phrase += 'Lat min: {}, '.format(
+                    latitude_min
+                )
 
             if latitude_max:
-                data = data.filter(latitude__lte=latitude_max)
-                search_phrase += 'Lat max: {}, '.format(latitude_max)
+                data = data.filter(
+                    latitude__lte=latitude_max
+                )
+                search_phrase += 'Lat max: {}, '.format(
+                    latitude_max
+                )
 
             if longitude_min:
-                data = data.filter(longitude__gte=longitude_min)
-                search_phrase += 'Lon min: {}, '.format(longitude_min)
+                data = data.filter(
+                    longitude__gte=longitude_min
+                )
+                search_phrase += 'Lon min: {}, '.format(
+                    longitude_min
+                )
 
             if longitude_max:
-                data = data.filter(longitude__lte=longitude_max)
-                search_phrase += 'Lon max: {}, '.format(longitude_max)
+                data = data.filter(
+                    longitude__lte=longitude_max
+                )
+                search_phrase += 'Lon max: {}, '.format(
+                    longitude_max
+                )
 
             if start_year_from:
-                data = data.filter(start_date__year__gte=start_year_from)
-                search_phrase += 'Start from: {}, '.format(start_year_from)
+                data = data.filter(
+                    start_date__year__gte=start_year_from
+                )
+                search_phrase += 'Start from: {}, '.format(
+                    start_year_from
+                )
 
             if start_year_to:
-                data = data.filter(start_date__year__lte=start_year_to)
-                search_phrase += 'Start to: {}, '.format(start_year_to)
+                data = data.filter(
+                    start_date__year__lte=start_year_to
+                )
+                search_phrase += 'Start to: {}, '.format(
+                    start_year_to
+                )
 
             if end_year_from:
-                data = data.filter(end_date__year__gte=end_year_from)
-                search_phrase += 'End from: {}, '.format(end_year_from)
+                data = data.filter(
+                    end_date__year__gte=end_year_from
+                )
+                search_phrase += 'End from: {}, '.format(
+                    end_year_from
+                )
 
             if end_year_to:
-                data = data.filter(end_date__year__lte=end_year_to)
-                search_phrase += 'End to: {}, '.format(end_year_to)
+                data = data.filter(
+                    end_date__year__lte=end_year_to
+                )
+                search_phrase += 'End to: {}, '.format(
+                    end_year_to
+                )
 
             if geological_unit:
-                data = data.filter(ext_morphology_data__geological_unit=geological_unit)
-                search_phrase += 'Geological unit: {}, '.format(geological_unit)
+                data = data.filter(
+                    ext_morphology_data__geological_unit=geological_unit
+                )
+                search_phrase += 'Geological unit: {}, '.format(
+                    geological_unit
+                )
 
             if morphology_class:
-                data = data.filter(ext_morphology_data__morphology_class=morphology_class)
-                search_phrase += 'Morphology class: {}, '.format(morphology_class)
+                data = data.filter(
+                    ext_morphology_data__morphology_class=morphology_class
+                )
+                search_phrase += 'Morphology class: {}, '.format(
+                    morphology_class
+                )
 
             if ground_type_ec8:
-                data = data.filter(ext_morphology_data__ground_type_ec8=ground_type_ec8)
-                search_phrase += 'Ground type EC8: {}, '.format(ground_type_ec8)
+                data = data.filter(
+                    ext_morphology_data__ground_type_ec8=ground_type_ec8
+                )
+                search_phrase += 'Ground type EC8: {}, '.format(
+                    ground_type_ec8
+                )
+
+            if basin_flag:
+                data = data.filter(
+                    ext_morphology_data__basin_flag=basin_flag
+                )
+                search_phrase += 'Basin flag: {}, '.format(
+                    basin_flag
+                )
+
+            if vs30_from:
+                data = data.filter(
+                    ext_morphology_data__vs_30__gte=vs30_from
+                )
+                search_phrase += 'Vs 30 min: {}, '.format(
+                    vs30_from
+                )
+
+            if vs30_to:
+                data = data.filter(
+                    ext_morphology_data__vs_30__lte=vs30_to
+                )
+                search_phrase += 'Vs 30 max: {}, '.format()
+                vs30_to
+
+            if f0_from:
+                data = data.filter(
+                    ext_morphology_data__f0__gte=vs30_from
+                )
+                search_phrase += 'f0 min: {}, '.format(
+                    f0_from
+                )
+
+            if f0_to:
+                data = data.filter(
+                    ext_morphology_data__f0__lte=vs30_to
+                )
+                search_phrase += 'f0 max: {}, '.format(
+                    f0_to
+                )
 
             return render(
                 request,

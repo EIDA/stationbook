@@ -121,39 +121,48 @@ class ExtMorphologyData(ExtEntityBase):
         default='',
         blank=True
     )
+
     geological_unit = models.CharField(
         max_length=STRING_LENGTH_SHORT,
         choices=GEOLOGICAL_UNIT_CHOICES,
         default='',
         blank=True
     )
+
     morphology_class = models.CharField(
         max_length=STRING_LENGTH_SHORT,
         choices=MORPHOLOGY_CLASS_CHOICES,
         default='',
         blank=True
     )
+
     ground_type_ec8 = models.CharField(
         max_length=STRING_LENGTH_SHORT,
         choices=GROUND_TYPE_EC8_CHOICES,
         default='',
         blank=True
     )
+
     groundwater_depth = models.IntegerField(
         default=0
     )
+
     vs_30 = models.IntegerField(
         default=0
     )
+
     f0 = models.IntegerField(
         default=0
     )
+
     amp_f0 = models.IntegerField(
         default=0
     )
+
     basin_flag = models.BooleanField(
         default=False
     )
+
     bedrock_depth = models.IntegerField(
         default=0
     )
@@ -697,6 +706,10 @@ class SearchFdsnStationModel(models.Model):
         choices=GROUND_TYPE_EC8_CHOICES,
         default='',
         blank=True
+    )
+
+    basin_flag = models.BooleanField(
+        default=False
     )
 
     vs30_from = models.DecimalField(
