@@ -628,6 +628,7 @@ def search_advanced(request):
         form = SearchAdvancedForm(request.POST)
         if form.is_valid():
             net_code = form.cleaned_data['network_code'].upper()
+            network_class = form.cleaned_data['network_class']
             network_access = form.cleaned_data['network_access']
             stat_code = form.cleaned_data['station_code'].upper()
             station_status = form.cleaned_data['station_status']
@@ -659,6 +660,22 @@ def search_advanced(request):
                 )
                 search_phrase += 'Network: {}, '.format(
                     net_code
+                )
+
+            if (network_class and network_class == 'permanent'):
+                data = data.filter(
+                    fdsn_network__code__regex=r'[A-Z]{2}'
+                )
+                search_phrase += 'Network class: {}, '.format(
+                    network_class
+                )
+
+            if (network_class and network_class == 'temporary'):
+                data = data.filter(
+                    fdsn_network__code__regex=r'\d[A-Z]{1}'
+                )
+                search_phrase += 'Network class: {}, '.format(
+                    network_class
                 )
 
             if (network_access and network_access == 'restricted'):

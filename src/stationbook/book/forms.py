@@ -60,7 +60,7 @@ class SearchAdvancedForm(forms.ModelForm):
         model = SearchFdsnStationModel
         fields = (
             'network_code',
-            # 'network_class',
+            'network_class',
             'network_access',
             'station_code',
             'station_status',
