@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from datetime import datetime
+
 from enum import Enum
 
 from django.db import models, transaction
@@ -442,7 +444,10 @@ class FdsnStation(models.Model):
         )
 
     def is_open(self):
-        return self.end_date is None
+        if self.end_date is None or self.end_date > datetime.now():
+            return True
+        else:
+            return False
 
 
 class ExtAccessData(ExtEntityBase):
