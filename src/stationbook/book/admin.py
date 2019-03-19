@@ -360,7 +360,6 @@ class ProfileAdmin(admin.ModelAdmin):
                     'department',
                     'telephone',
                     'skype',
-                    'birth_date',
                 ]
             }
         ),
@@ -371,7 +370,6 @@ class ProfileAdmin(admin.ModelAdmin):
         'user',
         'about',
         'location',
-        'birth_date',
     )
 
 

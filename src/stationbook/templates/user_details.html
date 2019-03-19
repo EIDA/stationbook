@@ -24,7 +24,6 @@
     <p><b>Department: </b>{{ user_data.profile.department }}</p>
     <p><b>Telephone: </b>{{ user_data.profile.telephone }}</p>
     <p><b>Skype: </b>{{ user_data.profile.skype }}</p>
-    <p><b>Birthdate: </b>{{ user_data.profile.birth_date }}</p>
     <p><b>Can edit stations in networks: </b>(<a href="" data-toggle="collapse" data-target="#editable_networks">Toggle show networks</a>)
     <div id="editable_networks" class="collapse">
       {% if user_data.profile.fdsn_networks.count > 0 %}

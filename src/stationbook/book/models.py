@@ -553,10 +553,6 @@ class Profile(models.Model):
         max_length=STRING_LENGTH_MEDIUM,
         blank=True
     )
-    birth_date = models.DateField(
-        null=True,
-        blank=True
-    )
 
     def __str__(self):
         return 'Profile of: {0}'.format(self.user)
