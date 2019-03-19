@@ -581,7 +581,7 @@ class FdsnRoutingManager(FdsnHttpBase):
                     vars(node_wrapper),
                     vars(network_wrapper),
                     vars(station_wrapper)))
-            raise
+            # raise
         except Exception:
             self.log_exception(
                 'Node: {0} Network: {1} Station: {2}'.format(
