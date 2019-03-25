@@ -16,7 +16,10 @@ var map = new ol.Map({
   view: new ol.View({
       center: ol.proj.fromLonLat([5.178029, 52.101568]),
       zoom: 3
-  })
+  }),
+  interactions: ol.interaction.defaults(
+    { mouseWheelZoom: false }
+  )
 });
 
 var element = document.getElementById('popup');

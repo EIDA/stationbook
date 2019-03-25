@@ -1,9 +1,9 @@
 from django.views.generic import UpdateView
 from django.utils import timezone
 from django.http import Http404
+from django.db.models import Q
 from django.core.cache import cache
 from django.forms.models import model_to_dict
-from datetime import datetime
 
 from .models import FdsnNetwork, FdsnStation, ExtAccessData
 from .logger import StationBookLoggerMixin
@@ -27,7 +27,7 @@ class StationBookHelpers(StationBookLoggerMixin):
             if not cache.get('stations'):
                 result = []
                 stations = FdsnStation.objects.filter(
-                    end_date is None or end_date > datetime.now()
+                    Q(end_date=None)
                 ).select_related(
                     'fdsn_network'
                 )
