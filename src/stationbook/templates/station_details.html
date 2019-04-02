@@ -172,12 +172,16 @@
         <tr>
             <th>Start</th>
             <th>End</th>
+            <th>Imported from FDSN</th>
+            <th>Last FDSN sync</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>{{ station.ext_basic_data.start }}</td>
             <td>{{ station.ext_basic_data.end }}</td>
+            <td>{{ station.ext_basic_data.imported_from_fdsn }}</td>
+            <td>{{ station.ext_basic_data.last_synced }}</td>
         </tr>
     </tbody>
 </table>
