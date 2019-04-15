@@ -1,25 +1,27 @@
-FROM alpine
+FROM phusion/baseimage:latest
 
 # Initialize
+CMD ["/sbin/my_init"]
+
 RUN mkdir -p /data/stationbook
 WORKDIR /data/stationbook
 COPY requirements.txt /data/stationbook/
 
 # Setup
-RUN apk update
-RUN apk upgrade
-RUN apk add --update python3 python3-dev postgresql-client postgresql-dev build-base gettext jpeg-dev zlib-dev
+RUN apt-get update && apt-get install -y python3-dev \
+                                         python-setuptools \
+                                         python3-pip
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
-
-# Clean
-RUN apk del -r python3-dev postgresql
 
 # Prepare
 COPY . /data/stationbook/
 
-RUN addgroup -g 1019 -S orfeus && \
-    adduser -u 994 -S orfeus -G orfeus
+RUN groupadd -g 1019 orfeus && \
+    useradd -u 994 -g 1019 orfeus
+    
+# Clean up (baseimage recommended)
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN chown -R orfeus:orfeus /data
 USER orfeus
