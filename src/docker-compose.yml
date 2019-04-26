@@ -4,35 +4,36 @@ services:
     restart: always
     build: ./stationbook/
     user: "994:1019"
-    depends_on:
-      - sbpostgres
+    # depends_on:
+    #   - sbpostgres
     ports:
       - "8001:8001"
-    links:
-      - sbpostgres:postgres
+    # links:
+    #   - sbpostgres:postgres
     env_file: .env
     volumes:
-      - /data/seismo/www/stationbook_media:/data/stationbook/media
+    #   - /data/seismo/www/stationbook_media:/data/stationbook/media
+      - ./db:/data/stationbook/db
     networks:
       - sb_net
     command: gunicorn stationbook.wsgi:application -w 2 -b :8001
     
-  sbpostgres:
-    restart: always
-    image: postgres:latest
-    volumes:
-      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-      - sbpostgresql:/var/lib/postgresql/data
-      - ./docker/postgresql/backups:/backup
-    env_file:
-      - .env
-    expose:
-      - "5432"
-    networks:
-      - sb_net
+  # sbpostgres:
+  #   restart: always
+  #   image: postgres:latest
+  #   volumes:
+  #     - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+  #     - sbpostgresql:/var/lib/postgresql/data
+  #     - ./docker/postgresql/backups:/backup
+  #   env_file:
+  #     - .env
+  #   expose:
+  #     - "5432"
+  #   networks:
+  #     - sb_net
 
-volumes:
-  sbpostgresql:
+# volumes:
+#   sbpostgresql:
 
 networks:
   sb_net:
