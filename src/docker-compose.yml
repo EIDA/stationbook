@@ -12,7 +12,7 @@ services:
     #   - sbpostgres:postgres
     env_file: .env
     volumes:
-    #   - /data/seismo/www/stationbook_media:/data/stationbook/media
+      - /data/seismo/www/stationbook_media:/data/stationbook/media
       - ./db:/data/stationbook/db
     networks:
       - sb_net
