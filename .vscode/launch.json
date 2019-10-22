@@ -8,6 +8,8 @@
             "name": "Python: Django",
             "type": "python",
             "request": "launch",
+            "stopOnEntry": true,
+            "pythonPath": "${config:python.pythonPath}",
             "program": "${workspaceFolder}/src/stationbook/manage.py",
             "cwd": "${workspaceFolder}/src/stationbook",
             "console": "integratedTerminal",

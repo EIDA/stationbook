@@ -33,6 +33,26 @@ F0_DECIMALS = 6
 
 
 class ExtEntityBase(models.Model):
+    ext_network_code = models.TextField(
+        max_length=STRING_LENGTH_LONG,
+        default='',
+        blank=True
+    )
+    ext_network_start_year = models.TextField(
+        max_length=STRING_LENGTH_LONG,
+        default='',
+        blank=True
+    )
+    ext_station_code = models.TextField(
+        max_length=STRING_LENGTH_LONG,
+        default='',
+        blank=True
+    )
+    ext_station_start_year = models.TextField(
+        max_length=STRING_LENGTH_LONG,
+        default='',
+        blank=True
+    )
     # TODO: entities should not be removed. It is more mature to set 'removed'
     # flag to true and filter them out in the queries.
     entity_removed = models.BooleanField(default=False)
@@ -314,6 +334,11 @@ class FdsnNetwork(models.Model):
             self.code,
             self.start_date.year)
 
+    def get_code(self):
+        return '{0}'.format(
+            self.code
+        )
+
     def has_stations(self):
         return self.fdsn_stations.count > 0
 
@@ -419,11 +444,21 @@ class FdsnStation(models.Model):
     def __str__(self):
         return 'Station {0}'.format(self.code)
 
+    def get_code(self):
+        return '{0}'.format(
+            self.code
+        )
+
     def get_start_date(self):
         return '{0}/{1}/{2}'.format(
             self.start_date.year,
             self.start_date.month,
             self.start_date.day
+        )
+
+    def get_start_year(self):
+        return '{0}'.format(
+            self.start_date.year
         )
 
     def get_end_date(self):
