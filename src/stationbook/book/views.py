@@ -516,8 +516,15 @@ def station_photo_upload(request, network_pk, station_pk):
     if request.method == 'POST':
         form = StationPhotoForm(request.POST, request.FILES)
         if form.is_valid():
+            network = FdsnNetwork.objects.get(pk=network_pk)
+            station = FdsnStation.objects.get(pk=station_pk)
+
             photo = form.save(commit=False)
             photo.fdsn_station = station
+            photo.ext_network_code = network.code
+            photo.ext_network_start_year = network.get_start_year()
+            photo.ext_station_code = station.code
+            photo.ext_station_start_year = station.get_start_year()
             photo.save()
 
             StationBookHelpers.add_ext_access_data(
