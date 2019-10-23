@@ -40,7 +40,7 @@ class RemoveBoreholeLayerForm(forms.ModelForm):
 class StationPhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
-        fields = ('description', 'photo', )
+        fields = ('description', 'image', )
 
 
 class StationPhotoEditForm(forms.ModelForm):

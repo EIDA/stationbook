@@ -537,7 +537,7 @@ class Photo(ExtEntityBase):
         max_length=STRING_LENGTH_MEDIUM,
         blank=True
     )
-    photo = models.ImageField(
+    image = models.ImageField(
         upload_to=path_file_name
     )
     uploaded_at = models.DateTimeField(

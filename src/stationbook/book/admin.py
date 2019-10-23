@@ -334,7 +334,7 @@ class PhotoAdmin(admin.ModelAdmin):
     list_display = (
         '__str__',
         'description',
-        'photo',
+        'image',
         'uploaded_at',
     )
 
