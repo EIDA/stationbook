@@ -357,7 +357,12 @@ class FdsnNetwork(models.Model):
 
 
 class FdsnStation(models.Model):
-    fdsn_network = models.ForeignKey(FdsnNetwork, related_name='fdsn_stations',on_delete=models.CASCADE, default=None)
+    fdsn_network = models.ForeignKey(
+        FdsnNetwork,
+        related_name='fdsn_stations',
+        on_delete=models.CASCADE,
+        default=None
+    )
     code = models.CharField(max_length=STRING_LENGTH_SHORT)
     site_name = models.CharField(
         max_length=STRING_LENGTH_SHORT,

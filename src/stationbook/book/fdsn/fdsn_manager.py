@@ -22,7 +22,7 @@ from ..logger import StationBookLoggerMixin
 from ..models import \
     FdsnNode, FdsnNetwork, FdsnStation, ExtBasicData, ExtOwnerData, \
     ExtMorphologyData, ExtHousingData, ExtAccessData, ExtBoreholeData, \
-    ExtBoreholeLayerData
+    ExtBoreholeLayerData, Photo
 
 
 class FdsnHttpBase(StationBookLoggerMixin):
@@ -652,6 +652,15 @@ class FdsnRoutingManager(FdsnHttpBase):
                 except Exception:
                     self.log_exception()
                     raise
+                
+                # Restore the references between this station and photos that
+                # have been already uploaded for it in the past
+                Photo.objects.filter(
+                    ext_network_code=network_wrapper.code,
+                    ext_network_start_year=network_wrapper.parse_start_date_year(),
+                    ext_station_code=station_wrapper.code,
+                    ext_station_start_year=station_wrapper.parse_start_date_year()
+                ).update(fdsn_station=stat)
         except FdsnNetwork.DoesNotExist:
             self.log_exception(
                 'Network is not known! Node: {0} Network: {1} Station: {2}'.format(
