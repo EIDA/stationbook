@@ -493,8 +493,9 @@ class FdsnStation(models.Model):
 class ExtAccessData(ExtEntityBase):
     fdsn_station = models.ForeignKey(
         FdsnStation,
+        null=True,
         related_name='access_data',
-        on_delete=models.CASCADE
+        on_delete=models.SET_NULL
     )
     updated_by = models.ForeignKey(
         User,

@@ -661,6 +661,15 @@ class FdsnRoutingManager(FdsnHttpBase):
                     ext_station_code=station_wrapper.code,
                     ext_station_start_year=station_wrapper.parse_start_date_year()
                 ).update(fdsn_station=stat)
+
+                # Restore the references between this station and
+                # past access information 
+                ExtAccessData.objects.filter(
+                    ext_network_code=network_wrapper.code,
+                    ext_network_start_year=network_wrapper.parse_start_date_year(),
+                    ext_station_code=station_wrapper.code,
+                    ext_station_start_year=station_wrapper.parse_start_date_year()
+                ).update(fdsn_station=stat)
         except FdsnNetwork.DoesNotExist:
             self.log_exception(
                 'Network is not known! Node: {0} Network: {1} Station: {2}'.format(
