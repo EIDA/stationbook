@@ -15,7 +15,7 @@ class StationBookHelpers(StationBookLoggerMixin):
             access = ExtAccessData()
             access.ext_network_code = station.fdsn_network.code
             access.ext_network_start_year = station.fdsn_network.get_start_year()
-            access.ext_station_code = station.ext_network_code
+            access.ext_station_code = station.code
             access.ext_station_start_year = station.get_start_year()
             access.fdsn_station = station
             access.updated_by = user
