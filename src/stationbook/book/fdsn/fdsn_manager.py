@@ -586,37 +586,53 @@ class FdsnRoutingManager(FdsnHttpBase):
                     ext_basic.ext_station_start_year = \
                         station_wrapper.parse_start_date_year()
 
-                ext_owner = ExtOwnerData()
-                ext_owner.ext_network_code = network_wrapper.code
-                ext_owner.ext_network_start_year = \
-                    network_wrapper.parse_start_date_year()
-                ext_owner.ext_station_code = station_wrapper.code
-                ext_owner.ext_station_start_year = \
-                    station_wrapper.parse_start_date_year()
+                ext_owner = self.get_ext_if_known(
+                    ExtOwnerData, network_wrapper, station_wrapper
+                )
+                if not ext_owner:
+                    ext_owner = ExtOwnerData()
+                    ext_owner.ext_network_code = network_wrapper.code
+                    ext_owner.ext_network_start_year = \
+                        network_wrapper.parse_start_date_year()
+                    ext_owner.ext_station_code = station_wrapper.code
+                    ext_owner.ext_station_start_year = \
+                        station_wrapper.parse_start_date_year()
 
-                ext_morphology = ExtMorphologyData()
-                ext_morphology.ext_network_code = network_wrapper.code
-                ext_morphology.ext_network_start_year = \
-                    network_wrapper.parse_start_date_year()
-                ext_morphology.ext_station_code = station_wrapper.code
-                ext_morphology.ext_station_start_year = \
-                    station_wrapper.parse_start_date_year()
+                ext_morphology = self.get_ext_if_known(
+                    ExtMorphologyData, network_wrapper, station_wrapper
+                )
+                if not ext_morphology:
+                    ext_morphology = ExtMorphologyData()
+                    ext_morphology.ext_network_code = network_wrapper.code
+                    ext_morphology.ext_network_start_year = \
+                        network_wrapper.parse_start_date_year()
+                    ext_morphology.ext_station_code = station_wrapper.code
+                    ext_morphology.ext_station_start_year = \
+                        station_wrapper.parse_start_date_year()
 
-                ext_housing = ExtHousingData()
-                ext_housing.ext_network_code = network_wrapper.code
-                ext_housing.ext_network_start_year = \
-                    network_wrapper.parse_start_date_year()
-                ext_housing.ext_station_code = station_wrapper.code
-                ext_housing.ext_station_start_year = \
-                    station_wrapper.parse_start_date_year()
+                ext_housing = self.get_ext_if_known(
+                    ExtHousingData, network_wrapper, station_wrapper
+                )
+                if not ext_housing:
+                    ext_housing = ExtHousingData()
+                    ext_housing.ext_network_code = network_wrapper.code
+                    ext_housing.ext_network_start_year = \
+                        network_wrapper.parse_start_date_year()
+                    ext_housing.ext_station_code = station_wrapper.code
+                    ext_housing.ext_station_start_year = \
+                        station_wrapper.parse_start_date_year()
 
-                ext_borehole = ExtBoreholeData()
-                ext_borehole.ext_network_code = network_wrapper.code
-                ext_borehole.ext_network_start_year = \
-                    network_wrapper.parse_start_date_year()
-                ext_borehole.ext_station_code = station_wrapper.code
-                ext_borehole.ext_station_start_year = \
-                    station_wrapper.parse_start_date_year()
+                ext_borehole = self.get_ext_if_known(
+                    ExtBoreholeData, network_wrapper, station_wrapper
+                )
+                if not ext_borehole:
+                    ext_borehole = ExtBoreholeData()
+                    ext_borehole.ext_network_code = network_wrapper.code
+                    ext_borehole.ext_network_start_year = \
+                        network_wrapper.parse_start_date_year()
+                    ext_borehole.ext_station_code = station_wrapper.code
+                    ext_borehole.ext_station_start_year = \
+                        station_wrapper.parse_start_date_year()
 
                 # Assign ext entities to station and save it
                 try:
@@ -675,6 +691,8 @@ class FdsnManager(StationBookLoggerMixin):
 
     def process_fdsn(self):
         try:
+            self.log_information('Flushing stations.')
+            FdsnStation.objects.all().delete()
             self.log_information('FDSN sync started!')
             self.fdsn_netman._sync_fdsn_networks()
             self.fdsn_routman._sync_fdsn_stations()

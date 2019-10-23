@@ -517,7 +517,7 @@ class ExtAccessData(ExtEntityBase):
             self.description)
 
 
-class Photo(models.Model):
+class Photo(ExtEntityBase):
     def path_file_name(self, instance):
         return 'station_photos/{0}-{1}/{2}-{3}/{4}'.format(
             self.fdsn_station.fdsn_network.code,
@@ -529,8 +529,9 @@ class Photo(models.Model):
 
     fdsn_station = models.ForeignKey(
         FdsnStation,
+        null=True,
         related_name='photos',
-        on_delete=models.CASCADE
+        on_delete=models.SET_NULL
     )
     description = models.CharField(
         max_length=STRING_LENGTH_MEDIUM,
