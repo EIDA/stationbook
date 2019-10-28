@@ -290,12 +290,6 @@ class FdsnNode(models.Model):
 
 
 class FdsnNetwork(models.Model):
-    fdsn_node = models.ForeignKey(
-        FdsnNode,
-        related_name='fdsn_networks',
-        on_delete=models.CASCADE,
-        default=None
-    )
     code = models.CharField(
         max_length=STRING_LENGTH_SHORT
     )
@@ -318,14 +312,12 @@ class FdsnNetwork(models.Model):
     class Meta:
         unique_together = (
             (
-                'fdsn_node',
                 'code',
                 'start_date',
             ),
         )
         ordering = [
-            'fdsn_node__code',
-            'code', 
+            'code',
         ]
 
     def __str__(self):
