@@ -70,10 +70,9 @@ class FdsnHttpBase(StationBookLoggerMixin):
             self.log_exception()
             raise
 
-    def get_network_if_known(self, node_wrapper, network_wrapper):
+    def get_network_if_known(self, network_wrapper):
         try:
             return FdsnNetwork.objects.get(
-                fdsn_node__code=node_wrapper.code,
                 code=network_wrapper.code,
                 start_date__year=network_wrapper.parse_start_date_year())
 
@@ -83,10 +82,9 @@ class FdsnHttpBase(StationBookLoggerMixin):
             self.log_exception()
             raise
 
-    def get_station_if_known(self, node_wrapper, network_wrapper, station_wrapper):
+    def get_station_if_known(self, network_wrapper, station_wrapper):
         try:
             return FdsnStation.objects.get(
-                fdsn_network__fdsn_node__code=node_wrapper.code,
                 fdsn_network__code=network_wrapper.code,
                 fdsn_network__start_date__year=network_wrapper.parse_start_date_year(),
                 code=station_wrapper.code,
@@ -174,7 +172,7 @@ class FdsnNetworkManager(FdsnHttpBase):
 
     def _save_node_network(self, node_wrapper, network_wrapper):
         try:
-            net = self.get_network_if_known(node_wrapper, network_wrapper)
+            net = self.get_network_if_known(network_wrapper)
 
             if net:
                 net.description = network_wrapper.description
@@ -527,7 +525,7 @@ class FdsnRoutingManager(FdsnHttpBase):
     def _save_network_station(self, node_wrapper, network_wrapper, station_wrapper):
         try:
             stat = self.get_station_if_known(
-                node_wrapper, network_wrapper, station_wrapper)
+                network_wrapper, station_wrapper)
 
             # If station is known in the database, just update it with the
             # latest FDSN data, otherwise add it to the database
@@ -557,7 +555,6 @@ class FdsnRoutingManager(FdsnHttpBase):
                 stat = FdsnStation()
                 # Assign station to network
                 stat.fdsn_network = FdsnNetwork.objects.get(
-                    fdsn_node__code=node_wrapper.code,
                     code=network_wrapper.code,
                     start_date__year=network_wrapper.parse_start_date_year()
                 )
@@ -652,7 +649,7 @@ class FdsnRoutingManager(FdsnHttpBase):
                 except Exception:
                     self.log_exception()
                     raise
-                
+
                 # Restore the references between this station and photos that
                 # have been already uploaded for it in the past
                 Photo.objects.filter(
@@ -663,7 +660,7 @@ class FdsnRoutingManager(FdsnHttpBase):
                 ).update(fdsn_station=stat)
 
                 # Restore the references between this station and
-                # past access information 
+                # past access information
                 ExtAccessData.objects.filter(
                     ext_network_code=network_wrapper.code,
                     ext_network_start_year=network_wrapper.parse_start_date_year(),
@@ -709,7 +706,7 @@ class FdsnManager(StationBookLoggerMixin):
 
     def process_fdsn(self):
         try:
-            self.log_information('Flushing stations.')
+            self.log_information('Flushing stations...')
             FdsnStation.objects.all().delete()
             self.log_information('FDSN sync started!')
             self.fdsn_netman._sync_fdsn_networks()

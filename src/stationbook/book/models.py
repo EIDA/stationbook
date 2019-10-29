@@ -258,7 +258,11 @@ class ExtBoreholeLayerData(ExtEntityBase):
 
 
 class FdsnNode(models.Model):
-    code = models.CharField(primary_key=True, max_length=STRING_LENGTH_SHORT, unique=True)
+    code = models.CharField(
+        primary_key=True,
+        max_length=STRING_LENGTH_SHORT,
+        unique=True
+    )
     description = models.CharField(
         max_length=STRING_LENGTH_SHORT,
         default='',
@@ -290,6 +294,13 @@ class FdsnNode(models.Model):
 
 
 class FdsnNetwork(models.Model):
+    fdsn_node = models.ForeignKey(
+        FdsnNode,
+        related_name='fdsn_networks',
+        on_delete=models.CASCADE,
+        default=None
+    )
+
     code = models.CharField(
         max_length=STRING_LENGTH_SHORT
     )

@@ -24,7 +24,7 @@
         "DATABASE_PASS": "passwd",
         "DATABASE_PORT": "5432",
         "EMAIL_BACKEND": "django.core.mail.backends.console.EmailBackend",
-        "CACHE_BACKEND": "django.core.cache.backends.dummy.DummyCache",
+        "CACHE_BACKEND": "django.core.cache.backends.db.DatabaseCache",
         "CACHE_LOCATION": "sb_cache",
         "CACHE_TIME_SHORT": "0",
         "CACHE_TIME_MEDIUM": "0",
