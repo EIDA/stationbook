@@ -109,3 +109,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+src/stationbook/db.sqlite3-journal

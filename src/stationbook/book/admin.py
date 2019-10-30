@@ -58,7 +58,6 @@ class FdsnNetworkAdmin(admin.ModelAdmin):
     ]
 
     list_display = (
-        'fdsn_node',
         'code',
         'description',
         'start_date',
@@ -66,7 +65,6 @@ class FdsnNetworkAdmin(admin.ModelAdmin):
     )
 
     list_filter = [
-        'fdsn_node__code',
         'code',
     ]
 
@@ -105,7 +103,6 @@ class FdsnStationAdmin(admin.ModelAdmin):
     )
 
     list_filter = [
-        'fdsn_network__fdsn_node__code',
         'fdsn_network__code',
     ]
 
@@ -334,7 +331,7 @@ class PhotoAdmin(admin.ModelAdmin):
     list_display = (
         '__str__',
         'description',
-        'photo',
+        'image',
         'uploaded_at',
     )
 

@@ -1,22 +1,38 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Python: Django",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/src/stationbook/manage.py",
-            "cwd": "${workspaceFolder}/src/stationbook",
-            "console": "integratedTerminal",
-            "args": [
-                "runserver",
-                "--noreload",
-                "--nothreading"
-            ],
-            "django": true
-        }
-    ]
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Django",
+      "type": "python",
+      "request": "launch",
+      "stopOnEntry": true,
+      "pythonPath": "${workspaceFolder}/env/bin/python3",
+      "program": "${workspaceFolder}/src/stationbook/manage.py",
+      "cwd": "${workspaceFolder}/src/stationbook",
+      "env": {
+        "SECRET_KEY": "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)",
+        "DEBUG": "True",
+        "ALLOWED_HOSTS": ".localhost,127.0.0.1,knmi-orweb-l02p.knmi.ssc-campus.nl",
+        "DATABASE_URL": "sqlite:///${workspaceFolder}/src/stationbook/db.sqlite3",
+        "DATABASE_ENGINE": "django.db.backends.postgresql",
+        "DATABASE_HOST": "postgres",
+        "DATABASE_NAME": "stationbook",
+        "DATABASE_USER": "admin",
+        "DATABASE_PASS": "passwd",
+        "DATABASE_PORT": "5432",
+        "EMAIL_BACKEND": "django.core.mail.backends.console.EmailBackend",
+        "CACHE_BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "CACHE_LOCATION": "sb_cache",
+        "CACHE_TIME_SHORT": "0",
+        "CACHE_TIME_MEDIUM": "0",
+        "CACHE_TIME_LONG": "0",
+        "SB_URL_BASE": ""
+      },
+      "args": ["runserver", "--noreload", "0.0.0.0:8000"],
+      "django": true
+    }
+  ]
 }
