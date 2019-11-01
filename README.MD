@@ -68,6 +68,12 @@
     ```
     (env) [usr@host stationbook]$ python3 manage.py runserver 0.0.0.0:8080
     ```
+1. To clear the cache:
+    ```
+    (env) [usr@host stationbook]$ python3 manage.py shell
+    >>> from django.core.cache import cache
+    >>> cache.clear()
+    ```
 
 # Docker
 1. Create the .env configuration file in `/src/.env`. Example test server configuration:
