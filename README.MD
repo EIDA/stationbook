@@ -23,10 +23,11 @@
     ```
     * SECRET_KEY should be a 50-characters long string of random characters from the following set: `abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)`
     * `CACHE_BACKEND` can be set to:
-        * `django.core.cache.backends.memcached.MemcachedCache` with location `127.0.0.1:11211` (default for python-memcached) 
+        * `django.core.cache.backends.memcached.MemcachedCache` with location `127.0.0.1:11211` (default for python-memcached)
+        * `django.core.cache.backends.locmem.LocMemCache` local-memory cache backend
         * `django.core.cache.backends.filebased.FileBasedCache` with location e.g. `/data/sb_cache/`
         * `django.core.cache.backends.db.DatabaseCache` with location e.g. `sb_cache_table`
-        * `django.core.cache.backends.dummy.DummyCache` can be used during development 
+        * `django.core.cache.backends.dummy.DummyCache` can be used during development
     * `CACHE_TIME_SHORT`, `CACHE_TIME_MEDIUM` and `CACHE_TIME_LONG` are timers (in seconds) used for cache validation assigned to pages depending on how often their content changes
     * `SB_URL_BASE` allows adding a URL prefix to all Station Book URLs
 1. Make sure SQLite is configured as the default database in `src/stationbook/stationbook/settings.py`
