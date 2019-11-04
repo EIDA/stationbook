@@ -1,0 +1,5 @@
+DB_NAME=stationbook
+DB_USER=admin
+DB_PASS=passwd
+DB_SERVICE=postgres
+DB_PORT=5432
