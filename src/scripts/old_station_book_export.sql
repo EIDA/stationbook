@@ -8,3 +8,5 @@ FROM StationDescription SD
 		ON SD.`_parent_oid` = ND.`_oid`
 	LEFT JOIN BoreHole BH
 		ON SD.`_oid` = BH.`_parent_oid`
+	LEFT JOIN StationOwner SO
+		ON SD.`_oid` = SO.`_parent_oid`
