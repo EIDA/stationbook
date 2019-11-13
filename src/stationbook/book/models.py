@@ -33,6 +33,26 @@ F0_DECIMALS = 6
 
 
 class ExtEntityBase(models.Model):
+    ext_network_code = models.TextField(
+        max_length=STRING_LENGTH_LONG,
+        default='',
+        blank=True
+    )
+    ext_network_start_year = models.TextField(
+        max_length=STRING_LENGTH_LONG,
+        default='',
+        blank=True
+    )
+    ext_station_code = models.TextField(
+        max_length=STRING_LENGTH_LONG,
+        default='',
+        blank=True
+    )
+    ext_station_start_year = models.TextField(
+        max_length=STRING_LENGTH_LONG,
+        default='',
+        blank=True
+    )
     # TODO: entities should not be removed. It is more mature to set 'removed'
     # flag to true and filter them out in the queries.
     entity_removed = models.BooleanField(default=False)
@@ -238,7 +258,11 @@ class ExtBoreholeLayerData(ExtEntityBase):
 
 
 class FdsnNode(models.Model):
-    code = models.CharField(primary_key=True, max_length=STRING_LENGTH_SHORT, unique=True)
+    code = models.CharField(
+        primary_key=True,
+        max_length=STRING_LENGTH_SHORT,
+        unique=True
+    )
     description = models.CharField(
         max_length=STRING_LENGTH_SHORT,
         default='',
@@ -276,6 +300,7 @@ class FdsnNetwork(models.Model):
         on_delete=models.CASCADE,
         default=None
     )
+
     code = models.CharField(
         max_length=STRING_LENGTH_SHORT
     )
@@ -298,14 +323,12 @@ class FdsnNetwork(models.Model):
     class Meta:
         unique_together = (
             (
-                'fdsn_node',
                 'code',
                 'start_date',
             ),
         )
         ordering = [
-            'fdsn_node__code',
-            'code', 
+            'code',
         ]
 
     def __str__(self):
@@ -313,6 +336,11 @@ class FdsnNetwork(models.Model):
             self.fdsn_node.code,
             self.code,
             self.start_date.year)
+
+    def get_code(self):
+        return '{0}'.format(
+            self.code
+        )
 
     def has_stations(self):
         return self.fdsn_stations.count > 0
@@ -332,7 +360,12 @@ class FdsnNetwork(models.Model):
 
 
 class FdsnStation(models.Model):
-    fdsn_network = models.ForeignKey(FdsnNetwork, related_name='fdsn_stations',on_delete=models.CASCADE, default=None)
+    fdsn_network = models.ForeignKey(
+        FdsnNetwork,
+        related_name='fdsn_stations',
+        on_delete=models.CASCADE,
+        default=None
+    )
     code = models.CharField(max_length=STRING_LENGTH_SHORT)
     site_name = models.CharField(
         max_length=STRING_LENGTH_SHORT,
@@ -419,11 +452,21 @@ class FdsnStation(models.Model):
     def __str__(self):
         return 'Station {0}'.format(self.code)
 
+    def get_code(self):
+        return '{0}'.format(
+            self.code
+        )
+
     def get_start_date(self):
         return '{0}/{1}/{2}'.format(
             self.start_date.year,
             self.start_date.month,
             self.start_date.day
+        )
+
+    def get_start_year(self):
+        return '{0}'.format(
+            self.start_date.year
         )
 
     def get_end_date(self):
@@ -453,8 +496,9 @@ class FdsnStation(models.Model):
 class ExtAccessData(ExtEntityBase):
     fdsn_station = models.ForeignKey(
         FdsnStation,
+        null=True,
         related_name='access_data',
-        on_delete=models.CASCADE
+        on_delete=models.SET_NULL
     )
     updated_by = models.ForeignKey(
         User,
@@ -482,7 +526,7 @@ class ExtAccessData(ExtEntityBase):
             self.description)
 
 
-class Photo(models.Model):
+class Photo(ExtEntityBase):
     def path_file_name(self, instance):
         return 'station_photos/{0}-{1}/{2}-{3}/{4}'.format(
             self.fdsn_station.fdsn_network.code,
@@ -494,14 +538,15 @@ class Photo(models.Model):
 
     fdsn_station = models.ForeignKey(
         FdsnStation,
+        null=True,
         related_name='photos',
-        on_delete=models.CASCADE
+        on_delete=models.SET_NULL
     )
     description = models.CharField(
         max_length=STRING_LENGTH_MEDIUM,
         blank=True
     )
-    photo = models.ImageField(
+    image = models.ImageField(
         upload_to=path_file_name
     )
     uploaded_at = models.DateTimeField(

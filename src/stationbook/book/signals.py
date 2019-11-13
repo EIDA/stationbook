@@ -14,15 +14,3 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
-
-@receiver(pre_delete, sender=FdsnStation)
-def fdsn_station_pre_delete(sender, instance, using, **kwargs):
-    ExtBasicData.objects.filter(station__pk=instance.pk).delete()
-    ExtOwnerData.objects.filter(station__pk=instance.pk).delete()
-    ExtMorphologyData.objects.filter(station__pk=instance.pk).delete()
-    ExtHousingData.objects.filter(station__pk=instance.pk).delete()
-    ExtBoreholeLayerData.objects.filter(borehole_data__station__pk=instance.pk).delete()
-    ExtBoreholeData.objects.filter(station__pk=instance.pk).delete()
-
-    ExtAccessData.objects.filter(fdsn_station__pk=instance.pk).delete()
-    Photo.objects.filter(fdsn_station__pk=instance.pk).delete()

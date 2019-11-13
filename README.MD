@@ -3,7 +3,7 @@
     ```
     SECRET_KEY='abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
     DEBUG=False
-    ALLOWED_HOSTS=.localhost,127.0.0.1,knmi-orweb-l02p.knmi.ssc-campus.nl
+    ALLOWED_HOSTS=.localhost,127.0.0.1
     # SQLite path for Docker:
     # DATABASE_URL=sqlite:////data/stationbook/db/db.sqlite3
     DATABASE_URL=sqlite:///db.sqlite3
@@ -23,10 +23,11 @@
     ```
     * SECRET_KEY should be a 50-characters long string of random characters from the following set: `abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)`
     * `CACHE_BACKEND` can be set to:
-        * `django.core.cache.backends.memcached.MemcachedCache` with location `127.0.0.1:11211` (default for python-memcached) 
+        * `django.core.cache.backends.memcached.MemcachedCache` with location `127.0.0.1:11211` (default for python-memcached)
+        * `django.core.cache.backends.locmem.LocMemCache` local-memory cache backend
         * `django.core.cache.backends.filebased.FileBasedCache` with location e.g. `/data/sb_cache/`
         * `django.core.cache.backends.db.DatabaseCache` with location e.g. `sb_cache_table`
-        * `django.core.cache.backends.dummy.DummyCache` can be used during development 
+        * `django.core.cache.backends.dummy.DummyCache` can be used during development
     * `CACHE_TIME_SHORT`, `CACHE_TIME_MEDIUM` and `CACHE_TIME_LONG` are timers (in seconds) used for cache validation assigned to pages depending on how often their content changes
     * `SB_URL_BASE` allows adding a URL prefix to all Station Book URLs
 1. Make sure SQLite is configured as the default database in `src/stationbook/stationbook/settings.py`
@@ -66,6 +67,12 @@
 1. Run the test server:
     ```
     (env) [usr@host stationbook]$ python3 manage.py runserver 0.0.0.0:8080
+    ```
+1. To clear the cache:
+    ```
+    (env) [usr@host stationbook]$ python3 manage.py shell
+    >>> from django.core.cache import cache
+    >>> cache.clear()
     ```
 
 # Docker

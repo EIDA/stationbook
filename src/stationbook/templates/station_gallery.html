@@ -25,8 +25,8 @@
 <div class="gallery">
     {% for img in station.photos.all %}
     <p><b>Description: </b>{{ img.description }}</p>
-    <a href="{{ img.photo.url }}" data-caption="{{ img.description }}">
-        <img src="{{ img.photo.url }}" style="max-width: 25%; height: auto;">
+    <a href="{{ img.image.url }}" data-caption="{{ img.description }}">
+        <img src="{{ img.image.url }}" style="max-width: 25%; height: auto;">
     </a>
     <small class="text-muted d-block">
         Uploaded on {{ img.uploaded_at }}
