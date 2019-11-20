@@ -172,7 +172,11 @@ class StationDetailsListView(ListView):
     def get_queryset(self):
         try:
             self.station = FdsnStation.objects.get(
-                pk=self.kwargs.get('station_pk'))
+                fdsn_network__code=self.kwargs.get('network_code'),
+                fdsn_network__start_date__year=self.kwargs.get('network_start_year'),
+                code=self.kwargs.get('station_code'),
+                start_date__year=self.kwargs.get('station_start_year')
+            )
         except FdsnStation.DoesNotExist:
             raise Http404("Station does not exist!")
         return self.station
@@ -209,8 +213,10 @@ class StationGalleryListView(ListView):
     def get_queryset(self):
         try:
             queryset = FdsnStation.objects.get(
-                fdsn_network__pk=self.kwargs['network_pk'],
-                pk=self.kwargs.get('station_pk')
+                fdsn_network__code=self.kwargs.get('network_code'),
+                fdsn_network__start_date__year=self.kwargs.get('network_start_year'),
+                code=self.kwargs.get('station_code'),
+                start_date__year=self.kwargs.get('station_start_year')
             )
         except FdsnStation.DoesNotExist:
             raise Http404("Station does not exist!")
@@ -222,7 +228,8 @@ class StationGalleryListView(ListView):
         user_is_network_editor = StationAccessManager.user_is_network_editor(
             user=self.request.user,
             network=FdsnNetwork.objects.get(
-                pk=self.kwargs.get('network_pk')
+                code=self.kwargs.get('network_code'),
+                start_date__year=self.kwargs.get('network_start_year')
             )
         )
         context['user_is_network_editor'] = user_is_network_editor
@@ -242,8 +249,10 @@ class ExtBasicDataUpdateView(StationUpdateViewBase):
         self.ensure_user_access_right()
         obj = get_object_or_404(
             self.model,
-            station__fdsn_network__pk=self.kwargs['network_pk'],
-            station__pk=self.kwargs['station_pk']
+            station__fdsn_network__code=self.kwargs.get('network_code'),
+            station__fdsn_network__start_date__year=self.kwargs.get('network_start_year'),
+            station__code=self.kwargs.get('station_code'),
+            station__start_date__year=self.kwargs.get('station_start_year')
         )
         return obj
 
@@ -258,8 +267,10 @@ class ExtBasicDataUpdateView(StationUpdateViewBase):
 
         return redirect(
             'station_details',
-            network_pk=data.station.fdsn_network.pk,
-            station_pk=data.station.pk
+            network_code=data.station.fdsn_network.code,
+            network_start_year=data.station.fdsn_network.get_start_year(),
+            station_code=data.station.code,
+            station_start_year=data.station.get_start_year()
         )
 
 
@@ -279,8 +290,10 @@ class ExtOwnerDataUpdateView(StationUpdateViewBase):
         self.ensure_user_access_right()
         obj = get_object_or_404(
             self.model,
-            station__fdsn_network__pk=self.kwargs['network_pk'],
-            station__pk=self.kwargs['station_pk']
+            station__fdsn_network__code=self.kwargs.get('network_code'),
+            station__fdsn_network__start_date__year=self.kwargs.get('network_start_year'),
+            station__code=self.kwargs.get('station_code'),
+            station__start_date__year=self.kwargs.get('station_start_year')
         )
         return obj
 
@@ -294,8 +307,10 @@ class ExtOwnerDataUpdateView(StationUpdateViewBase):
 
         return redirect(
             'station_details',
-            network_pk=data.station.fdsn_network.pk,
-            station_pk=data.station.pk
+            network_code=data.station.fdsn_network.code,
+            network_start_year=data.station.fdsn_network.get_start_year(),
+            station_code=data.station.code,
+            station_start_year=data.station.get_start_year()
         )
 
 
@@ -316,8 +331,10 @@ class ExtMorphologyDataUpdateView(StationUpdateViewBase):
         self.ensure_user_access_right()
         obj = get_object_or_404(
             self.model,
-            station__fdsn_network__pk=self.kwargs['network_pk'],
-            station__pk=self.kwargs['station_pk']
+            station__fdsn_network__code=self.kwargs.get('network_code'),
+            station__fdsn_network__start_date__year=self.kwargs.get('network_start_year'),
+            station__code=self.kwargs.get('station_code'),
+            station__start_date__year=self.kwargs.get('station_start_year')
         )
         return obj
 
@@ -331,8 +348,10 @@ class ExtMorphologyDataUpdateView(StationUpdateViewBase):
 
         return redirect(
             'station_details',
-            network_pk=data.station.fdsn_network.pk,
-            station_pk=data.station.pk
+            network_code=data.station.fdsn_network.code,
+            network_start_year=data.station.fdsn_network.get_start_year(),
+            station_code=data.station.code,
+            station_start_year=data.station.get_start_year()
         )
 
 
@@ -352,8 +371,10 @@ class ExtHousingDataUpdateView(StationUpdateViewBase):
         self.ensure_user_access_right()
         obj = get_object_or_404(
             self.model,
-            station__fdsn_network__pk=self.kwargs['network_pk'],
-            station__pk=self.kwargs['station_pk']
+            station__fdsn_network__code=self.kwargs.get('network_code'),
+            station__fdsn_network__start_date__year=self.kwargs.get('network_start_year'),
+            station__code=self.kwargs.get('station_code'),
+            station__start_date__year=self.kwargs.get('station_start_year')
         )
         return obj
 
@@ -367,8 +388,10 @@ class ExtHousingDataUpdateView(StationUpdateViewBase):
 
         return redirect(
             'station_details',
-            network_pk=data.station.fdsn_network.pk,
-            station_pk=data.station.pk
+            network_code=data.station.fdsn_network.code,
+            network_start_year=data.station.fdsn_network.get_start_year(),
+            station_code=data.station.code,
+            station_start_year=data.station.get_start_year()
         )
 
 
@@ -385,8 +408,10 @@ class ExtBoreholeDataUpdateView(StationUpdateViewBase):
         self.ensure_user_access_right()
         obj = get_object_or_404(
             self.model,
-            station__fdsn_network__pk=self.kwargs['network_pk'],
-            station__pk=self.kwargs['station_pk']
+            station__fdsn_network__code=self.kwargs.get('network_code'),
+            station__fdsn_network__start_date__year=self.kwargs.get('network_start_year'),
+            station__code=self.kwargs.get('station_code'),
+            station__start_date__year=self.kwargs.get('station_start_year')
         )
         return obj
 
@@ -400,16 +425,22 @@ class ExtBoreholeDataUpdateView(StationUpdateViewBase):
 
         return redirect(
             'station_details',
-            network_pk=data.station.fdsn_network.pk,
-            station_pk=data.station.pk
+            network_code=data.station.fdsn_network.code,
+            network_start_year=data.station.fdsn_network.get_start_year(),
+            station_code=data.station.code,
+            station_start_year=data.station.get_start_year()
         )
 
 
 @login_required
 @transaction.atomic
-def station_borehole_layer_add(request, network_pk, station_pk):
+def station_borehole_layer_add(request, network_code, network_start_year, station_code, station_start_year):
     station = get_object_or_404(
-        FdsnStation, fdsn_network__pk=network_pk, pk=station_pk)
+        FdsnStation,
+        fdsn_network__code=network_code,
+        fdsn_network__start_date__year=network_start_year,
+        code=station_code,
+        start_date__year=station_start_year)
 
     if not StationAccessManager.user_is_station_editor(request.user, station):
         raise Http404("Write access to this network not granted!")
@@ -428,8 +459,10 @@ def station_borehole_layer_add(request, network_pk, station_pk):
 
             return redirect(
                 'station_details',
-                network_pk=network_pk,
-                station_pk=station_pk
+                network_code=station.fdsn_network.code,
+                network_start_year=station.fdsn_network.get_start_year(),
+                station_code=station.code,
+                station_start_year=station.get_start_year()
             )
     else:
         form = AddBoreholeLayerForm()
@@ -440,9 +473,13 @@ def station_borehole_layer_add(request, network_pk, station_pk):
 
 @login_required
 @transaction.atomic
-def station_borehole_layer_edit(request, network_pk, station_pk, layer_pk):
+def station_borehole_layer_edit(request, network_code, network_start_year, station_code, station_start_year, layer_pk):
     station = get_object_or_404(
-        FdsnStation, fdsn_network__pk=network_pk, pk=station_pk)
+        FdsnStation,
+        fdsn_network__code=network_code,
+        fdsn_network__start_date__year=network_start_year,
+        code=station_code,
+        start_date__year=station_start_year)
     borehole_layer = get_object_or_404(ExtBoreholeLayerData, pk=layer_pk)
 
     if not StationAccessManager.user_is_station_editor(request.user, station):
@@ -459,8 +496,10 @@ def station_borehole_layer_edit(request, network_pk, station_pk, layer_pk):
 
         return redirect(
             'station_details',
-            network_pk=network_pk,
-            station_pk=station_pk
+            network_code=station.fdsn_network.code,
+            network_start_year=station.fdsn_network.get_start_year(),
+            station_code=station.code,
+            station_start_year=station.get_start_year()
         )
     else:
         form = EditBoreholeLayerForm(instance=borehole_layer)
@@ -471,9 +510,13 @@ def station_borehole_layer_edit(request, network_pk, station_pk, layer_pk):
 
 @login_required
 @transaction.atomic
-def station_borehole_layer_remove(request, network_pk, station_pk, layer_pk):
+def station_borehole_layer_remove(request, network_code, network_start_year, station_code, station_start_year, layer_pk):
     station = get_object_or_404(
-        FdsnStation, fdsn_network__pk=network_pk, pk=station_pk)
+        FdsnStation,
+        fdsn_network__code=network_code,
+        fdsn_network__start_date__year=network_start_year,
+        code=station_code,
+        start_date__year=station_start_year)
     borehole_layer = get_object_or_404(
         ExtBoreholeLayerData, pk=layer_pk)
 
@@ -491,8 +534,10 @@ def station_borehole_layer_remove(request, network_pk, station_pk, layer_pk):
 
         return redirect(
             'station_details',
-            network_pk=network_pk,
-            station_pk=station_pk
+            network_code=station.fdsn_network.code,
+            network_start_year=station.fdsn_network.get_start_year(),
+            station_code=station.code,
+            station_start_year=station.get_start_year()
         )
     else:
         form = RemoveBoreholeLayerForm()
@@ -506,9 +551,13 @@ def station_borehole_layer_remove(request, network_pk, station_pk, layer_pk):
 
 @login_required
 @transaction.atomic
-def station_photo_upload(request, network_pk, station_pk):
+def station_photo_upload(request, network_code, network_start_year, station_code, station_start_year):
     station = get_object_or_404(
-        FdsnStation, fdsn_network__pk=network_pk, pk=station_pk)
+        FdsnStation,
+        fdsn_network__code=network_code,
+        fdsn_network__start_date__year=network_start_year,
+        code=station_code,
+        start_date__year=station_start_year)
 
     if not StationAccessManager.user_is_station_editor(request.user, station):
         raise Http404("Write access to this network not granted!")
@@ -516,8 +565,16 @@ def station_photo_upload(request, network_pk, station_pk):
     if request.method == 'POST':
         form = StationPhotoForm(request.POST, request.FILES)
         if form.is_valid():
-            network = FdsnNetwork.objects.get(pk=network_pk)
-            station = FdsnStation.objects.get(pk=station_pk)
+            network = FdsnNetwork.objects.get(
+                code=network_code,
+                start_date__year=network_start_year,
+            )
+            station = FdsnStation.objects.get(
+                fdsn_network__code=network_code,
+                fdsn_network__start_date__year=network_start_year,
+                code=station_code,
+                start_date__year=station_start_year
+            )
 
             photo = form.save(commit=False)
             photo.fdsn_station = station
@@ -533,8 +590,10 @@ def station_photo_upload(request, network_pk, station_pk):
 
             return redirect(
                 'station_gallery',
-                network_pk=network_pk,
-                station_pk=station_pk
+                network_code=network_code,
+                network_start_year=network_start_year,
+                station_code=station_code,
+                station_start_year=station_start_year
             )
     else:
         form = StationPhotoForm()
@@ -544,9 +603,14 @@ def station_photo_upload(request, network_pk, station_pk):
 
 @login_required
 @transaction.atomic
-def station_photo_edit(request, network_pk, station_pk, photo_pk):
+def station_photo_edit(request, network_code, network_start_year, station_code, station_start_year, photo_pk):
     station = get_object_or_404(
-        FdsnStation, fdsn_network__pk=network_pk, pk=station_pk)
+        FdsnStation,
+        fdsn_network__code=network_code,
+        fdsn_network__start_date__year=network_start_year,
+        code=station_code,
+        start_date__year=station_start_year
+        )
     photo = get_object_or_404(Photo, pk=photo_pk)
 
     if not StationAccessManager.user_is_station_editor(request.user, station):
@@ -563,8 +627,10 @@ def station_photo_edit(request, network_pk, station_pk, photo_pk):
 
         return redirect(
             'station_gallery',
-            network_pk=network_pk,
-            station_pk=station_pk
+            network_code=network_code,
+            network_start_year=network_start_year,
+            station_code=station_code,
+            station_start_year=station_start_year
         )
     else:
         form = StationPhotoEditForm(instance=photo)
@@ -575,9 +641,13 @@ def station_photo_edit(request, network_pk, station_pk, photo_pk):
 
 @login_required
 @transaction.atomic
-def station_photo_remove(request, network_pk, station_pk, photo_pk):
+def station_photo_remove(request, network_code, network_start_year, station_code, station_start_year, photo_pk):
     station = get_object_or_404(
-        FdsnStation, fdsn_network__pk=network_pk, pk=station_pk)
+        FdsnStation,
+        fdsn_network__code=network_code,
+        fdsn_network__start_date__year=network_start_year,
+        code=station_code,
+        start_date__year=station_start_year)
     photo = get_object_or_404(Photo, pk=photo_pk)
 
     if not StationAccessManager.user_is_station_editor(request.user, station):
@@ -594,8 +664,10 @@ def station_photo_remove(request, network_pk, station_pk, photo_pk):
 
         return redirect(
             'station_gallery',
-            network_pk=network_pk,
-            station_pk=station_pk
+            network_code=network_code,
+            network_start_year=network_start_year,
+            station_code=station_code,
+            station_start_year=station_start_year
         )
     else:
         form = StationPhotoRemoveForm(instance=photo)

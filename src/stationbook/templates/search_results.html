@@ -37,7 +37,7 @@
         </small>
       </td>
       <td>
-        <a href ="{% url 'station_details' station.fdsn_network.pk station.pk %}">{{ station.code }}</a>
+        <a href ="{% url 'station_details' station.fdsn_network.code station.fdsn_network.get_start_year station.code station.get_start_year %}">{{ station.code }}</a>
         <small class="text-muted d-block">
           Latitude: {{ station.latitude }},
           Longitude: {{ station.longitude }}

@@ -47,10 +47,10 @@
                 <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">Media</button>
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                    <a class="dropdown-item" href="{% url 'station_gallery' station.fdsn_network.pk station.pk %}">Show station gallery ({{ station.photos.count }})</a>
+                    <a class="dropdown-item" href="{% url 'station_gallery' station.fdsn_network.code station.fdsn_network.get_start_year station.code station.get_start_year %}">Show station gallery ({{ station.photos.count }})</a>
                     {% if user.is_authenticated and user_is_network_editor %}
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'station_photo_upload' station.fdsn_network.pk station.pk %}">Quick photo upload</a>
+                    <a class="dropdown-item" href="{% url 'station_photo_upload' station.fdsn_network.code station.fdsn_network.get_start_year station.code station.get_start_year %}">Quick photo upload</a>
                     {% endif %}
                 </div>
             </div>
@@ -68,11 +68,11 @@
                 <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">Edit data</button>
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                    <a class="dropdown-item" href="{% url 'station_edit_basic' station.fdsn_network.pk station.pk %}">Edit basic station data</a>
-                    <a class="dropdown-item" href="{% url 'station_edit_owner' station.fdsn_network.pk station.pk %}">Edit owner station data</a>
-                    <a class="dropdown-item" href="{% url 'station_edit_morphology' station.fdsn_network.pk station.pk %}">Edit morphology station data</a>
-                    <a class="dropdown-item" href="{% url 'station_edit_housing' station.fdsn_network.pk station.pk %}">Edit housing station data</a>
-                    <a class="dropdown-item" href="{% url 'station_edit_borehole' station.fdsn_network.pk station.pk %}">Edit borehole station data</a>
+                    <a class="dropdown-item" href="{% url 'station_edit_basic' station.fdsn_network.code station.fdsn_network.get_start_year station.code station.get_start_year %}">Edit basic station data</a>
+                    <a class="dropdown-item" href="{% url 'station_edit_owner' station.fdsn_network.code station.fdsn_network.get_start_year station.code station.get_start_year %}">Edit owner station data</a>
+                    <a class="dropdown-item" href="{% url 'station_edit_morphology' station.fdsn_network.code station.fdsn_network.get_start_year station.code station.get_start_year %}">Edit morphology station data</a>
+                    <a class="dropdown-item" href="{% url 'station_edit_housing' station.fdsn_network.code station.fdsn_network.get_start_year station.code station.get_start_year %}">Edit housing station data</a>
+                    <a class="dropdown-item" href="{% url 'station_edit_borehole' station.fdsn_network.code station.fdsn_network.get_start_year station.code station.get_start_year %}">Edit borehole station data</a>
                 </div>
             </div>
             {% endif %}
@@ -312,7 +312,7 @@
     </tbody>
 </table>
 
-<p><h6 class="bg-dark text-white pl-2">Borehole Layers: {% if user.is_authenticated and user_is_network_editor %}(<a href="{% url 'station_borehole_layer_add' station.fdsn_network.pk station.pk %}">Add</a>){% endif %}</h6></p>
+<p><h6 class="bg-dark text-white pl-2">Borehole Layers: {% if user.is_authenticated and user_is_network_editor %}(<a href="{% url 'station_borehole_layer_add' station.fdsn_network.code station.fdsn_network.get_start_year station.code station.get_start_year %}">Add</a>){% endif %}</h6></p>
 <table class="table table-sm">
     <thead class="thead-inverse">
         <tr>
@@ -327,8 +327,8 @@
         <tr>
             <td>{{ layer.description }}
                 {% if user.is_authenticated and user_is_network_editor %}
-                (<a href="{% url 'station_borehole_layer_edit' station.fdsn_network.pk station.pk layer.pk %}">Edit</a> / 
-                <a href="{% url 'station_borehole_layer_remove' station.fdsn_network.pk station.pk layer.pk %}">Remove</a>)
+                (<a href="{% url 'station_borehole_layer_edit' station.fdsn_network.code station.fdsn_network.get_start_year station.code station.get_start_year layer.pk %}">Edit</a> / 
+                <a href="{% url 'station_borehole_layer_remove' station.fdsn_network.code station.fdsn_network.get_start_year station.code station.get_start_year layer.pk %}">Remove</a>)
                 {% endif %}
             </td>
             <td>{{ layer.depth_top }}</td>

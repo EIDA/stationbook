@@ -46,6 +46,7 @@ class StationBookHelpers(StationBookLoggerMixin):
                         'code': s.code,
                         'site_name': s.site_name,
                         'start_date': s.get_start_date,
+                        'start_year': s.get_start_year,
                         'latitude': s.latitude,
                         'longitude': s.longitude,
                         'is_open': s.is_open
@@ -84,7 +85,8 @@ class StationUpdateViewBaseMixin(object):
         if not StationAccessManager.user_is_network_editor(
             user=self.request.user,
             network=FdsnNetwork.objects.get(
-                pk=self.kwargs.get('network_pk'))):
+                code=self.kwargs.get('network_code'),
+                start_date__year=self.kwargs.get('network_start_year'))):
                 raise Http404("Write access to this network not granted!")
 
 

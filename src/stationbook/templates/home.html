@@ -66,7 +66,7 @@
               {{ station.network_code_year }}</a>
           </td>
           <td>
-            <a href="{% url 'station_details' station.network_pk station.station_pk %}">{{ station.code }}</a>
+            <a href="{% url 'station_details' station.network_code station.network_start_year station.code station.start_year %}">{{ station.code }}</a>
           </td>
           <td>
             {{ station.site_name }}
@@ -91,7 +91,7 @@
             lat: latitude,
             lon: longitude,
             code: siteCode,
-            txt: `<b>Network: </b>${networkCodeYear}<br><b>Site code: </b>${siteCode}\n<br><b>Latitude: </b>${latitude}\n<br><b>Longitude: </b>${longitude}\n<br><a href="{% url 'station_details' station.network_pk station.station_pk %}">Station details</a>`,
+            txt: `<b>Network: </b>${networkCodeYear}<br><b>Site code: </b>${siteCode}\n<br><b>Latitude: </b>${latitude}\n<br><b>Longitude: </b>${longitude}\n<br><a href="{% url 'station_details' station.network_code station.network_start_year station.code station.start_year %}">Station details</a>`,
             markerPath: marker
           });
         </script>

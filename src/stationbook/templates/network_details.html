@@ -68,7 +68,7 @@
         {% for station in stations %}
         <tr>
             <td>
-                <a href="{% url 'station_details' station.fdsn_network.pk station.pk %}">{{ station.code }}</a>
+                <a href="{% url 'station_details' station.fdsn_network.code station.fdsn_network.get_start_year station.code station.get_start_year %}">{{ station.code }}</a>
                 <small class="text-muted d-block">
                     Latitude: {{ station.latitude }}, Longitude: {{ station.longitude }}
                 </small>
@@ -96,7 +96,7 @@
           lat: latitude,
           lon: longitude,
           code: siteCode,
-          txt: `<b>Site code: </b>${siteCode}\n<br><b>Latitude: </b>${latitude}\n<br><b>Longitude: </b>${longitude}\n<br><a href="{% url 'station_details' station.fdsn_network.pk station.pk %}">Station details</a>`,
+          txt: `<b>Site code: </b>${siteCode}\n<br><b>Latitude: </b>${latitude}\n<br><b>Longitude: </b>${longitude}\n<br><a href="{% url 'station_details' station.fdsn_network.code station.fdsn_network.get_start_year station.code station.get_start_year %}">Station details</a>`,
           markerPath: marker
         });
         </script>
