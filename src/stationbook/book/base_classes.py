@@ -1,7 +1,7 @@
 from django.views.generic import UpdateView
 from django.utils import timezone
 from django.http import Http404
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.core.cache import cache
 from django.forms.models import model_to_dict
 
@@ -61,7 +61,10 @@ class StationBookHelpers(StationBookLoggerMixin):
         try:
             if not cache.get('networks_by_year'):
                 result = set()
-                networks = FdsnNetwork.objects.all()
+                # Get only networks having stations
+                networks = FdsnNetwork.objects.annotate(
+                    c=Count("fdsn_stations")
+                ).filter(c__gt=0)
                 
                 for n in networks:
                     result.add(
