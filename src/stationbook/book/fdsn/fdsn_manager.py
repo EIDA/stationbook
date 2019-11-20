@@ -70,9 +70,10 @@ class FdsnHttpBase(StationBookLoggerMixin):
             self.log_exception()
             raise
 
-    def get_network_if_known(self, network_wrapper):
+    def get_network_if_known(self, node_wrapper, network_wrapper):
         try:
             return FdsnNetwork.objects.get(
+                fdsn_node__code=node_wrapper.code,
                 code=network_wrapper.code,
                 start_date__year=network_wrapper.parse_start_date_year())
 
@@ -172,7 +173,7 @@ class FdsnNetworkManager(FdsnHttpBase):
 
     def _save_node_network(self, node_wrapper, network_wrapper):
         try:
-            net = self.get_network_if_known(network_wrapper)
+            net = self.get_network_if_known(node_wrapper, network_wrapper)
 
             if net:
                 net.description = network_wrapper.description
@@ -555,6 +556,7 @@ class FdsnRoutingManager(FdsnHttpBase):
                 stat = FdsnStation()
                 # Assign station to network
                 stat.fdsn_network = FdsnNetwork.objects.get(
+                    fdsn_node__code=node_wrapper.code,
                     code=network_wrapper.code,
                     start_date__year=network_wrapper.parse_start_date_year()
                 )

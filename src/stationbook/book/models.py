@@ -323,6 +323,7 @@ class FdsnNetwork(models.Model):
     class Meta:
         unique_together = (
             (
+                'fdsn_node',
                 'code',
                 'start_date',
             ),
