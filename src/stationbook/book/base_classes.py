@@ -87,10 +87,9 @@ class StationUpdateViewBaseMixin(object):
     def ensure_user_access_right(self):
         if not StationAccessManager.user_is_network_editor(
             user=self.request.user,
-            network=FdsnNetwork.objects.get(
-                code=self.kwargs.get('network_code'),
-                start_date__year=self.kwargs.get('network_start_year'))):
-                raise Http404("Write access to this network not granted!")
+            network_code=self.kwargs.get('network_code'),
+            network_start_year=self.kwargs.get('network_start_year')):
+            raise Http404("Write access to this network not granted!")
 
 
 class StationUpdateViewBase(UpdateView, StationUpdateViewBaseMixin):
@@ -103,23 +102,22 @@ class StationUpdateViewBase(UpdateView, StationUpdateViewBaseMixin):
         self.context_object_name = context_object_name
 
 
-class StationAccessManager(object):
+class StationAccessManager(StationBookLoggerMixin):
     def __init__(self):
         pass
     
     @staticmethod
-    def user_is_network_editor(user, network):
+    def user_is_network_editor(user, network_code, network_start_year):
         try:
             if not hasattr(user, 'profile'):
                 return False
-            elif user.profile in network.editors.all():
-                return True
             else:
+                for n in user.profile.fdsn_networks.all():
+                    if n.code == network_code and n.get_start_year() == network_start_year:
+                        return True
                 return False
         except:
-            StationBookLogger(__name__).log_exception(
-                StationAccessManager.__name__)
-            return False
+            raise
     
     @staticmethod
     def user_is_station_editor(user, station):
@@ -131,6 +129,4 @@ class StationAccessManager(object):
             else:
                 return False
         except:
-            StationBookLogger(__name__).log_exception(
-                StationAccessManager.__name__)
-            return False
+            raise

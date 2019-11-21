@@ -199,7 +199,8 @@ class StationDetailsListView(ListView):
 
         user_is_network_editor = StationAccessManager.user_is_network_editor(
             user=self.request.user,
-            network=self.station.fdsn_network
+            network_code=self.station.fdsn_network.code,
+            network_start_year=self.station.fdsn_network.get_start_year()
         )
         context['user_is_network_editor'] = user_is_network_editor
         return context
@@ -227,10 +228,8 @@ class StationGalleryListView(ListView):
 
         user_is_network_editor = StationAccessManager.user_is_network_editor(
             user=self.request.user,
-            network=FdsnNetwork.objects.get(
-                code=self.kwargs.get('network_code'),
-                start_date__year=self.kwargs.get('network_start_year')
-            )
+            network_code=self.kwargs.get('network_code'),
+            network_start_year=self.kwargs.get('network_start_year')
         )
         context['user_is_network_editor'] = user_is_network_editor
         return context
@@ -565,10 +564,6 @@ def station_photo_upload(request, network_code, network_start_year, station_code
     if request.method == 'POST':
         form = StationPhotoForm(request.POST, request.FILES)
         if form.is_valid():
-            network = FdsnNetwork.objects.get(
-                code=network_code,
-                start_date__year=network_start_year,
-            )
             station = FdsnStation.objects.get(
                 fdsn_network__code=network_code,
                 fdsn_network__start_date__year=network_start_year,
@@ -578,8 +573,8 @@ def station_photo_upload(request, network_code, network_start_year, station_code
 
             photo = form.save(commit=False)
             photo.fdsn_station = station
-            photo.ext_network_code = network.code
-            photo.ext_network_start_year = network.get_start_year()
+            photo.ext_network_code = network_code
+            photo.ext_network_start_year = network_start_year
             photo.ext_station_code = station.code
             photo.ext_station_start_year = station.get_start_year()
             photo.save()
