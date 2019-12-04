@@ -30,11 +30,7 @@ class StationBookHelpers(StationBookLoggerMixin):
         try:
             if not cache.get('stations'):
                 result = []
-                stations = FdsnStation.objects.filter(
-                    Q(end_date=None)
-                ).select_related(
-                    'fdsn_network'
-                )
+                stations = FdsnStation.objects.select_related('fdsn_network')
 
                 for s in stations:
                     result.append({
