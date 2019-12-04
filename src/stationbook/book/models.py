@@ -402,6 +402,7 @@ class FdsnStation(models.Model):
     )
     creation_date = models.DateTimeField(
         max_length=STRING_LENGTH_SHORT,
+        null=True,
         blank=True
     )
     # Ext data
