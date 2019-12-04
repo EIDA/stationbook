@@ -118,5 +118,17 @@
         "url_routing": "",
         "url_wfcatalog": ""
     }
+},
+{
+    "model": "book.fdsnnode",
+    "pk": 11,
+    "fields": {
+        "code": "UiB",
+        "description": "University of Bergen",
+        "url_dataselect": "",
+        "url_station": "http://eida.geo.uib.no/fdsnws/station/1/query",
+        "url_routing": "",
+        "url_wfcatalog": ""
+    }
 }
 ]
