@@ -8,10 +8,22 @@
   <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/app/app.css' %}">
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Bangers'>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
-    crossorigin="anonymous">
-    {% block stylesheet %}
-    {% endblock %}
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+    integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+  {% block stylesheet %}
+  {% endblock %}
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-83806732-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-83806732-2');
+  </script>
 </head>
 
 <body>
@@ -26,14 +38,15 @@
     </a>
     <div class="container">
       <a class="navbar-brand" href="{% url 'home' %}">Station Book</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false"
-        aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu"
+        aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="mainMenu">
         <ul class="navbar-nav p-1">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">
               <i class="fas fa-compass" style="color:tomato"></i> Menu
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
@@ -50,7 +63,8 @@
             </div>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">
               <i class="fas fa-search" style="color:lightblue"></i> Search
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
@@ -61,7 +75,8 @@
         {% if user.is_authenticated %}
         <ul class="navbar-nav p-1">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">
               <i class="fas fa-cog" style="color:tan"></i> Settings ({{ user.username }})
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
