@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.views.generic import RedirectView
 from django.urls import path, re_path
 from django.contrib.auth import views as auth_views
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import RequestContext
 from django.views.decorators.cache import cache_page
 

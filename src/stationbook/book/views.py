@@ -6,7 +6,7 @@ from functools import reduce
 
 from django.http import Http404
 from django.shortcuts import \
-    get_object_or_404, redirect, render, render_to_response
+    get_object_or_404, redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
@@ -25,6 +25,8 @@ from .base_classes import \
     StationBookHelpers, StationUpdateViewBase, StationAccessManager
 
 from .fdsn.base_classes import NodeWrapper
+
+from .helpers.doi_helper import DOIHelper
 
 from .forms import \
     UserForm, ProfileForm, AddBoreholeLayerForm, EditBoreholeLayerForm, \
@@ -156,11 +158,23 @@ class NetworkDetailsListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         context['stations'] = FdsnStation.objects.filter(
             fdsn_network__code=self.kwargs.get('network_code'),
             fdsn_network__start_date__year=self.kwargs.get('network_start_year')
         )
+
+        context['network_doi'] = self.get_network_doi(
+            self.kwargs.get('network_code'),
+            self.kwargs.get('network_start_year')
+        )
+
         return context
+
+    def get_network_doi(self, network_code, network_start_year):
+        dh = DOIHelper()
+        doi = dh.get_network_doi(network_code, network_start_year)
+        return doi
 
 
 class StationDetailsListView(ListView):
@@ -974,13 +988,13 @@ def search_advanced(request):
 def custom_404(request, exception=None):
     '''HTTP 404 custom handler
     '''
-    return render_to_response('404.html', {'exception': exception})
+    return render(request, '404.html', {'exception': exception})
 
 
 def custom_500(request, exception=None):
     '''HTTP 500 custom handler
     '''
-    return render_to_response('500.html', {'exception': exception})
+    return render(request, '500.html', {'exception': exception})
 
 
 @user_passes_test(lambda u: u.is_superuser)
