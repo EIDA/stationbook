@@ -1,23 +1,48 @@
 import gzip
 from urllib.request import Request, urlopen
+from django.core.cache import cache
 from ..logger import StationBookLoggerMixin
+
 
 class DOIHelper(StationBookLoggerMixin):
     def __init__(self):
         super(DOIHelper, self).__init__()
 
     def get_network_doi(self, network_code, network_start_year):
-        response = self._request('http://fdsn.org/networks/doi')
-        decoded = response.decode('utf-8')
-        dois = decoded.split('\n')
+        dois = None
+
+        if not cache.get('network_dois'):
+            response = self._request('http://fdsn.org/networks/doi')
+            decoded = response.decode('utf-8')
+            dois = decoded.split('\r\n')
+            cache.set('network_dois', dois, 86400)
+        else:
+            dois = cache.get('network_dois')
+
+        # Filter using network code and network start year
         doi = list(
             filter(
                 lambda x: x.startswith(
-                    f'{network_code}_{network_start_year}'
+                    '{}_{}'.format(network_code, network_start_year)
                 ), dois
             )
         )
-        return None
+
+        # In case previous filter did not return any results, use less
+        # restrictive filtering using just the network code
+        # NL network falls in this category, for example
+        if len(doi) <= 0:
+            doi = list(
+                filter(
+                    lambda x: x.startswith(
+                        '{}'.format(network_code)
+                    ), dois
+                )
+            )
+
+        doi = doi[0].split(',')[1]
+        doi = 'https://www.doi.org/{}'.format(doi)
+        return doi
 
     def _request(self, url):
         try:
