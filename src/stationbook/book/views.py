@@ -164,16 +164,16 @@ class NetworkDetailsListView(ListView):
             fdsn_network__start_date__year=self.kwargs.get('network_start_year')
         )
 
-        context['network_doi'] = self.get_network_doi(
+        context['network_citation'] = self.get_network_citation(
             self.kwargs.get('network_code'),
             self.kwargs.get('network_start_year')
         )
 
         return context
 
-    def get_network_doi(self, network_code, network_start_year):
+    def get_network_citation(self, network_code, network_start_year):
         dh = DOIHelper()
-        doi = dh.get_network_doi(network_code, network_start_year)
+        doi = dh.get_network_citation(network_code, network_start_year)
         return doi
 
 

@@ -18,9 +18,9 @@
 {% endblock %}
 
 {% block content %}
-{% if network_doi %}
+{% if network_citation %}
 <div class="alert alert-info">
-    Network DOI: <a target="_blank" href={{network_doi}}>{{network_doi}}</a>
+    <strong>Cite as:</strong><br> {{network_citation}}</a>
 </div>
 {% endif %}
 
