@@ -19,7 +19,8 @@
     CACHE_TIME_SHORT=1800
     CACHE_TIME_MEDIUM=3600
     CACHE_TIME_LONG=43200
-    SB_URL_BASE='sb2/'
+    SB_URL_BASE=''
+    GOOGLE_RECAPTCHA_SECRET_KEY='abcdefghijklmnopqrstuvwxyz0123456789'
     ```
     * SECRET_KEY should be a 50-characters long string of random characters from the following set: `abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)`
     * `CACHE_BACKEND` can be set to:
