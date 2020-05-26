@@ -5,389 +5,376 @@ from django.contrib import admin
 from django.utils import timezone
 
 # Register your models here.
-from .models import FdsnNode, FdsnNetwork, FdsnStation, ExtBasicData, \
-                    ExtOwnerData, ExtMorphologyData, ExtHousingData, \
-                    ExtBoreholeData, ExtBoreholeLayerData, Profile, Photo, Link
+from .models import (
+    FdsnNode,
+    FdsnNetwork,
+    FdsnStation,
+    ExtBasicData,
+    ExtOwnerData,
+    ExtMorphologyData,
+    ExtHousingData,
+    ExtBoreholeData,
+    ExtBoreholeLayerData,
+    Profile,
+    Photo,
+    Link,
+)
 
 
 class FdsnNodeAdmin(admin.ModelAdmin):
     fieldsets = [
         (
-            'Change node details', {
-                'fields': [
-                    'code',
-                    'description',
-                    'url_dataselect',
-                    'url_station',
-                    'url_routing',
-                    'url_wfcatalog',
+            "Change node details",
+            {
+                "fields": [
+                    "code",
+                    "description",
+                    "url_dataselect",
+                    "url_station",
+                    "url_routing",
+                    "url_wfcatalog",
                 ]
-            }
+            },
         ),
     ]
 
     list_display = (
-        'code',
-        'description',
-        'url_dataselect',
-        'url_station',
-        'url_routing',
-        'url_wfcatalog',
+        "code",
+        "description",
+        "url_dataselect",
+        "url_station",
+        "url_routing",
+        "url_wfcatalog",
     )
 
     list_filter = [
-        'code',
-        'description',
+        "code",
+        "description",
     ]
 
     search_fields = [
-        'code',
+        "code",
     ]
 
 
 class FdsnNetworkAdmin(admin.ModelAdmin):
     fieldsets = [
-        (
-            'Change station details', {
-                'fields': [
-                    'description',
-                    'restricted_status',
-                ]
-            }
-        ),
+        ("Change station details", {"fields": ["description", "restricted_status",]}),
     ]
 
     list_display = (
-        'code',
-        'description',
-        'start_date',
-        'restricted_status', 
+        "code",
+        "description",
+        "start_date",
+        "restricted_status",
     )
 
     list_filter = [
-        'code',
+        "code",
     ]
 
     search_fields = [
-        'code',
+        "code",
     ]
 
 
 class FdsnStationAdmin(admin.ModelAdmin):
     fieldsets = [
         (
-            'Change station details', {
-                'fields': [
-                    'site_name',
-                    'latitude',
-                    'longitude',
-                    'elevation',
-                    'restricted_status',
-                    'start_date',
-                    'creation_date',
+            "Change station details",
+            {
+                "fields": [
+                    "site_name",
+                    "latitude",
+                    "longitude",
+                    "elevation",
+                    "restricted_status",
+                    "start_date",
+                    "creation_date",
                 ]
-            }
+            },
         ),
     ]
 
     list_display = (
-        'fdsn_network',
-        'code',
-        'site_name',
-        'latitude',
-        'longitude',
-        'elevation',
-        'restricted_status',
-        'start_date',
-        'creation_date',
+        "fdsn_network",
+        "code",
+        "site_name",
+        "latitude",
+        "longitude",
+        "elevation",
+        "restricted_status",
+        "start_date",
+        "creation_date",
     )
 
     list_filter = [
-        'fdsn_network__code',
+        "fdsn_network__code",
     ]
 
     search_fields = [
-        'code',
+        "code",
     ]
 
 
 class ExtBasicAdmin(admin.ModelAdmin):
     fieldsets = [
         (
-            'Change ext basic details', {
-                'fields': [
-                    'description',
-                    'start',
-                    'end',
-                    'imported_from_fdsn',
-                    'last_synced',
+            "Change ext basic details",
+            {
+                "fields": [
+                    "description",
+                    "start",
+                    "end",
+                    "imported_from_fdsn",
+                    "last_synced",
                 ]
-            }
+            },
         ),
     ]
 
     list_display = (
-        '__str__',
-        'description',
-        'start',
-        'end',
-        'imported_from_fdsn',
-        'last_synced',
+        "__str__",
+        "description",
+        "start",
+        "end",
+        "imported_from_fdsn",
+        "last_synced",
     )
 
     list_filter = [
-        'station__fdsn_network__code',
+        "station__fdsn_network__code",
     ]
 
     search_fields = [
-        'station__code',
+        "station__code",
     ]
 
 
 class ExtOwnerAdmin(admin.ModelAdmin):
     fieldsets = [
         (
-            'Change ext owner details', {
-                'fields': [
-                    'name_first',
-                    'name_last',
-                    'department',
-                    'agency',
-                    'street',
-                    'country',
-                    'phone',
-                    'email',
+            "Change ext owner details",
+            {
+                "fields": [
+                    "name_first",
+                    "name_last",
+                    "department",
+                    "agency",
+                    "street",
+                    "country",
+                    "phone",
+                    "email",
                 ]
-            }
+            },
         ),
     ]
 
     list_display = (
-        '__str__',
-        'name_first',
-        'name_last',
-        'department',
-        'agency',
-        'street',
-        'country',
-        'phone',
-        'email',
+        "__str__",
+        "name_first",
+        "name_last",
+        "department",
+        "agency",
+        "street",
+        "country",
+        "phone",
+        "email",
     )
 
     list_filter = [
-        'station__fdsn_network__code',
-        'station__code',
+        "station__fdsn_network__code",
+        "station__code",
     ]
 
     search_fields = [
-        'station__code',
+        "station__code",
     ]
 
 
 class ExtMorphologyAdmin(admin.ModelAdmin):
     fieldsets = [
         (
-            'Change ext morphology details', {
-                'fields': [
-                    'description',
-                    'geological_unit',
-                    'morphology_class',
-                    'ground_type_ec8',
-                    'groundwater_depth',
-                    'vs_30',
-                    'f0',
-                    'amp_f0',
-                    'basin_flag',
-                    'bedrock_depth',
+            "Change ext morphology details",
+            {
+                "fields": [
+                    "description",
+                    "geological_unit",
+                    "morphology_class",
+                    "ground_type_ec8",
+                    "groundwater_depth",
+                    "vs_30",
+                    "f0",
+                    "amp_f0",
+                    "basin_flag",
+                    "bedrock_depth",
                 ]
-            }
+            },
         ),
     ]
 
     list_display = (
-        '__str__',
-        'description',
-        'geological_unit',
-        'morphology_class',
-        'ground_type_ec8',
-        'groundwater_depth',
-        'vs_30',
-        'f0',
-        'amp_f0',
-        'basin_flag',
-        'bedrock_depth',
+        "__str__",
+        "description",
+        "geological_unit",
+        "morphology_class",
+        "ground_type_ec8",
+        "groundwater_depth",
+        "vs_30",
+        "f0",
+        "amp_f0",
+        "basin_flag",
+        "bedrock_depth",
     )
 
     list_filter = [
-        'station__fdsn_network__code',
-        'station__code',
+        "station__fdsn_network__code",
+        "station__code",
     ]
 
     search_fields = [
-        'station__code',
+        "station__code",
     ]
 
 
 class ExtHousingAdmin(admin.ModelAdmin):
     fieldsets = [
         (
-            'Change ext housing details', {
-                'fields': [
-                    'description',
-                    'housing_class',
-                    'in_building',
-                    'numer_of_storeys',
-                    'distance_to_building',
+            "Change ext housing details",
+            {
+                "fields": [
+                    "description",
+                    "housing_class",
+                    "in_building",
+                    "numer_of_storeys",
+                    "distance_to_building",
                 ]
-            }
+            },
         ),
     ]
 
     list_display = (
-        '__str__',
-        'description',
-        'housing_class',
-        'in_building',
-        'numer_of_storeys',
-        'distance_to_building',
+        "__str__",
+        "description",
+        "housing_class",
+        "in_building",
+        "numer_of_storeys",
+        "distance_to_building",
     )
 
     list_filter = [
-        'station__fdsn_network__code',
-        'station__code',
+        "station__fdsn_network__code",
+        "station__code",
     ]
 
     search_fields = [
-        'station__code',
+        "station__code",
     ]
 
 
 class ExtBoreholeAdmin(admin.ModelAdmin):
     fieldsets = [
-        (
-            'Change ext borehole details', {
-                'fields': [
-                    'depth',
-                ]
-            }
-        ),
+        ("Change ext borehole details", {"fields": ["depth",]}),
     ]
 
     list_display = (
-        '__str__',
-        'depth',
+        "__str__",
+        "depth",
     )
 
     list_filter = [
-        'station__fdsn_network__code',
-        'station__code',
+        "station__fdsn_network__code",
+        "station__code",
     ]
 
     search_fields = [
-        'station__code',
+        "station__code",
     ]
 
 
 class ExtBoreholeLayerAdmin(admin.ModelAdmin):
     fieldsets = [
         (
-            'Change ext borehole details', {
-                'fields': [
-                    'description',
-                    'depth_top',
-                    'depth_bottom',
-                ]
-            }
+            "Change ext borehole details",
+            {"fields": ["description", "depth_top", "depth_bottom",]},
         ),
     ]
 
     list_display = (
-        'description',
-        'depth_top',
-        'depth_bottom',
+        "description",
+        "depth_top",
+        "depth_bottom",
     )
 
     list_filter = [
-        'borehole_data__station__fdsn_network__code', 
-        'borehole_data__station__code',
+        "borehole_data__station__fdsn_network__code",
+        "borehole_data__station__code",
     ]
 
     search_fields = [
-        'borehole_data__station__code',
+        "borehole_data__station__code",
     ]
 
 
 class PhotoAdmin(admin.ModelAdmin):
     fieldsets = [
-        (
-            'Change photo details', {
-                'fields': [
-                    'description',
-                ]
-            }
-        ),
+        ("Change photo details", {"fields": ["description",]}),
     ]
 
     list_display = (
-        '__str__',
-        'description',
-        'image',
-        'uploaded_at',
+        "__str__",
+        "description",
+        "image",
+        "uploaded_at",
     )
 
     list_filter = [
-        'fdsn_station__fdsn_network__code',
-        'fdsn_station__code',
+        "fdsn_station__fdsn_network__code",
+        "fdsn_station__code",
     ]
 
     search_fields = [
-        'fdsn_station__code',
+        "fdsn_station__code",
     ]
 
 
 class ProfileAdmin(admin.ModelAdmin):
     fieldsets = [
         (
-            'Change profile details', {
-                'fields': [
-                    'fdsn_networks',
-                    'about',
-                    'location',
-                    'agency',
-                    'department',
-                    'telephone',
-                    'skype',
+            "Change profile details",
+            {
+                "fields": [
+                    "fdsn_networks",
+                    "about",
+                    "location",
+                    "agency",
+                    "department",
+                    "telephone",
+                    "skype",
                 ]
-            }
+            },
         ),
     ]
 
     list_display = (
-        '__str__',
-        'user',
-        'about',
-        'location',
+        "__str__",
+        "user",
+        "about",
+        "location",
     )
 
 
 class LinkAdmin(admin.ModelAdmin):
     fieldsets = [
-        (
-            'Change link details', {
-                'fields': [
-                    'url',
-                    'category',
-                    'description',
-                ]
-            }
-        ),
+        ("Change link details", {"fields": ["url", "category", "description",]}),
     ]
 
     list_display = (
-        'url',
-        'category',
-        'description',
+        "url",
+        "category",
+        "description",
     )
+
 
 # Register the models on the admin site
 admin.site.register(FdsnNode, FdsnNodeAdmin)

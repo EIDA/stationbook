@@ -13,20 +13,21 @@ class DOIHelper(StationBookLoggerMixin):
         try:
             dois = None
 
-            if not cache.get('network_dois'):
-                response = self._request('http://fdsn.org/networks/doi')
-                decoded = response.decode('utf-8')
-                dois = decoded.split('\r\n')
-                cache.set('network_dois', dois, 86400)
+            if not cache.get("network_dois"):
+                response = self._request("http://fdsn.org/networks/doi")
+                decoded = response.decode("utf-8")
+                dois = decoded.split("\r\n")
+                cache.set("network_dois", dois, 86400)
             else:
-                dois = cache.get('network_dois')
+                dois = cache.get("network_dois")
 
             # Filter using network code and network start year
             doi = list(
                 filter(
                     lambda x: x.startswith(
-                        '{}_{}'.format(network_code, network_start_year)
-                    ), dois
+                        "{}_{}".format(network_code, network_start_year)
+                    ),
+                    dois,
                 )
             )
 
@@ -35,15 +36,11 @@ class DOIHelper(StationBookLoggerMixin):
             # NL network falls in this category, for example
             if len(doi) <= 0:
                 doi = list(
-                    filter(
-                        lambda x: x.startswith(
-                            '{}'.format(network_code)
-                        ), dois
-                    )
+                    filter(lambda x: x.startswith("{}".format(network_code)), dois)
                 )
 
-            doi = doi[0].split(',')[1]
-            doi = 'https://www.doi.org/{}'.format(doi)
+            doi = doi[0].split(",")[1]
+            doi = "https://www.doi.org/{}".format(doi)
             return doi
         except Exception as e:
             self.log_exception(e)
@@ -71,30 +68,28 @@ class DOIHelper(StationBookLoggerMixin):
         query = network_code
 
         if network_start_year:
-            query += '_{}'.format(network_start_year)
+            query += "_{}".format(network_start_year)
 
         response = self._request(
-            'http://www.fdsn.org/networks/citation/?networks={}'.format(
-                query
-            )
+            "http://www.fdsn.org/networks/citation/?networks={}".format(query)
         )
-        decoded = response.decode('utf-8')
+        decoded = response.decode("utf-8")
 
         soup = BeautifulSoup(decoded)
-        citations = soup.find_all('pre', attrs={'class': 'citation'})
+        citations = soup.find_all("pre", attrs={"class": "citation"})
         if len(citations) <= 0:
             return None
-        if citations[0].text.lower() == 'none':
+        if citations[0].text.lower() == "none":
             return None
         return citations[0].text
 
     def _request(self, url):
         try:
             req = Request(url)
-            req.add_header('Accept-Encoding', 'gzip')
+            req.add_header("Accept-Encoding", "gzip")
             response = urlopen(req)
 
-            if response.info().get('Content-Encoding') == 'gzip':
+            if response.info().get("Content-Encoding") == "gzip":
                 return gzip.decompress(response.read())
             else:
                 return response.read()

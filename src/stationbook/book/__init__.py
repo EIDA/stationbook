@@ -1,1 +1,1 @@
-default_app_config = 'book.apps.BookConfig'
+default_app_config = "book.apps.BookConfig"

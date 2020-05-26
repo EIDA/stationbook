@@ -1,7 +1,8 @@
 from django.utils.dateparse import parse_datetime
 
-NO_FDSNWS_DATA = 'n/a'
-NSMAP = {'mw': 'http://www.fdsn.org/xml/station/1'}
+NO_FDSNWS_DATA = "n/a"
+NSMAP = {"mw": "http://www.fdsn.org/xml/station/1"}
+
 
 class RouteWrapper(object):
     def __init__(self):
@@ -35,23 +36,23 @@ class NodeWrapper(object):
         self.url_routing = node.url_routing
         self.url_wfcatalog = node.url_wfcatalog
         self.networks = []
-    
+
     def build_url_station_station_level(self):
-        return self.url_station + '?network={0}&level=station'
-    
-    def build_url_station_network_station_level(
-        self, network_code, station_code):
-        return self.url_station + '?network={0}&station={1}'.format(
-            network_code, station_code)
-    
+        return self.url_station + "?network={0}&level=station"
+
+    def build_url_station_network_station_level(self, network_code, station_code):
+        return self.url_station + "?network={0}&station={1}".format(
+            network_code, station_code
+        )
+
     def build_url_station_network_level(self):
-        return self.url_station + '?network=*&level=network'
-    
+        return self.url_station + "?network=*&level=network"
+
     def build_url_station_channel_level(self):
-        return self.url_station + '?network={0}&station={1}&level=channel'
-    
+        return self.url_station + "?network={0}&station={1}&level=channel"
+
     def build_url_routing_network_level(self, network_code):
-        return self.url_routing + '?network={0}'.format(network_code)
+        return self.url_routing + "?network={0}".format(network_code)
 
 
 # Single network instance  wrapper and collection of stations
@@ -63,7 +64,7 @@ class NetworkWrapper(object):
         self.start_date = None
         self.restricted_status = NO_FDSNWS_DATA
         self.stations = []
-    
+
     def _buildWrapper(self, network):
         self.pk = network.pk
         self.code = network.code
@@ -71,7 +72,7 @@ class NetworkWrapper(object):
         self.start_date = str(network.start_date)
         self.restricted_status = network.restricted_status
         self.stations = []
-    
+
     def parse_start_date_year(self):
         return parse_datetime(self.start_date).year
 
@@ -88,7 +89,7 @@ class StationWrapper(object):
         self.end_date = None
         self.creation_date = None
         self.site_name = NO_FDSNWS_DATA
-    
+
     def parse_start_date_year(self):
         return parse_datetime(self.start_date).year
 
@@ -96,7 +97,7 @@ class StationWrapper(object):
 class StationChannels(object):
     def __init__(self):
         self.channels = []
-    
+
     def __str__(self):
         for c in self.channels:
             return c.__str__()
@@ -121,7 +122,7 @@ class StationChannel(object):
         self.sensor = StationChannelSensor()
         self.data_logger = StationChannelDataLogger()
         self.response = StationChannelResponse()
-    
+
     def __str__(self):
         return pprint(vars(self))
 
@@ -130,7 +131,7 @@ class StationChannelSampleRateRatio(object):
     def __init__(self):
         self.number_samples = NO_FDSNWS_DATA
         self.number_seconds = NO_FDSNWS_DATA
-    
+
     def __str__(self):
         return pprint(vars(self))
 
@@ -142,7 +143,7 @@ class StationChannelSensor(object):
         self.manufacturer = NO_FDSNWS_DATA
         self.description = NO_FDSNWS_DATA
         self.model = NO_FDSNWS_DATA
-    
+
     def __str__(self):
         return pprint(vars(self))
 
@@ -151,7 +152,7 @@ class StationChannelDataLogger(object):
     def __init__(self):
         self.resource_id = NO_FDSNWS_DATA
         self.description = NO_FDSNWS_DATA
-    
+
     def __str__(self):
         return pprint(vars(self))
 
@@ -159,7 +160,7 @@ class StationChannelDataLogger(object):
 class StationChannelResponse(object):
     def __init__(self):
         self.instrument_sensitivity = StationChannelResponseInstrumentSensitivity()
-    
+
     def __str__(self):
         return pprint(vars(self))
 
