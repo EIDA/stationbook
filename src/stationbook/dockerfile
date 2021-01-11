@@ -1,4 +1,4 @@
-FROM phusion/baseimage:latest
+FROM debian:10.7
 
 # Initialize
 CMD ["/sbin/my_init"]
