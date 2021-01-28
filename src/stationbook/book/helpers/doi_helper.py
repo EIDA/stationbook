@@ -19,6 +19,8 @@ class DOIHelper(StationBookLoggerMixin):
                 dois = {}
                 for net in response["networks"]:
                     network_key = net["fdsn_code"][:]
+
+                    # If network is temporary, append start year
                     if net["end_date"]:
                         start_year = date.fromisoformat(net["start_date"]).strftime("%Y")
                         network_key = network_key + "_{}".format(start_year)
@@ -28,7 +30,7 @@ class DOIHelper(StationBookLoggerMixin):
             else:
                 dois = cache.get("network_dois")
 
-            # Filter using network code and maybe network start year
+            # Lookup using network code and maybe network start year
             doi = dois.get(network_code)
             if doi is None:
                 doi = dois.get("{}_{}".format(network_code, network_start_year))
@@ -36,6 +38,7 @@ class DOIHelper(StationBookLoggerMixin):
             if not doi:
                 return None
 
+            # Build the URL
             doi = "https://www.doi.org/{}".format(doi)
             return doi
         except Exception as e:
