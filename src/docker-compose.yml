@@ -7,7 +7,7 @@ services:
     # depends_on:
     #   - sbpostgres
     ports:
-      - "8001:8001"
+      - "49161:8001"
     # links:
     #   - sbpostgres:postgres
     env_file: .env
