@@ -54,6 +54,10 @@
 <p><b>Network Start Date:</b> {{ network.get_start_date }}</p>
 <p><b>Network Description:</b> {{ network.description }}</p>
 <p><b>Network Restricted Status:</b> {{ network.restricted_status }}</p>
+{% if network_doi %}
+<p><b>DOI:</b> <a href="{{ network_doi }}">{{ network_doi }}</a></p>
+{% endif %}
+
 
 <script src="{% static 'js/openlayers/ol.js' %}"></script>
 <script src="{% static 'js/openlayers/olStationbook.js' %}"></script>
