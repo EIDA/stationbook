@@ -1,4 +1,6 @@
-# Quick start guide
+# Station Book
+This repository is deployed at [orfeus-eu.org/stationbook](https://orfeus-eu.org/stationbook/).
+## Quick start guide
 1. Create the .env configuration file in `/src/stationbook/.env`. Example test server configuration:
     ```
     SECRET_KEY='abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
@@ -76,7 +78,7 @@
     >>> cache.clear()
     ```
 
-# Docker
+## Docker
 1. Create the .env configuration file in `/src/.env`. Example test server configuration:
     ```
     DB_NAME=stationbook
@@ -95,7 +97,7 @@
     [usr@host ~]$ docker exec -it <CONTAINER ID> sh
     ```
 
-# FDSN data synchronization
+## FDSN data synchronization
 Below code can be used to synchronize with the EIDA nodes. EIDA nodes can be configured manually using admin panel or loaded from the fixtures.
 ```
 (env) [usr@host stationbook]$ python3 manage.py shell
@@ -108,7 +110,7 @@ To automate the synchronization process, `/stationbook/src/stationbook/fdsn_sync
 0       *       *       *       *       cd /data/stationbook && python3 fdsn_sync.py
 ```
 
-# Logs
+## Logs
 Tail can be used to follow the app logs:
 ```
 [usr@host stationbook]$ tail -f logs/station_book.log
