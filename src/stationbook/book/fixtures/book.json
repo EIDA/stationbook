@@ -6,8 +6,8 @@
         "code": "ODC",
         "description": "ORFEUS Data Center - Koninklijk Nederlands Meterologisch Instituut",
         "url_dataselect": "",
-        "url_station": "http://www.orfeus-eu.org/fdsnws/station/1/query",
-        "url_routing": "http://www.orfeus-eu.org/eidaws/routing/1/query",
+        "url_station": "https://orfeus-eu.org/fdsnws/station/1/query",
+        "url_routing": "https://orfeus-eu.org/eidaws/routing/1/query",
         "url_wfcatalog": ""
     }
 },
@@ -18,7 +18,7 @@
         "code": "GFZ",
         "description": "Helmholz-Zentrum Potsdam",
         "url_dataselect": "",
-        "url_station": "http://geofon.gfz-potsdam.de/fdsnws/station/1/query",
+        "url_station": "https://geofon.gfz-potsdam.de/fdsnws/station/1/query",
         "url_routing": "",
         "url_wfcatalog": ""
     }
@@ -30,7 +30,7 @@
         "code": "RESIF",
         "description": "Reseau Sismologique & Geodesique Francais",
         "url_dataselect": "",
-        "url_station": "http://ws.resif.fr/fdsnws/station/1/query",
+        "url_station": "https://ws.resif.fr/fdsnws/station/1/query",
         "url_routing": "",
         "url_wfcatalog": ""
     }
@@ -42,7 +42,7 @@
         "code": "INGV",
         "description": "Istituto Nazionale di Geofisica e Vulcanologia",
         "url_dataselect": "",
-        "url_station": "http://webservices.ingv.it/fdsnws/station/1/query",
+        "url_station": "https://webservices.ingv.it/fdsnws/station/1/query",
         "url_routing": "",
         "url_wfcatalog": ""
     }
@@ -54,7 +54,7 @@
         "code": "ETHZ",
         "description": "ETH Zurich Schweizerischer Erdbebendienst (SED)",
         "url_dataselect": "",
-        "url_station": "http://eida.ethz.ch/fdsnws/station/1/query",
+        "url_station": "https://eida.ethz.ch/fdsnws/station/1/query",
         "url_routing": "",
         "url_wfcatalog": ""
     }
@@ -66,7 +66,7 @@
         "code": "BGR",
         "description": "Bundesanstalt für Geowissenschaften und Rohstoffe",
         "url_dataselect": "",
-        "url_station": "http://eida.bgr.de/fdsnws/station/1/query",
+        "url_station": "https://eida.bgr.de/fdsnws/station/1/query",
         "url_routing": "",
         "url_wfcatalog": ""
     }
@@ -78,7 +78,7 @@
         "code": "NIEP",
         "description": "National Institute for Earth Physics",
         "url_dataselect": "",
-        "url_station": "http://eida-sc3.infp.ro/fdsnws/station/1/query",
+        "url_station": "https://eida-sc3.infp.ro/fdsnws/station/1/query",
         "url_routing": "",
         "url_wfcatalog": ""
     }
@@ -90,7 +90,7 @@
         "code": "KOERI",
         "description": "Kandilli Observatory and Earthquake Research Institute",
         "url_dataselect": "",
-        "url_station": "http://eida-service.koeri.boun.edu.tr/fdsnws/station/1/query",
+        "url_station": "https://eida.koeri.boun.edu.tr/fdsnws/station/1/query",
         "url_routing": "",
         "url_wfcatalog": ""
     }
@@ -102,7 +102,7 @@
         "code": "LMU",
         "description": "Ludwig Maximilians Universitat Munchen",
         "url_dataselect": "",
-        "url_station": "http://erde.geophysik.uni-muenchen.de/fdsnws/station/1/query",
+        "url_station": "https://erde.geophysik.uni-muenchen.de/fdsnws/station/1/query",
         "url_routing": "",
         "url_wfcatalog": ""
     }
@@ -114,7 +114,7 @@
         "code": "NOA",
         "description": "National Observatory of Athens",
         "url_dataselect": "",
-        "url_station": "http://eida.gein.noa.gr/fdsnws/station/1/query",
+        "url_station": "https://eida.gein.noa.gr/fdsnws/station/1/query",
         "url_routing": "",
         "url_wfcatalog": ""
     }
@@ -126,7 +126,7 @@
         "code": "UIB",
         "description": "University of Bergen",
         "url_dataselect": "",
-        "url_station": "http://eida.geo.uib.no/fdsnws/station/1/query",
+        "url_station": "https://eida.geo.uib.no/fdsnws/station/1/query",
         "url_routing": "",
         "url_wfcatalog": ""
     }
@@ -138,7 +138,7 @@
         "code": "ICGC",
         "description": "Institut Cartogràfic i Geològic de Catalunya",
         "url_dataselect": "",
-        "url_station": "http://ws.icgc.cat/fdsnws/station/1/query",
+        "url_station": "https://ws.icgc.cat/fdsnws/station/1/query",
         "url_routing": "",
         "url_wfcatalog": ""
     }
