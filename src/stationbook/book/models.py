@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from datetime import datetime
-
-from enum import Enum
-
-from django.db import models, transaction
+from django.db import models
 from django.utils import timezone
 from django.utils.html import mark_safe
 from django.contrib.auth.models import User
@@ -340,7 +336,7 @@ class FdsnStation(models.Model):
         )
 
     def is_open(self):
-        if self.end_date is None or self.end_date > datetime.now():
+        if self.end_date is None or self.end_date > timezone.now():
             return True
         else:
             return False

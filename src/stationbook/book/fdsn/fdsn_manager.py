@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import certifi
+import ssl
 import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import ParseError
 from urllib.request import Request, urlopen
@@ -44,6 +46,13 @@ from ..models import (
     Photo,
 )
 
+
+def create_context():
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+    context.load_verify_locations(certifi.where())
+    return context
+
+ssl._create_default_https_context = create_context
 
 class FdsnHttpBase(StationBookLoggerMixin):
     def __init__(self):
