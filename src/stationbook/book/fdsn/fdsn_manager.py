@@ -9,7 +9,7 @@ from .background import BackgroundThread
 
 from django.db import transaction
 from django.shortcuts import get_object_or_404
-from django.utils import timezone
+from django.utils import timezone, dateparse
 
 from .base_classes import (
     NO_FDSNWS_DATA,
@@ -147,6 +147,27 @@ class FdsnHttpBase(StationBookLoggerMixin):
         else:
             return string
 
+    def make_dt_str_aware(self, dt_str):
+        """Take a string containg a (possibly) naive datetime, and return a
+           timezone-aware version of it, using the default timezone (should
+           be UTC)."""
+        # No date is still no data
+        if dt_str == NO_FDSNWS_DATA:
+            return NO_FDSNWS_DATA
+
+        # Parse input date
+        input_date = dateparse.parse_datetime(dt_str)
+
+        # If naive, convert to aware
+        if timezone.is_naive(input_date):
+            aware_date = input_date.replace(tzinfo=timezone.get_default_timezone())
+
+            # Convert it back to string for compatibilty
+            return aware_date.isoformat()
+
+        # Input was already timezone-aware, return it back
+        return dt_str
+
 
 class FdsnNetworkManager(FdsnHttpBase):
     def __init__(self):
@@ -176,7 +197,8 @@ class FdsnNetworkManager(FdsnHttpBase):
 
                 tmp = network.get("startDate")
                 if tmp is not None:
-                    net_wrapper.start_date = self.validate_string(tmp)
+                    tmp_date_str = self.validate_string(tmp)
+                    net_wrapper.start_date = self.make_dt_str_aware(tmp_date_str)
                 else:
                     self.log_warning(
                         "Network with no startDate received \
@@ -269,7 +291,8 @@ class FdsnStationChannelsManager(FdsnHttpBase):
 
                 tmp = channel.get("startDate")
                 if tmp is not None:
-                    cha.start_date = self.validate_string(tmp)
+                    tmp_date_str = self.validate_string(tmp)
+                    cha.start_date = self.make_dt_str_aware(tmp_date_str)
 
                 tmp = channel.get("restrictedStatus")
                 if tmp is not None:
@@ -491,7 +514,8 @@ class FdsnRoutingManager(FdsnHttpBase):
 
                 tmp = network.get("startDate")
                 if tmp is not None:
-                    network_wrapper.start_date = self.validate_string(tmp)
+                    tmp_date_str = self.validate_string(tmp)
+                    network_wrapper.start_date = self.make_dt_str_aware(tmp_date_str)
 
                 tmp = network.get("code")
                 if tmp is not None:
@@ -530,15 +554,18 @@ class FdsnRoutingManager(FdsnHttpBase):
 
                     tmp = station.get("startDate")
                     if tmp is not None:
-                        stat_wrapper.start_date = self.validate_string(tmp)
+                        tmp_date_str = self.validate_string(tmp)
+                        stat_wrapper.start_date = self.make_dt_str_aware(tmp_date_str)
 
                     tmp = station.get("endDate")
                     if tmp is not None:
-                        stat_wrapper.end_date = self.validate_string(tmp)
+                        tmp_date_str = self.validate_string(tmp)
+                        stat_wrapper.end_date = self.make_dt_str_aware(tmp_date_str)
 
                     tmp = station.find(".//mw:CreationDate", namespaces=NSMAP)
                     if tmp is not None:
-                        stat_wrapper.creation_date = self.validate_string(tmp.text)
+                        tmp_date_str = self.validate_string(tmp.text)
+                        stat_wrapper.creation_date = self.make_dt_str_aware(tmp_date_str)
 
                     tmp = station.find(".//mw:Site//mw:Name", namespaces=NSMAP)
                     if tmp is not None:
