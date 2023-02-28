@@ -1,4 +1,6 @@
-# Quick start guide
+# Station Book
+This repository is deployed at [orfeus-eu.org/stationbook](https://orfeus-eu.org/stationbook/).
+## Quick start guide
 1. Create the .env configuration file in `/src/stationbook/.env`. Example test server configuration:
     ```
     SECRET_KEY='abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
@@ -34,7 +36,7 @@
 1. Make sure SQLite is configured as the default database in `src/stationbook/stationbook/settings.py`
 1. Create the virtual environment:
     ```
-    [usr@host src]$ python3 -m venv env
+    [usr@host src]$ python -m venv env
     ```
 1. Activate the virtual environment:
     ```
@@ -50,33 +52,33 @@
     ```
 1. Prepare the database migration and apply it:
     ```
-    (env) [usr@host stationbook]$ python3 manage.py makemigrations
-    (env) [usr@host stationbook]$ python3 manage.py migrate
+    (env) [usr@host stationbook]$ python manage.py makemigrations
+    (env) [usr@host stationbook]$ python manage.py migrate
     ```
 1. Create the super user:
     ```
-    (env) [usr@host stationbook]$ python3 manage.py createsuperuser
+    (env) [usr@host stationbook]$ python manage.py createsuperuser
     ```
 1. Load the fixtures into the database:
     ```
-    (env) [usr@host stationbook]$ python3 manage.py loaddata book.json
+    (env) [usr@host stationbook]$ python manage.py loaddata book.json
     ```
 1. Create the cache table in the database
     ```
-    (env) [usr@host stationbook]$ python3 manage.py createcachetable
+    (env) [usr@host stationbook]$ python manage.py createcachetable
     ```
 1. Run the test server:
     ```
-    (env) [usr@host stationbook]$ python3 manage.py runserver 0.0.0.0:8080
+    (env) [usr@host stationbook]$ python manage.py runserver 0.0.0.0:8080
     ```
 1. To clear the cache:
     ```
-    (env) [usr@host stationbook]$ python3 manage.py shell
+    (env) [usr@host stationbook]$ python manage.py shell
     >>> from django.core.cache import cache
     >>> cache.clear()
     ```
 
-# Docker
+## Docker
 1. Create the .env configuration file in `/src/.env`. Example test server configuration:
     ```
     DB_NAME=stationbook
@@ -95,20 +97,20 @@
     [usr@host ~]$ docker exec -it <CONTAINER ID> sh
     ```
 
-# FDSN data synchronization
+## FDSN data synchronization
 Below code can be used to synchronize with the EIDA nodes. EIDA nodes can be configured manually using admin panel or loaded from the fixtures.
 ```
-(env) [usr@host stationbook]$ python3 manage.py shell
+(env) [usr@host stationbook]$ python manage.py shell
 >>> from book.fdsn.fdsn_manager import FdsnManager
 >>> FdsnManager().process_fdsn()
 ```
 To automate the synchronization process, `/stationbook/src/stationbook/fdsn_sync.py` can be executed via crontab:
 ```
 # min   hour    day     month   weekday command
-0       *       *       *       *       cd /data/stationbook && python3 fdsn_sync.py
+0       *       *       *       *       cd /data/stationbook && python fdsn_sync.py
 ```
 
-# Logs
+## Logs
 Tail can be used to follow the app logs:
 ```
 [usr@host stationbook]$ tail -f logs/station_book.log
