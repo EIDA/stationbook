@@ -90,7 +90,7 @@ This repository is deployed at [orfeus-eu.org/stationbook](https://orfeus-eu.org
 1. Make sure PostgreSQL is configured as the default database in `src/stationbook/stationbook/settings.py`
 1. Build and run the images
     ```
-    (env) [usr@host src]$ docker-compose -p 'stationbook' up
+    (env) [usr@host src]$ docker-compose -p 'stationbook' up -d --no-deps --build
     ```
 1. Migrating the database, loading the fixtures, creating super user and synchronizing with the FDSN can be done after connecting to the image containing the Station Book code.
     ```

@@ -1,16 +1,10 @@
-FROM debian:10.7
-
-# Initialize
-CMD ["/sbin/my_init"]
+FROM python:3.10
 
 RUN mkdir -p /data/stationbook
 WORKDIR /data/stationbook
 COPY requirements.txt /data/stationbook/
 
-# Setup
-RUN apt-get update && apt-get install -y python3-dev \
-                                         python-setuptools \
-                                         python3-pip
+# Setups
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 
@@ -19,7 +13,7 @@ COPY . /data/stationbook/
 
 RUN groupadd -g 1019 orfeus && \
     useradd -u 994 -g 1019 orfeus
-    
+
 # Clean up (baseimage recommended)
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
