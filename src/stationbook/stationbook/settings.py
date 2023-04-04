@@ -112,9 +112,15 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
 ]
 
 
@@ -130,7 +136,7 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-TIME_ZONE = 'Etc/UTC'
+TIME_ZONE = "Etc/UTC"
 
 
 # Static files (CSS, JavaScript, Images)
@@ -166,7 +172,10 @@ LOGGING = {
         },
     },
     "handlers": {
-        "console": {"class": "logging.StreamHandler", "formatter": "simple",},
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
         "file": {
             "class": "logging.handlers.RotatingFileHandler",
             "formatter": "simple",
@@ -177,8 +186,17 @@ LOGGING = {
         },
     },
     "loggers": {
-        "": {"handlers": ["console"], "level": "INFO",},
-        "book": {"handlers": ["console",], "propagate": True, "level": "INFO",},
+        "": {
+            "handlers": ["console"],
+            "level": "INFO",
+        },
+        "book": {
+            "handlers": [
+                "console",
+            ],
+            "propagate": True,
+            "level": "INFO",
+        },
     },
 }
 
@@ -190,6 +208,9 @@ CACHE_TIME_LONG = config("CACHE_TIME_LONG")
 
 # URL base
 SB_URL_BASE = config("SB_URL_BASE")
+
+# CSRF
+CSRF_TRUSTED_ORIGINS = ["https://*.orfeus-eu.org", "https://*.127.0.0.1"]
 
 # Google Captcha
 GOOGLE_RECAPTCHA_SECRET_KEY = config("GOOGLE_RECAPTCHA_SECRET_KEY")
