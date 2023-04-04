@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "django_cleanup",
     "widget_tweaks",
+    "hcaptcha_field",
     "accounts",
     "book",
 ]
@@ -211,3 +212,6 @@ SB_URL_BASE = config("SB_URL_BASE")
 
 # CSRF
 CSRF_TRUSTED_ORIGINS = ["https://*.orfeus-eu.org", "https://*.127.0.0.1"]
+
+HCAPTCHA_SITEKEY = config("HCAPTCHA_SITEKEY")
+HCAPTCHA_SECRET = config("HCAPTCHA_SECRET")
