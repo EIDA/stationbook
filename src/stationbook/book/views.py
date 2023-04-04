@@ -268,7 +268,13 @@ class StationGalleryListView(ListView):
 class ExtBasicDataUpdateView(StationUpdateViewBase):
     def __init__(self):
         StationUpdateViewBase.__init__(
-            self, model=ExtBasicData, fields=("description", "start", "end",)
+            self,
+            model=ExtBasicData,
+            fields=(
+                "description",
+                "start",
+                "end",
+            ),
         )
 
     def get_object(self):
@@ -947,14 +953,12 @@ def search_advanced(request):
 
 
 def custom_404(request, exception=None):
-    """HTTP 404 custom handler
-    """
+    """HTTP 404 custom handler"""
     return render(request, "404.html", {"exception": exception})
 
 
 def custom_500(request, exception=None):
-    """HTTP 500 custom handler
-    """
+    """HTTP 500 custom handler"""
     return render(request, "500.html", {"exception": exception})
 
 
