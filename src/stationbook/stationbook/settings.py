@@ -211,6 +211,3 @@ SB_URL_BASE = config("SB_URL_BASE")
 
 # CSRF
 CSRF_TRUSTED_ORIGINS = ["https://*.orfeus-eu.org", "https://*.127.0.0.1"]
-
-# Google Captcha
-GOOGLE_RECAPTCHA_SECRET_KEY = config("GOOGLE_RECAPTCHA_SECRET_KEY")
