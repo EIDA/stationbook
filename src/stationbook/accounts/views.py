@@ -1,7 +1,3 @@
-import json
-import urllib
-
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
@@ -10,10 +6,12 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import UpdateView
+from django.views.decorators.csrf import csrf_protect
 
 from .forms import SignUpForm
 
 
+@csrf_protect
 def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
