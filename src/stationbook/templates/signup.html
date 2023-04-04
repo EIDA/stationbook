@@ -8,14 +8,6 @@
         <h3 class="card-title">Sign up</h3>
         <form method="post" novalidate>
           {% csrf_token %} {% include 'includes/form.html' %}
-
-          <div class="row justify-content-center">
-            <script src="https://www.google.com/recaptcha/api.js"></script>
-            <div
-              class="g-recaptcha"
-              data-sitekey="6LfFbPwUAAAAANw6C4Ph4hCOGzKOyO3JPxd5UzY5"
-            ></div>
-          </div>
           <button type="submit" class="btn btn-primary btn-block">
             Create an account
           </button>
