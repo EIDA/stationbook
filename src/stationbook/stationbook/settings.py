@@ -211,7 +211,7 @@ CACHE_TIME_LONG = config("CACHE_TIME_LONG")
 SB_URL_BASE = config("SB_URL_BASE")
 
 # CSRF
-CSRF_TRUSTED_ORIGINS = ["https://orfeus-eu.org", "http://127.0.0.1"]
+CSRF_TRUSTED_ORIGINS = ["https://*.orfeus-eu.org", "http://*.127.0.0.1"]
 
 HCAPTCHA_SITEKEY = config("HCAPTCHA_SITEKEY")
 HCAPTCHA_SECRET = config("HCAPTCHA_SECRET")
