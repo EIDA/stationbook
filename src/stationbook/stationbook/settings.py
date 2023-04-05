@@ -214,9 +214,10 @@ SB_URL_BASE = config("SB_URL_BASE")
 CSRF_TRUSTED_ORIGINS = [
     "https://orfeus-eu.org",
     "https://*.orfeus-eu.org",
-    "http://127.0.0.1",
-    "http://*.127.0.0.1"
+    "http://127.0.0.1"
 ]
+
+SESSION_COOKIE_HTTPONLY = True
 
 HCAPTCHA_SITEKEY = config("HCAPTCHA_SITEKEY")
 HCAPTCHA_SECRET = config("HCAPTCHA_SECRET")
