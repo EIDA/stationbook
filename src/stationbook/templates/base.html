@@ -147,6 +147,10 @@
   {% endblock footer %}
   {% block javascript %}
   {% endblock %}
+  <script>
+    const csrftoken = (document.querySelector('[name=csrfmiddlewaretoken]') !== null ?
+    document.querySelector('[name=csrfmiddlewaretoken]').value : "")
+  </script>
 </body>
 
 </html>
