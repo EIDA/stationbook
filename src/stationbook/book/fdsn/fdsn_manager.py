@@ -566,6 +566,9 @@ class FdsnRoutingManager(FdsnHttpBase):
                     if tmp is not None:
                         tmp_date_str = self.validate_string(tmp.text)
                         stat_wrapper.creation_date = self.make_dt_str_aware(tmp_date_str)
+                    else:
+                        # TODO: creation_date should be nullable in the DB
+                        stat_wrapper.creation_date = self.make_dt_str_aware("1980-01-01T00:00:00")
 
                     tmp = station.find(".//mw:Site//mw:Name", namespaces=NSMAP)
                     if tmp is not None:
