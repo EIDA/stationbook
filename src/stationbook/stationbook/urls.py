@@ -157,11 +157,7 @@ urlpatterns = [
         name="user_details",
     ),
     path("{}signup/".format(SB_URL_BASE), accounts_views.signup, name="signup"),
-    path(
-        "{}login/".format(SB_URL_BASE),
-        auth_views.LoginView.as_view(template_name="login.html"),
-        name="login",
-    ),
+    path("{}login/".format(SB_URL_BASE), accounts_views.signin, name="login"),
     path(
         "{}logout/".format(SB_URL_BASE), auth_views.LogoutView.as_view(), name="logout"
     ),
