@@ -751,7 +751,7 @@ class FdsnRoutingManager(FdsnHttpBase):
                     vars(node_wrapper), vars(network_wrapper), vars(station_wrapper)
                 )
             )
-            raise
+            # raise
 
     def _sync_fdsn_stations(self):
         try:
