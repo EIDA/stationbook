@@ -6,7 +6,7 @@
   "configurations": [
     {
       "name": "Django",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "python": "${workspaceFolder}/env/bin/python3",
       "program": "${workspaceFolder}/src/stationbook/manage.py",
@@ -28,10 +28,45 @@
         "CACHE_TIME_SHORT": "0",
         "CACHE_TIME_MEDIUM": "0",
         "CACHE_TIME_LONG": "0",
-        "SB_URL_BASE": ""
+        "SB_URL_BASE": "",
+        "CSRF_COOKIE_HTTPONLY": "True",
+        "CSRF_COOKIE_SECURE": "True",
+        "SESSION_COOKIE_HTTPONLY": "True",
+        "SESSION_COOKIE_SECURE": "True"
       },
       "args": ["runserver", "--noreload", "0.0.0.0:8000"],
       "django": true
+    },
+    {
+      "name": "Sync FDSN",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "${workspaceFolder}/env/bin/python3",
+      "program": "${workspaceFolder}/src/stationbook/fdsn_sync.py",
+      "cwd": "${workspaceFolder}/src/stationbook",
+      "env": {
+        "SECRET_KEY": "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)",
+        "DEBUG": "True",
+        "ALLOWED_HOSTS": "*",
+        "DATABASE_URL": "sqlite:///${workspaceFolder}/src/stationbook/db.sqlite3",
+        "DATABASE_ENGINE": "django.db.backends.postgresql",
+        "DATABASE_HOST": "postgres",
+        "DATABASE_NAME": "stationbook",
+        "DATABASE_USER": "admin",
+        "DATABASE_PASS": "passwd",
+        "DATABASE_PORT": "5432",
+        "EMAIL_BACKEND": "django.core.mail.backends.console.EmailBackend",
+        "CACHE_BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "CACHE_LOCATION": "sb_cache",
+        "CACHE_TIME_SHORT": "0",
+        "CACHE_TIME_MEDIUM": "0",
+        "CACHE_TIME_LONG": "0",
+        "SB_URL_BASE": "",
+        "CSRF_COOKIE_HTTPONLY": "True",
+        "CSRF_COOKIE_SECURE": "True",
+        "SESSION_COOKIE_HTTPONLY": "True",
+        "SESSION_COOKIE_SECURE": "True"
+      }
     }
   ]
 }
