@@ -32,7 +32,9 @@
         "CSRF_COOKIE_HTTPONLY": "True",
         "CSRF_COOKIE_SECURE": "True",
         "SESSION_COOKIE_HTTPONLY": "True",
-        "SESSION_COOKIE_SECURE": "True"
+        "SESSION_COOKIE_SECURE": "True",
+        "HCAPTCHA_SITEKEY": "sitekey",
+        "HCAPTCHA_SECRET": "secret"
       },
       "args": ["runserver", "--noreload", "0.0.0.0:8000"],
       "django": true
@@ -65,7 +67,9 @@
         "CSRF_COOKIE_HTTPONLY": "True",
         "CSRF_COOKIE_SECURE": "True",
         "SESSION_COOKIE_HTTPONLY": "True",
-        "SESSION_COOKIE_SECURE": "True"
+        "SESSION_COOKIE_SECURE": "True",
+        "HCAPTCHA_SITEKEY": "sitekey",
+        "HCAPTCHA_SECRET": "secret"
       }
     }
   ]
