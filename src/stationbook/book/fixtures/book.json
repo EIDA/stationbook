@@ -142,5 +142,17 @@
         "url_routing": "",
         "url_wfcatalog": ""
     }
+},
+{
+    "model": "book.fdsnnode",
+    "pk": 13,
+    "fields": {
+        "code": "BGS",
+        "description": "British Geological Survey",
+        "url_dataselect": "",
+        "url_station": "https://eida.bgs.ac.uk/fdsnws/station/1/query",
+        "url_routing": "",
+        "url_wfcatalog": ""
+    }
 }
 ]
