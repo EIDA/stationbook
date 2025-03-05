@@ -30,12 +30,6 @@ DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
-MEDIA_URL = "/media/"
-
-FILE_UPLOAD_PERMISSIONS = 0o644
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -139,8 +133,14 @@ SB_URL_BASE = config("SB_URL_BASE")
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = os.path.join(SB_URL_BASE, 'static/')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = os.path.join(BASE_DIR, 'media/')
+
+FILE_UPLOAD_PERMISSIONS = 0o644
 
 
 LOGOUT_REDIRECT_URL = "home"
