@@ -138,7 +138,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = os.path.join(SB_URL_BASE, 'static/')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = os.path.join(SB_URL_BASE, 'media/')
 
 FILE_UPLOAD_PERMISSIONS = 0o644
 
