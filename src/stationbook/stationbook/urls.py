@@ -1,16 +1,10 @@
-from django.conf import settings
-from django.conf.urls.static import static
-from django.conf.urls import include
-from django.contrib import admin
-from django.views.generic import RedirectView
-from django.urls import path, re_path
-from django.contrib.auth import views as auth_views
-from django.shortcuts import render
-from django.template import RequestContext
-from django.views.decorators.cache import cache_page
-
 from accounts import views as accounts_views
 from book import views as book_view
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from django.urls import path, re_path
 
 CACHE_TIME_SHORT = int(getattr(settings, "CACHE_TIME_SHORT", 0))
 CACHE_TIME_MEDIUM = int(getattr(settings, "CACHE_TIME_MEDIUM", 0))
@@ -156,12 +150,25 @@ urlpatterns = [
         book_view.UserDetailsListView.as_view(),
         name="user_details",
     ),
-    path("{}signup/".format(SB_URL_BASE), accounts_views.signup, name="signup"),
-    path("{}login/".format(SB_URL_BASE), accounts_views.signin, name="login"),
     path(
-        "{}logout/".format(SB_URL_BASE), auth_views.LogoutView.as_view(), name="logout"
+        "{}signup/".format(SB_URL_BASE),
+        accounts_views.signup,
+        name="signup"
     ),
-    path("{}admin/".format(SB_URL_BASE), admin.site.urls),
+    path(
+        "{}login/".format(SB_URL_BASE),
+        accounts_views.signin,
+        name="login"
+    ),
+    path(
+        "{}logout/".format(SB_URL_BASE),
+        auth_views.LogoutView.as_view(),
+        name="logout"
+    ),
+    path(
+        "{}admin/".format(SB_URL_BASE),
+        admin.site.urls
+    ),
     re_path(
         r"^{}settings/account/$".format(SB_URL_BASE),
         book_view.update_profile,

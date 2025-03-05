@@ -1,14 +1,14 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import UpdateView
 from django.views.decorators.csrf import csrf_protect
+from django.views.generic import UpdateView
 
-from .forms import SignUpForm, SignInForm
+from .forms import SignInForm, SignUpForm
 
 
 @csrf_protect
@@ -25,7 +25,7 @@ def signin(request):
             return render(request, "login.html", {"form": form})
         else:
             login(request, user)
-            return redirect("/")
+            return redirect("home")
     else:
         form = SignInForm()
     return render(request, "login.html", {"form": form})
