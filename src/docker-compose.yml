@@ -7,7 +7,6 @@ services:
     ports:
       - "8010:80"
     volumes:
-      - /data/seismo/www/stationbook:/data/stationbook/media
+      - ./media:/data/stationbook/media
       - ./db:/data/stationbook/db
     command: gunicorn stationbook.wsgi:application -w 2 -b :80
-

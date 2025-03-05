@@ -4,17 +4,9 @@ This repository is deployed at [orfeus-eu.org/stationbook](https://orfeus-eu.org
 1. Create the .env configuration file in `/src/stationbook/.env`. Example test server configuration:
     ```
     SECRET_KEY='abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
-    DEBUG=False
+    DEBUG=True
     ALLOWED_HOSTS=.localhost,127.0.0.1
-    # SQLite path for Docker:
-    # DATABASE_URL=sqlite:////data/stationbook/db/db.sqlite3
-    DATABASE_URL=sqlite:///db.sqlite3
-    DATABASE_ENGINE='django.db.backends.postgresql'
-    DATABASE_HOST='postgres'
-    DATABASE_NAME='stationbook'
-    DATABASE_USER='admin'
-    DATABASE_PASS='passwd'
-    DATABASE_PORT=5432
+    DATABASE_URL=sqlite:////data/stationbook/db/db.sqlite3
     EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
     CACHE_BACKEND=django.core.cache.backends.db.DatabaseCache
     CACHE_LOCATION='sb_cache'
@@ -22,7 +14,13 @@ This repository is deployed at [orfeus-eu.org/stationbook](https://orfeus-eu.org
     CACHE_TIME_MEDIUM=3600
     CACHE_TIME_LONG=43200
     SB_URL_BASE=''
-    GOOGLE_RECAPTCHA_SECRET_KEY='abcdefghijklmnopqrstuvwxyz0123456789'
+    CSRF_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SECURE = True
+    HCAPTCHA_SITEKEY=''
+    HCAPTCHA_SECRET=''
+
     ```
     * SECRET_KEY should be a 50-characters long string of random characters from the following set: `abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)`
     * `CACHE_BACKEND` can be set to:
@@ -79,15 +77,6 @@ This repository is deployed at [orfeus-eu.org/stationbook](https://orfeus-eu.org
     ```
 
 ## Docker
-1. Create the .env configuration file in `/src/.env`. Example test server configuration:
-    ```
-    DB_NAME=stationbook
-    DB_USER=admin
-    DB_PASS=passwd
-    DB_SERVICE=postgres
-    DB_PORT=5432
-    ```
-1. Make sure PostgreSQL is configured as the default database in `src/stationbook/stationbook/settings.py`
 1. Build and run the images
     ```
     (env) [usr@host src]$ docker-compose -p 'stationbook' up -d --no-deps --build
@@ -108,10 +97,4 @@ To automate the synchronization process, `/stationbook/src/stationbook/fdsn_sync
 ```
 # min   hour    day     month   weekday command
 0       *       *       *       *       cd /data/stationbook && python fdsn_sync.py
-```
-
-## Logs
-Tail can be used to follow the app logs:
-```
-[usr@host stationbook]$ tail -f logs/station_book.log
 ```
