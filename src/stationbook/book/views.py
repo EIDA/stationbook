@@ -2,56 +2,31 @@
 from __future__ import unicode_literals
 
 import operator
+import os
 from functools import reduce
 
-from django.http import Http404
-from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.utils.decorators import method_decorator
-from django.utils import timezone
-from django.views.generic import ListView, DetailView
+from django.contrib.auth.models import User
 from django.db import transaction
-from django.db.models import Q, Count
+from django.db.models import Q
+from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView
 
-from .fdsn.fdsn_manager import FdsnManager, FdsnStationChannelsManager
-from .models import (
-    FdsnNode,
-    FdsnNetwork,
-    FdsnStation,
-    ExtBasicData,
-    ExtOwnerData,
-    ExtMorphologyData,
-    ExtHousingData,
-    ExtAccessData,
-    ExtBoreholeData,
-    ExtBoreholeLayerData,
-    Photo,
-    Link,
-    SearchFdsnStationModel,
-)
-
-from .base_classes import (
-    StationBookHelpers,
-    StationUpdateViewBase,
-    StationAccessManager,
-)
-
+from .base_classes import (StationAccessManager, StationBookHelpers,
+                           StationUpdateViewBase)
 from .fdsn.base_classes import NodeWrapper
-
+from .fdsn.fdsn_manager import FdsnManager, FdsnStationChannelsManager
+from .forms import (AddBoreholeLayerForm, EditBoreholeLayerForm, ProfileForm,
+                    RemoveBoreholeLayerForm, SearchAdvancedForm,
+                    StationPhotoEditForm, StationPhotoForm,
+                    StationPhotoRemoveForm, UserForm)
 from .helpers.doi_helper import DOIHelper
-
-from .forms import (
-    UserForm,
-    ProfileForm,
-    AddBoreholeLayerForm,
-    EditBoreholeLayerForm,
-    RemoveBoreholeLayerForm,
-    StationPhotoForm,
-    StationPhotoEditForm,
-    StationPhotoRemoveForm,
-    SearchAdvancedForm,
-)
+from .models import (ExtAccessData, ExtBasicData, ExtBoreholeData,
+                     ExtBoreholeLayerData, ExtHousingData, ExtMorphologyData,
+                     ExtOwnerData, FdsnNetwork, FdsnNode, FdsnStation, Link,
+                     Photo, SearchFdsnStationModel)
 
 
 # Stations list view is used as a home screen for the Station Book
@@ -997,3 +972,12 @@ def update_profile(request):
                 "profile_form": profile_form,
             },
         )
+
+def media(request, file_path=None):
+    from django.conf import settings as cfg
+    media_root = getattr(cfg, 'MEDIA_ROOT', None)
+
+    with open(os.path.join(media_root, file_path), 'rb') as doc:
+        response = HttpResponse(doc.read(), content_type='application/doc')
+        response['Content-Disposition'] = 'filename=%s' % (file_path.split('/')[-1])
+        return response

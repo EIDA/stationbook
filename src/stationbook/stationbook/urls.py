@@ -150,25 +150,12 @@ urlpatterns = [
         book_view.UserDetailsListView.as_view(),
         name="user_details",
     ),
+    path("{}signup/".format(SB_URL_BASE), accounts_views.signup, name="signup"),
+    path("{}login/".format(SB_URL_BASE), accounts_views.signin, name="login"),
     path(
-        "{}signup/".format(SB_URL_BASE),
-        accounts_views.signup,
-        name="signup"
+        "{}logout/".format(SB_URL_BASE), auth_views.LogoutView.as_view(), name="logout"
     ),
-    path(
-        "{}login/".format(SB_URL_BASE),
-        accounts_views.signin,
-        name="login"
-    ),
-    path(
-        "{}logout/".format(SB_URL_BASE),
-        auth_views.LogoutView.as_view(),
-        name="logout"
-    ),
-    path(
-        "{}admin/".format(SB_URL_BASE),
-        admin.site.urls
-    ),
+    path("{}admin/".format(SB_URL_BASE), admin.site.urls),
     re_path(
         r"^{}settings/account/$".format(SB_URL_BASE),
         book_view.update_profile,
@@ -223,10 +210,10 @@ urlpatterns = [
         book_view.refresh_fdsn,
         name="refresh_fdsn",
     ),
+    path(
+        "{}media/<path:file_path>".format(SB_URL_BASE), book_view.media, name="media"
+    ),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Add custom handlers for the HTTP error codes
 handler404 = "book.views.custom_404"
