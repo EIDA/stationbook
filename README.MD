@@ -33,7 +33,7 @@ This repository is deployed at [orfeus-eu.org/stationbook](https://orfeus-eu.org
     python3.11 -m venv env && source env/bin/activate && pip install --upgrade pip && pip install -r requirements.txt
     ```
 
-1. Prepare the database migration and apply it:
+1. Prepare the database migration and apply it (check `DATABASE_URL` in `src/stationbook/.env`):
 
     ```bash
     python manage.py makemigrations
@@ -50,12 +50,6 @@ This repository is deployed at [orfeus-eu.org/stationbook](https://orfeus-eu.org
 
     ```bash
     python manage.py loaddata book.json
-    ```
-
-1. Create the cache table in the database
-
-    ```bash
-    python manage.py createcachetable
     ```
 
 1. Run the test server:
