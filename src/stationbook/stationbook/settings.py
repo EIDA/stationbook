@@ -154,9 +154,11 @@ LOGIN_URL = "login"
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "filters": {
-        "require_debug_false": {"()": "django.utils.log.RequireDebugFalse"},
-        "require_debug_true": {"()": "django.utils.log.RequireDebugTrue"},
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
     },
     "formatters": {
         "simple": {
@@ -164,32 +166,9 @@ LOGGING = {
             "datefmt": "%d-%m-%Y %H:%M:%S",
         },
     },
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-            "formatter": "simple",
-        },
-        "file": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "formatter": "simple",
-            "maxBytes": 1024 * 1024 * 5,  # 5 Megabytes
-            "backupCount": 25,
-            "filename": os.path.join(BASE_DIR, "logs", "station_book.log"),
-            "filters": ["require_debug_true"],
-        },
-    },
-    "loggers": {
-        "": {
-            "handlers": ["console"],
-            "level": "INFO",
-        },
-        "book": {
-            "handlers": [
-                "console",
-            ],
-            "propagate": True,
-            "level": "INFO",
-        },
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG",
     },
 }
 

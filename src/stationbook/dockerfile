@@ -1,21 +1,15 @@
-FROM python:3.10
+FROM python:3.11
 
-RUN mkdir -p /data/stationbook
+# Set up working directory
 WORKDIR /data/stationbook
-COPY requirements.txt /data/stationbook/
 
-# Setups
-RUN pip3 install --upgrade pip
-RUN pip3 install -r requirements.txt
+# Copy requirements file and install dependencies
+COPY requirements.txt /data/stationbook
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
 
-# Prepare
-COPY . /data/stationbook/
+# Copy the rest of the application code
+COPY . /data/stationbook
 
-RUN groupadd -g 1019 orfeus && \
-    useradd -u 994 -g 1019 orfeus
-
-# Clean up (baseimage recommended)
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-RUN chown -R orfeus:orfeus /data
-USER orfeus
+# Command to run the application
+CMD ["gunicorn", "stationbook.wsgi:application", "-w", "2", "-b", ":80"]
