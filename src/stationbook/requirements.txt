@@ -1,7 +1,7 @@
 asgiref==3.6.0
 certifi==2022.12.7
 dj-database-url==1.2.0
-Django==4.1.6
+Django==4.1.7
 django-cleanup==7.0.0
 django-widget-tweaks==1.4.12
 django-hcaptcha-field==1.4.0
